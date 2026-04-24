@@ -1,136 +1,120 @@
-This roadmap is designed for a Senior Android Engineer aiming for top-tier product-based MNCs. It condenses over a decade of industry expertise into a structured 28-week execution plan.
+# Senior Android Engineer Roadmap (28 Weeks)
 
-🚀 Senior Android Engineer Roadmap
-A comprehensive guide to mastering the modern Android ecosystem, system design, and leadership for senior-level roles.
+A comprehensive professional development guide tailored for senior-level engineers targeting high-scale product companies. This roadmap balances deep technical mastery, architectural excellence, and leadership skills.
 
-📊 At a Glance
-Total Duration: ~28 Weeks (6-7 Months)
+---
 
-Structure: 9 Phases
+## 📊 Roadmap Overview
+- **Duration:** 28 Weeks (~7 Months)
+- **Primary Focus:** Modern Android (Compose, Kotlin, Architecture)
+- **Parallel Track:** Data Structures & Algorithms (DSA)
+- **Outcome:** 3 Production-grade portfolio applications
 
-Daily Goal: 2 DSA Problems/day
+---
 
-Portfolio: 3 High-quality production-ready apps
+## 🛠 Phase 1: Modern Android Stack Refresh
+**Timeline: Weeks 1–4**
 
-🛠 Phase 1: Modern Android Stack Refresh
-Timeline: Weeks 1–4
+### Jetpack Compose Internals
+- **Recomposition & State:** Mastering `derivedStateOf`, `remember`, `key()`, and the Slot API.
+- **Custom UI:** Building custom layouts and utilizing the Canvas API for complex graphics.
+- **Performance:** Implementing stability annotations, using Layout Inspector, and generating Baseline Profiles.
 
-Jetpack Compose (Deep Dive)
-Internals: Recomposition, derivedStateOf, Slot API, and remember.
+### Jetpack Components & Data
+- **State Management:** Using `StateFlow`, `SharedFlow`, and `collectAsStateWithLifecycle`.
+- **Persistence:** Room (with KSP), DataStore (Proto/Preferences), and Paging 3 for large datasets.
+- **Dependency Injection:** Hilt (Implementation & Testing) and Dagger2 internals (Scopes, Subcomponents).
 
-UI & Canvas: Custom layouts and Canvas API.
+### Kotlin Mastery
+- **Coroutines:** Dispatcher internals, structured concurrency, and advanced exception handling.
+- **Flow API:** Advanced operators (`flatMapLatest`, `combine`, `zip`) and buffer strategies.
+- **Build Systems:** Gradle KTS, TOML version catalogs, and R8/ProGuard optimization.
 
-Performance: Stability annotations, Layout Inspector, and Baseline Profiles.
+---
 
-Jetpack Components & Networking
-State: StateFlow, SharedFlow, and collectAsStateWithLifecycle.
+## 🏛 Phase 2: Architecture & System Design
+**Timeline: Weeks 5–9**
 
-Data: Room (KSP), DataStore, and Paging 3.
+### Architecture Patterns
+- **Clean Architecture:** Strict separation of Domain, Data, and Presentation layers.
+- **MVI (Model-View-Intent):** Unidirectional Data Flow (UDF) and UI State modeling.
+- **Modularization:** Designing for scalability with feature/library modules and dynamic delivery.
 
-DI: Hilt (Full implementation) and Dagger2 internals.
+### Mobile System Design Scenarios
+- **Offline-First:** Single source of truth and advanced synchronization/conflict resolution.
+- **Real-Time Systems:** WebSocket integration and message delivery reliability.
+- **High Performance:** Prefetching strategies for video feeds (ExoPlayer) and image loading pipelines.
 
-Network: Retrofit, OkHttp interceptors, and GraphQL/Apollo.
+### Performance Engineering
+- **Profiling:** Deep dives with Perfetto, Systrace, and LeakCanary.
+- **Startup Optimization:** Reducing Cold/Warm start times using the App Startup library.
 
-Kotlin Mastery
-Coroutines: Dispatcher internals, structured concurrency, and exception handling.
+---
 
-Advanced Flow: flatMapLatest, combine, and zip.
+## 🧪 Phase 3: Testing — Full Stack
+**Timeline: Weeks 10–13**
 
-Build System: Gradle KTS, TOML version catalogs, and R8/ProGuard.
+- **Unit Testing:** JUnit 5, MockK, and Turbine for testing Flows/Coroutines.
+- **UI & Integration:** Compose UI testing, Espresso interop, and MockWebServer for API simulation.
+- **Visual Testing:** Implementing Screenshot testing (Paparazzi or Shot) for UI regression.
 
-🏛 Phase 2: Architecture & System Design
-Timeline: Weeks 5–9
+---
 
-Architecture Patterns
-Clean Architecture: Domain/Data/Presentation layers and Use Cases.
+## 🔐 Phase 4: Security
+**Timeline: Weeks 14–16**
 
-MVI Pattern: Intent → State → Effect and UDF (Unidirectional Data Flow).
+- **Encryption:** Android Keystore (AES/RSA) and hardware-backed security.
+- **Network Security:** SSL/Certificate pinning and Network Security Configuration.
+- **Identity:** BiometricPrompt API (Class 3 biometrics) and Play Integrity API.
 
-Modularization: Feature/Library modules and avoiding circular dependencies.
+---
 
-Performance Engineering
-Profiling: Perfetto, Systrace, and LeakCanary.
+## 🔄 Phase 5: CI/CD & DevOps
+**Timeline: Weeks 17–18**
 
-App Startup: Optimization of Cold/Warm starts and the App Startup library.
+- **Automation:** Setting up GitHub Actions or Bitrise pipelines for automated builds and testing.
+- **Monitoring:** Firebase Crashlytics, Performance Monitoring, and Sentry integration.
+- **Release Management:** Feature flags for A/B testing and staged rollouts via Remote Config.
 
-Memory: Heap analysis and object pools.
+---
 
-Design Scenarios (Practice)
-Offline-first apps (Sync strategies).
+## 🧠 Phase 6: DSA & Problem Solving
+**Timeline: Weeks 1–26 (Parallel)**
 
-Real-time chat (WebSockets).
+- **Target:** 150–200 LeetCode problems (Focus: Google, Amazon, Microsoft).
+- **Core Topics:** Arrays, Strings, HashMaps, Trees, Graphs, and Dynamic Programming.
+- **Routine:** Minimum 2 problems per day.
 
-Video feeds (ExoPlayer & prefetch).
+---
 
-🧪 Phase 3: Testing — Full Stack
-Timeline: Weeks 10–13
+## 🤖 Phase 7: AI & On-Device ML
+**Timeline: Weeks 19–22**
 
-Unit Testing: JUnit 5, MockK, and Turbine for Flow.
+- **Google ML Kit:** Vision and Natural Language APIs.
+- **TensorFlow Lite:** Model deployment, quantization, and GPU acceleration.
+- **Generative AI:** Gemini Nano integration and AICore for on-device LLM features.
 
-UI Testing: Compose UI test rules and Semantics.
+---
 
-Integration: MockWebServer for API layers.
+## 📱 Phase 8: Kotlin Multiplatform (KMP)
+**Timeline: Weeks 23–24**
 
-Visuals: Screenshot testing using Paparazzi or Shot.
+- **Shared Logic:** Sharing Repositories and ViewModels across Android and iOS.
+- **Stack:** Ktor for multiplatform networking and SQLDelight for local storage.
 
-🔐 Phase 4: Security
-Timeline: Weeks 14–16
+---
 
-Keystore: AES/RSA encryption and hardware-backed keys.
+## 🎓 Phase 9: Interview Prep & Portfolio
+**Timeline: Weeks 25–28**
 
-Network: SSL/Certificate pinning and Network Security Config.
+### Portfolio Deliverables
+1. **The Architect:** A clean-architecture, MVI, offline-first production app.
+2. **The AI Feature:** An app showcasing on-device ML or Gemini integration.
+3. **The Infrastructure:** A modularized project with a full CI/CD pipeline.
 
-Integrity: Play Integrity API and BiometricPrompt.
+### Behavioral & Leadership
+- **STAR Stories:** 10 prepared scenarios focusing on conflict resolution, mentorship, and technical ownership.
+- **System Design:** Whiteboarding high-scale mobile architectures.
 
-Obfuscation: R8 rules and tamper detection.
-
-🔄 Phase 5: CI/CD & Observability
-Timeline: Weeks 17–18
-
-Automation: GitHub Actions, Bitrise, or Fastlane.
-
-Monitoring: Firebase Crashlytics, Performance, and Sentry.
-
-Control: Feature Flags (Remote Config/LaunchDarkly) for safe deploys.
-
-🧠 Phase 6: DSA & Problem Solving (Parallel)
-Timeline: Weeks 1–26 (Run throughout)
-
-Core Topics: Arrays, Strings, HashMaps, Linked Lists, Trees, and Graphs.
-
-Advanced Algorithms: Dynamic Programming (DP), Backtracking, and Bit Manipulation.
-
-Target: 150–200 LeetCode problems (Focus on Google, Amazon, Microsoft tags).
-
-🤖 Phase 7: AI Integration & On-Device ML
-Timeline: Weeks 19–22
-
-Google Tools: ML Kit (Text/Face/Barcode) and MediaPipe.
-
-On-Device LLM: Gemini Nano and AICore API.
-
-Custom Models: TensorFlow Lite (Quantization & GPU delegates).
-
-📱 Phase 8: Kotlin Multiplatform (KMP)
-Timeline: Weeks 23–24
-
-Fundamentals: expect/actual patterns and shared module structure.
-
-Logic Sharing: Sharing Repositories and ViewModels between Android & iOS.
-
-Stack: Ktor for networking and SQLDelight for local storage.
-
-🎓 Phase 9: Interview Prep & Portfolio
-Timeline: Weeks 25–28
-
-Portfolio Apps to Ship
-Architecture Showcase: Clean Arch + MVI + Hilt + Offline-first.
-
-AI-Powered App: Real-world feature using on-device ML.
-
-Modularized App: Multi-module project with full CI/CD pipeline.
-
-Leadership & Behavioral
-Prepare 10 STAR stories (Conflict resolution, technical decisions, mentorship).
-
-Focus on Trade-off Thinking and Scale Mindset (Systems for millions of users).
+---
+*Maintained by Ranganathan*
