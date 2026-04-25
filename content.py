@@ -60,47 +60,47 @@ CONTENT = [
                     {
                         "heading": "Dispatchers",
                         "points": [
-                            "• Dispatchers.Main: UI operations",
-                            "• Dispatchers.IO: Network, disk, database " "operations",
-                            "• Dispatchers.Default: CPU-intensive work",
-                            "• Dispatchers.Unconfined: Not recommended for "
+                            "Dispatchers.Main: UI operations",
+                            "Dispatchers.IO: Network, disk, database " "operations",
+                            "Dispatchers.Default: CPU-intensive work",
+                            "Dispatchers.Unconfined: Not recommended for "
                             "general use",
                         ],
                     },
                     {
                         "heading": "Coroutine Scopes",
                         "points": [
-                            "• GlobalScope: app-wide (use sparingly)",
-                            "• viewModelScope: tied to ViewModel lifecycle",
-                            "• lifecycleScope: tied to Activity/Fragment " "lifecycle",
-                            "• Custom CoroutineScope for specific components",
+                            "GlobalScope: app-wide (use sparingly)",
+                            "viewModelScope: tied to ViewModel lifecycle",
+                            "lifecycleScope: tied to Activity/Fragment " "lifecycle",
+                            "Custom CoroutineScope for specific components",
                         ],
                     },
                     {
                         "heading": "Coroutine Builders",
                         "points": [
-                            "• launch: fire-and-forget",
-                            "• async: returns Deferred<T>, use with await()",
-                            "• runBlocking: blocks thread (tests only)",
-                            "• withContext: switch dispatcher",
+                            "launch: fire-and-forget",
+                            "async: returns Deferred<T>, use with await()",
+                            "runBlocking: blocks thread (tests only)",
+                            "withContext: switch dispatcher",
                         ],
                     },
                     {
                         "heading": "Exception Handling",
                         "points": [
-                            "• try-catch in suspend functions",
-                            "• CoroutineExceptionHandler for uncaught " "exceptions",
-                            "• supervisorScope: child failure doesn't cancel "
+                            "try-catch in suspend functions",
+                            "CoroutineExceptionHandler for uncaught " "exceptions",
+                            "supervisorScope: child failure doesn't cancel "
                             "siblings",
                         ],
                     },
                     {
                         "heading": "Cancellation",
                         "points": [
-                            "• Cooperative cancellation",
-                            "• Check isActive before long operations",
-                            "• ensureActive() throws if cancelled",
-                            "• NonCancellable context for critical cleanup",
+                            "Cooperative cancellation",
+                            "Check isActive before long operations",
+                            "ensureActive() throws if cancelled",
+                            "NonCancellable context for critical cleanup",
                         ],
                     },
                 ],
@@ -192,31 +192,31 @@ CONTENT = [
                     {
                         "heading": "Flow Builders",
                         "points": [
-                            "• flow { ... }: basic flow builder",
-                            "• flowOf(...): fixed set of values",
-                            "• asFlow(): convert collections",
-                            "• channelFlow: concurrent emissions",
+                            "flow { ... }: basic flow builder",
+                            "flowOf(...): fixed set of values",
+                            "asFlow(): convert collections",
+                            "channelFlow: concurrent emissions",
                         ],
                     },
                     {
                         "heading": "Operators",
                         "points": [
-                            "• Transformation: map, filter, transform",
-                            "• Flattening: flatMapConcat, flatMapMerge, "
+                            "Transformation: map, filter, transform",
+                            "Flattening: flatMapConcat, flatMapMerge, "
                             "flatMapLatest",
-                            "• Combination: combine, zip, merge",
-                            "• Terminal: collect, toList, first, reduce",
+                            "Combination: combine, zip, merge",
+                            "Terminal: collect, toList, first, reduce",
                         ],
                     },
                     {
                         "heading": "StateFlow vs SharedFlow",
                         "points": [
-                            "• StateFlow: always has value, replays latest to "
+                            "StateFlow: always has value, replays latest to "
                             "new collectors",
-                            "• SharedFlow: configurable replay, can have no "
+                            "SharedFlow: configurable replay, can have no "
                             "initial value",
-                            "• Use StateFlow for UI state",
-                            "• Use SharedFlow for events",
+                            "Use StateFlow for UI state",
+                            "Use SharedFlow for events",
                         ],
                     },
                 ],
@@ -281,58 +281,58 @@ CONTENT = [
                     {
                         "heading": "Null Safety",
                         "points": [
-                            "• Nullable types: String? vs String",
-                            "• Safe call operator: obj?.method()",
-                            "• Elvis operator: val name = user?.name ?: " '"Unknown"',
-                            "• !! operator: forces non-null (use sparingly)",
-                            "• let, run, with, apply, also scope functions",
+                            "Nullable types: String? vs String",
+                            "Safe call operator: obj?.method()",
+                            "Elvis operator: val name = user?.name ?: " '"Unknown"',
+                            "!! operator: forces non-null (use sparingly)",
+                            "let, run, with, apply, also scope functions",
                         ],
                     },
                     {
                         "heading": "Coroutines",
                         "points": [
-                            "• Lightweight threads for asynchronous programming",
-                            "• suspend functions: can be paused and resumed",
-                            "• Dispatchers: Main, IO, Default, Unconfined",
-                            "• CoroutineScope, viewModelScope, lifecycleScope",
-                            "• Structured concurrency prevents memory leaks",
-                            "• Example:",
+                            "Lightweight threads for asynchronous programming",
+                            "suspend functions: can be paused and resumed",
+                            "Dispatchers: Main, IO, Default, Unconfined",
+                            "CoroutineScope, viewModelScope, lifecycleScope",
+                            "Structured concurrency prevents memory leaks",
+                            "Example:",
                         ],
                     },
                     {
                         "heading": "Flow",
                         "points": [
-                            "• Asynchronous data stream",
-                            "• Cold stream: emits only when collected",
-                            "• StateFlow: hot stream with state",
-                            "• SharedFlow: hot stream for events",
-                            "• Operators: map, filter, combine, flatMapLatest, " "etc.",
-                            "• Preferred over LiveData in ViewModels",
+                            "Asynchronous data stream",
+                            "Cold stream: emits only when collected",
+                            "StateFlow: hot stream with state",
+                            "SharedFlow: hot stream for events",
+                            "Operators: map, filter, combine, flatMapLatest, " "etc.",
+                            "Preferred over LiveData in ViewModels",
                         ],
                     },
                     {
                         "heading": "Extension Functions",
                         "points": [
-                            "• Add functions to existing classes without "
+                            "Add functions to existing classes without "
                             "inheritance",
-                            '• fun String.toTitleCase() = this.split(" '
+                            'fun String.toTitleCase() = this.split(" '
                             '").joinToString...',
                         ],
                     },
                     {
                         "heading": "Data Classes",
                         "points": [
-                            "• Auto-generates equals(), hashCode(), toString(), "
+                            "Auto-generates equals(), hashCode(), toString(), "
                             "copy()",
-                            "• data class User(val id: Int, val name: String)",
-                            "• Ideal for models and DTOs",
+                            "data class User(val id: Int, val name: String)",
+                            "Ideal for models and DTOs",
                         ],
                     },
                     {
                         "heading": "Sealed Classes",
                         "points": [
-                            "• Restricted class hierarchies",
-                            "• Perfect for representing state:",
+                            "Restricted class hierarchies",
+                            "Perfect for representing state:",
                         ],
                     },
                 ],
@@ -368,27 +368,27 @@ CONTENT = [
                     {
                         "heading": "Garbage Collection",
                         "points": [
-                            "• Automatic memory management",
-                            "• Generational GC: Young, Old, Permanent " "generations",
-                            "• Avoid memory leaks: static references, "
+                            "Automatic memory management",
+                            "Generational GC: Young, Old, Permanent " "generations",
+                            "Avoid memory leaks: static references, "
                             "listeners, handlers",
                         ],
                     },
                     {
                         "heading": "Concurrency (pre-Kotlin)",
                         "points": [
-                            "• Thread, Runnable, Executor framework",
-                            "• AsyncTask (deprecated - use Coroutines)",
-                            "• Handler & Looper for thread communication",
-                            "• synchronized keyword and locks",
+                            "Thread, Runnable, Executor framework",
+                            "AsyncTask (deprecated - use Coroutines)",
+                            "Handler & Looper for thread communication",
+                            "synchronized keyword and locks",
                         ],
                     },
                     {
                         "heading": "Collections",
                         "points": [
-                            "• List, Set, Map interfaces",
-                            "• ArrayList, LinkedList, HashMap, TreeMap, HashSet",
-                            "• Thread-safe: Vector, ConcurrentHashMap",
+                            "List, Set, Map interfaces",
+                            "ArrayList, LinkedList, HashMap, TreeMap, HashSet",
+                            "Thread-safe: Vector, ConcurrentHashMap",
                         ],
                     },
                 ],
@@ -642,31 +642,31 @@ CONTENT = [
                     {
                         "heading": "Layout Types",
                         "points": [
-                            "• ConstraintLayout: Flat hierarchy, best " "performance",
-                            "• LinearLayout: Vertical/horizontal arrangement",
-                            "• FrameLayout: Stack views on top of each other",
-                            "• RelativeLayout: Position relative to " "parent/siblings",
-                            "• CoordinatorLayout: Complex scrolling behaviors",
+                            "ConstraintLayout: Flat hierarchy, best " "performance",
+                            "LinearLayout: Vertical/horizontal arrangement",
+                            "FrameLayout: Stack views on top of each other",
+                            "RelativeLayout: Position relative to " "parent/siblings",
+                            "CoordinatorLayout: Complex scrolling behaviors",
                         ],
                     },
                     {
                         "heading": "RecyclerView",
                         "points": [
-                            "• Efficient scrolling lists",
-                            "• ViewHolder pattern for view recycling",
-                            "• DiffUtil for efficient updates",
-                            "• ListAdapter simplifies DiffUtil usage",
-                            "• Multiple view types support",
-                            "• ItemDecoration for spacing and dividers",
+                            "Efficient scrolling lists",
+                            "ViewHolder pattern for view recycling",
+                            "DiffUtil for efficient updates",
+                            "ListAdapter simplifies DiffUtil usage",
+                            "Multiple view types support",
+                            "ItemDecoration for spacing and dividers",
                         ],
                     },
                     {
                         "heading": "Custom Views",
                         "points": [
-                            "• Extend View or ViewGroup",
-                            "• Override onMeasure(), onLayout(), onDraw()",
-                            "• Custom attributes via attrs.xml",
-                            "• Canvas drawing with Paint",
+                            "Extend View or ViewGroup",
+                            "Override onMeasure(), onLayout(), onDraw()",
+                            "Custom attributes via attrs.xml",
+                            "Canvas drawing with Paint",
                         ],
                     },
                 ],
@@ -681,58 +681,58 @@ CONTENT = [
                     {
                         "heading": "Core Principles",
                         "points": [
-                            "• Declarative UI: describe what UI should look " "like",
-                            "• Composable functions: @Composable annotation",
-                            "• Recomposition: UI updates when state changes",
-                            "• State hoisting: move state to caller for " "reusability",
+                            "Declarative UI: describe what UI should look " "like",
+                            "Composable functions: @Composable annotation",
+                            "Recomposition: UI updates when state changes",
+                            "State hoisting: move state to caller for " "reusability",
                         ],
                     },
                     {
                         "heading": "State Management",
                         "points": [
-                            "• remember: preserves state across recompositions",
-                            "• rememberSaveable: survives configuration changes",
-                            "• mutableStateOf: observable state",
-                            "• collectAsState(): observe Flow/StateFlow",
-                            "• derivedStateOf: computed state",
+                            "remember: preserves state across recompositions",
+                            "rememberSaveable: survives configuration changes",
+                            "mutableStateOf: observable state",
+                            "collectAsState(): observe Flow/StateFlow",
+                            "derivedStateOf: computed state",
                         ],
                     },
                     {
                         "heading": "Layouts",
                         "points": [
-                            "• Column, Row, Box (fundamental layouts)",
-                            "• LazyColumn, LazyRow (RecyclerView equivalent)",
-                            "• Scaffold: top bar, bottom bar, fab, drawer",
-                            "• Surface: container with elevation",
+                            "Column, Row, Box (fundamental layouts)",
+                            "LazyColumn, LazyRow (RecyclerView equivalent)",
+                            "Scaffold: top bar, bottom bar, fab, drawer",
+                            "Surface: container with elevation",
                         ],
                     },
                     {
                         "heading": "Navigation in Compose",
                         "points": [
-                            "• NavHost and NavController",
-                            "• Type-safe navigation with routes",
-                            "• Passing arguments between screens",
-                            "• BottomNavigation and NavigationRail",
+                            "NavHost and NavController",
+                            "Type-safe navigation with routes",
+                            "Passing arguments between screens",
+                            "BottomNavigation and NavigationRail",
                         ],
                     },
                     {
                         "heading": "Theming & Material Design",
                         "points": [
-                            "• MaterialTheme: colors, typography, shapes",
-                            "• Dynamic theming (Material You)",
-                            "• Dark mode support",
-                            "• Custom theme creation",
+                            "MaterialTheme: colors, typography, shapes",
+                            "Dynamic theming (Material You)",
+                            "Dark mode support",
+                            "Custom theme creation",
                         ],
                     },
                     {
                         "heading": "Side Effects",
                         "points": [
-                            "• LaunchedEffect: coroutine tied to composable "
+                            "LaunchedEffect: coroutine tied to composable "
                             "lifecycle",
-                            "• DisposableEffect: cleanup when composable leaves "
+                            "DisposableEffect: cleanup when composable leaves "
                             "composition",
-                            "• SideEffect: sync Compose state to non-Compose " "code",
-                            "• rememberCoroutineScope: manual coroutine " "launching",
+                            "SideEffect: sync Compose state to non-Compose " "code",
+                            "rememberCoroutineScope: manual coroutine " "launching",
                         ],
                     },
                 ],
@@ -989,32 +989,32 @@ CONTENT = [
                     {
                         "heading": "Hilt (Recommended for Android)",
                         "points": [
-                            "• Built on top of Dagger",
-                            "• Reduces Dagger boilerplate for Android",
-                            "• Standard components and scopes",
-                            "• @HiltAndroidApp: Application class",
-                            "• @AndroidEntryPoint: Activities, Fragments, "
+                            "Built on top of Dagger",
+                            "Reduces Dagger boilerplate for Android",
+                            "Standard components and scopes",
+                            "@HiltAndroidApp: Application class",
+                            "@AndroidEntryPoint: Activities, Fragments, "
                             "Views, Services",
-                            "• @Inject: constructor injection",
-                            "• @Module: provides dependencies",
-                            "• @InstallIn: defines component lifecycle",
+                            "@Inject: constructor injection",
+                            "@Module: provides dependencies",
+                            "@InstallIn: defines component lifecycle",
                         ],
                     },
                     {
                         "heading": "Scopes in Hilt",
                         "points": [
-                            "• @Singleton: app lifecycle",
-                            "• @ActivityScoped: activity lifecycle",
-                            "• @ViewModelScoped: ViewModel lifecycle",
-                            "• @FragmentScoped: fragment lifecycle",
+                            "@Singleton: app lifecycle",
+                            "@ActivityScoped: activity lifecycle",
+                            "@ViewModelScoped: ViewModel lifecycle",
+                            "@FragmentScoped: fragment lifecycle",
                         ],
                     },
                     {
                         "heading": "Qualifiers",
                         "points": [
-                            "• Multiple implementations of same interface",
-                            '• @Named("qualifier")',
-                            "• Custom qualifiers with @Qualifier annotation",
+                            "Multiple implementations of same interface",
+                            '@Named("qualifier")',
+                            "Custom qualifiers with @Qualifier annotation",
                         ],
                     },
                 ],
@@ -1085,12 +1085,12 @@ CONTENT = [
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Lightweight, Kotlin-first DI framework • No code "
-                            "generation, pure Kotlin DSL • Easy to learn and "
-                            "set up • module { ... }: define dependencies • "
-                            "single { ... }: singleton • factory { ... }: new "
-                            "instance each time • by viewModel(): inject "
-                            "ViewModel • Good for small to medium projects"
+                            "Lightweight, Kotlin-first DI framework No code "
+                            "generation, pure Kotlin DSL Easy to learn and "
+                            "set up module { ... }: define dependencies "
+                            "single { ... }: singleton factory { ... }: new "
+                            "instance each time by viewModel(): inject "
+                            "ViewModel Good for small to medium projects"
                         ],
                     }
                 ],
@@ -1105,9 +1105,9 @@ CONTENT = [
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Service locator pattern • Constructor injection "
-                            "manually • Simple for small projects • No external "
-                            "dependencies • Full control over object "
+                            "Service locator pattern Constructor injection "
+                            "manually Simple for small projects No external "
+                            "dependencies Full control over object "
                             "creation"
                         ],
                     }
@@ -1143,37 +1143,37 @@ CONTENT = [
                     {
                         "heading": "Components",
                         "points": [
-                            "• Entity: Table definition with @Entity",
-                            "• DAO (Data Access Object): Database operations "
+                            "Entity: Table definition with @Entity",
+                            "DAO (Data Access Object): Database operations "
                             "with @Dao",
-                            "• Database: Abstract class with @Database",
+                            "Database: Abstract class with @Database",
                         ],
                     },
                     {
                         "heading": "Relationships",
                         "points": [
-                            "• One-to-One: @Embedded or @Relation",
-                            "• One-to-Many: @Relation with parentColumn and "
+                            "One-to-One: @Embedded or @Relation",
+                            "One-to-Many: @Relation with parentColumn and "
                             "entityColumn",
-                            "• Many-to-Many: Junction table with @Entity",
+                            "Many-to-Many: Junction table with @Entity",
                         ],
                     },
                     {
                         "heading": "Migrations",
                         "points": [
-                            "• Database schema changes",
-                            "• Migration class with migrate() method",
-                            "• fallbackToDestructiveMigration() for development",
-                            "• Test migrations thoroughly",
+                            "Database schema changes",
+                            "Migration class with migrate() method",
+                            "fallbackToDestructiveMigration() for development",
+                            "Test migrations thoroughly",
                         ],
                     },
                     {
                         "heading": "Advanced Features",
                         "points": [
-                            "• Full-text search with @Fts4",
-                            "• Database views with @DatabaseView",
-                            "• Type converters for custom types",
-                            "• Pre-populated databases",
+                            "Full-text search with @Fts4",
+                            "Database views with @DatabaseView",
+                            "Type converters for custom types",
+                            "Pre-populated databases",
                         ],
                     },
                 ],
@@ -1319,8 +1319,8 @@ CONTENT = [
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Key-value storage for simple data • Stores "
-                            "primitives: Boolean, Int, Long, Float, String • "
+                            "Key-value storage for simple data Stores "
+                            "primitives: Boolean, Int, Long, Float, String "
                             "DataStore preferred (modern alternative): - "
                             "Preferences DataStore (key-value) - Proto "
                             "DataStore (typed objects) - Asynchronous with Flow "
@@ -1339,18 +1339,18 @@ CONTENT = [
                     {
                         "heading": "Internal Storage",
                         "points": [
-                            "• Private to app, deleted on uninstall",
-                            "• context.filesDir for files",
-                            "• context.cacheDir for temporary files",
+                            "Private to app, deleted on uninstall",
+                            "context.filesDir for files",
+                            "context.cacheDir for temporary files",
                         ],
                     },
                     {
                         "heading": "External Storage",
                         "points": [
-                            "• Scoped Storage (Android 10+)",
-                            "• MediaStore API for media files",
-                            "• Storage Access Framework (SAF) for documents",
-                            "• App-specific directory (no permissions " "needed)",
+                            "Scoped Storage (Android 10+)",
+                            "MediaStore API for media files",
+                            "Storage Access Framework (SAF) for documents",
+                            "App-specific directory (no permissions " "needed)",
                         ],
                     },
                 ],
@@ -1365,9 +1365,9 @@ CONTENT = [
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Single source of truth for data • Abstracts data "
-                            "sources (network, database, cache) • Handles data "
-                            "caching and sync logic • ViewModel depends on "
+                            "Single source of truth for data Abstracts data "
+                            "sources (network, database, cache) Handles data "
+                            "caching and sync logic ViewModel depends on "
                             "Repository, not data sources directly"
                         ],
                     }
@@ -1392,28 +1392,28 @@ CONTENT = [
                     {
                         "heading": "Setup",
                         "points": [
-                            "• Define API interface with annotations",
-                            "• @GET, @POST, @PUT, @DELETE, @PATCH",
-                            "• @Path, @Query, @Body, @Header",
-                            "• Converter factories: Gson, Moshi, Kotlinx "
+                            "Define API interface with annotations",
+                            "@GET, @POST, @PUT, @DELETE, @PATCH",
+                            "@Path, @Query, @Body, @Header",
+                            "Converter factories: Gson, Moshi, Kotlinx "
                             "Serialization",
                         ],
                     },
                     {
                         "heading": "Coroutines Integration",
                         "points": [
-                            "• suspend functions for API calls",
-                            "• Response<T> for access to headers and status " "codes",
-                            "• Exception handling with try-catch",
+                            "suspend functions for API calls",
+                            "Response<T> for access to headers and status " "codes",
+                            "Exception handling with try-catch",
                         ],
                     },
                     {
                         "heading": "Interceptors (OkHttp)",
                         "points": [
-                            "• Logging: HttpLoggingInterceptor",
-                            "• Authentication: Add tokens to requests",
-                            "• Retry logic",
-                            "• Caching strategies",
+                            "Logging: HttpLoggingInterceptor",
+                            "Authentication: Add tokens to requests",
+                            "Retry logic",
+                            "Caching strategies",
                         ],
                     },
                 ],
@@ -1508,9 +1508,9 @@ CONTENT = [
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Query specific fields needed • Single endpoint "
-                            "vs multiple REST endpoints • Type-safe code "
-                            "generation • Real-time data with subscriptions • "
+                            "Query specific fields needed Single endpoint "
+                            "vs multiple REST endpoints Type-safe code "
+                            "generation Real-time data with subscriptions "
                             "Normalized caching"
                         ],
                     },
@@ -1580,8 +1580,8 @@ CONTENT = [
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Full-duplex communication • OkHttp WebSocket "
-                            "support • Real-time chat, live updates, gaming • "
+                            "Full-duplex communication OkHttp WebSocket "
+                            "support Real-time chat, live updates, gaming "
                             "Connection management and reconnection logic"
                         ],
                     }
@@ -1598,11 +1598,11 @@ CONTENT = [
                     {
                         "heading": "Error Handling",
                         "points": [
-                            "• Network errors (no connectivity)",
-                            "• HTTP errors (4xx, 5xx)",
-                            "• Parsing errors",
-                            "• Timeout errors",
-                            "• Retry strategies with exponential backoff",
+                            "Network errors (no connectivity)",
+                            "HTTP errors (4xx, 5xx)",
+                            "Parsing errors",
+                            "Timeout errors",
+                            "Retry strategies with exponential backoff",
                         ],
                     },
                 ],
@@ -1858,10 +1858,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• @Volatile annotation for visibility • Atomic "
-                            "operations: AtomicInteger, AtomicBoolean • Mutex "
-                            "for mutual exclusion in coroutines • Thread-safe "
-                            "collections: ConcurrentHashMap • Immutable data "
+                            "@Volatile annotation for visibility Atomic "
+                            "operations: AtomicInteger, AtomicBoolean Mutex "
+                            "for mutual exclusion in coroutines Thread-safe "
+                            "collections: ConcurrentHashMap Immutable data "
                             "structures preferred"
                         ],
                     }
@@ -1885,30 +1885,30 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "JUnit & Mockito",
                         "points": [
-                            "• JUnit 4 or JUnit 5 (Jupiter)",
-                            "• @Test, @Before, @After annotations",
-                            "• Assertions: assertEquals, assertTrue, " "assertNotNull",
-                            "• Mockito for mocking dependencies",
-                            "• mock(), when(), verify()",
+                            "JUnit 4 or JUnit 5 (Jupiter)",
+                            "@Test, @Before, @After annotations",
+                            "Assertions: assertEquals, assertTrue, " "assertNotNull",
+                            "Mockito for mocking dependencies",
+                            "mock(), when(), verify()",
                         ],
                     },
                     {
                         "heading": "MockK (Kotlin)",
                         "points": [
-                            "• Kotlin-first mocking library",
-                            "• mockk<T>(): create mock",
-                            "• every { ... } returns ...: stub behavior",
-                            "• verify { ... }: verify calls",
-                            "• Supports suspend functions and coroutines",
+                            "Kotlin-first mocking library",
+                            "mockk<T>(): create mock",
+                            "every { ... } returns ...: stub behavior",
+                            "verify { ... }: verify calls",
+                            "Supports suspend functions and coroutines",
                         ],
                     },
                     {
                         "heading": "Coroutine Testing",
                         "points": [
-                            "• kotlinx-coroutines-test library",
-                            "• runTest: test coroutines",
-                            "• TestDispatcher for controlling virtual time",
-                            "• advanceTimeBy(), advanceUntilIdle()",
+                            "kotlinx-coroutines-test library",
+                            "runTest: test coroutines",
+                            "TestDispatcher for controlling virtual time",
+                            "advanceTimeBy(), advanceUntilIdle()",
                         ],
                     },
                 ],
@@ -1973,10 +1973,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• createComposeRule(): test setup • "
-                            "onNodeWithText(), onNodeWithTag() • "
-                            "performClick(), performTextInput() • "
-                            "assertIsDisplayed(), assertTextEquals() • "
+                            "createComposeRule(): test setup "
+                            "onNodeWithText(), onNodeWithTag() "
+                            "performClick(), performTextInput() "
+                            "assertIsDisplayed(), assertTextEquals() "
                             "Semantics for accessibility and testing"
                         ],
                     }
@@ -2079,27 +2079,27 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Espresso (UI Testing)",
                         "points": [
-                            "• onView(): find view",
-                            "• perform(): perform action (click, typeText, " "swipe)",
-                            "• check(): verify view state",
-                            "• IdlingResource for async operations",
-                            "• RecyclerView actions and assertions",
+                            "onView(): find view",
+                            "perform(): perform action (click, typeText, " "swipe)",
+                            "check(): verify view state",
+                            "IdlingResource for async operations",
+                            "RecyclerView actions and assertions",
                         ],
                     },
                     {
                         "heading": "UI Automator",
                         "points": [
-                            "• Cross-app interactions",
-                            "• System UI testing",
-                            "• UiDevice, UiObject, UiSelector",
+                            "Cross-app interactions",
+                            "System UI testing",
+                            "UiDevice, UiObject, UiSelector",
                         ],
                     },
                     {
                         "heading": "Room Testing",
                         "points": [
-                            "• In-memory database for tests",
-                            "• Room.inMemoryDatabaseBuilder()",
-                            "• Test migrations",
+                            "In-memory database for tests",
+                            "Room.inMemoryDatabaseBuilder()",
+                            "Test migrations",
                         ],
                     },
                 ],
@@ -2114,11 +2114,11 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Test Pyramid: More unit tests, fewer UI tests • "
-                            "Given-When-Then pattern • Test doubles: Mock, "
-                            "Stub, Fake, Spy • Repository pattern enables easy "
-                            "testing • Dependency injection makes mocking "
-                            "easier • Code coverage tools: JaCoCo"
+                            "Test Pyramid: More unit tests, fewer UI tests "
+                            "Given-When-Then pattern Test doubles: Mock, "
+                            "Stub, Fake, Spy Repository pattern enables easy "
+                            "testing Dependency injection makes mocking "
+                            "easier Code coverage tools: JaCoCo"
                         ],
                     }
                 ],
@@ -2142,10 +2142,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• App Startup library for initialization • Lazy "
-                            "initialization with by lazy • ContentProvider "
-                            "initialization overhead • Baseline Profiles for "
-                            "faster startup • Strict Mode for detecting main "
+                            "App Startup library for initialization Lazy "
+                            "initialization with by lazy ContentProvider "
+                            "initialization overhead Baseline Profiles for "
+                            "faster startup Strict Mode for detecting main "
                             "thread violations"
                         ],
                     }
@@ -2220,9 +2220,9 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Firebase Crashlytics • Firebase Analytics • "
-                            "Custom event tracking • Performance monitoring • "
-                            "Network request logging • User session recording "
+                            "Firebase Crashlytics Firebase Analytics "
+                            "Custom event tracking Performance monitoring "
+                            "Network request logging User session recording "
                             "(where privacy permits)"
                         ],
                     },
@@ -2266,23 +2266,23 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Memory Leaks",
                         "points": [
-                            "• Common causes:",
+                            "Common causes:",
                             "- Static references to Activities/Fragments",
                             "- Non-static inner classes holding Activity " "reference",
                             "- Unregistered listeners and callbacks",
                             "- Handler with Activity reference",
-                            "• Detection: LeakCanary library",
-                            "• Prevention: WeakReference, proper lifecycle " "handling",
+                            "Detection: LeakCanary library",
+                            "Prevention: WeakReference, proper lifecycle " "handling",
                         ],
                     },
                     {
                         "heading": "Memory Optimization",
                         "points": [
-                            "• Bitmap management: inSampleSize, recycle()",
-                            "• Image loading libraries: Glide, Coil",
-                            "• Avoid object churn in loops",
-                            "• Use SparseArray instead of HashMap for int keys",
-                            "• onTrimMemory() callback for memory pressure",
+                            "Bitmap management: inSampleSize, recycle()",
+                            "Image loading libraries: Glide, Coil",
+                            "Avoid object churn in loops",
+                            "Use SparseArray instead of HashMap for int keys",
+                            "onTrimMemory() callback for memory pressure",
                         ],
                     },
                 ],
@@ -2297,32 +2297,32 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Layout Performance",
                         "points": [
-                            "• Flatten view hierarchy with ConstraintLayout",
-                            "• Avoid nested LinearLayouts with weights",
-                            "• ViewStub for lazy inflation",
-                            "• Merge tag to reduce hierarchy",
-                            "• Include tag for reusable layouts",
+                            "Flatten view hierarchy with ConstraintLayout",
+                            "Avoid nested LinearLayouts with weights",
+                            "ViewStub for lazy inflation",
+                            "Merge tag to reduce hierarchy",
+                            "Include tag for reusable layouts",
                         ],
                     },
                     {
                         "heading": "Rendering Performance",
                         "points": [
-                            "• 16ms per frame for 60fps (jank threshold)",
-                            "• Systrace for performance profiling",
-                            "• GPU overdraw: minimize overlapping draws",
-                            "• Hardware acceleration",
-                            "• RecyclerView optimization: setHasFixedSize(), "
+                            "16ms per frame for 60fps (jank threshold)",
+                            "Systrace for performance profiling",
+                            "GPU overdraw: minimize overlapping draws",
+                            "Hardware acceleration",
+                            "RecyclerView optimization: setHasFixedSize(), "
                             "setItemViewCacheSize()",
                         ],
                     },
                     {
                         "heading": "Compose Performance",
                         "points": [
-                            "• Minimize recomposition scope",
-                            "• Use derivedStateOf for computed state",
-                            "• key() for stable item identity in lists",
-                            "• Avoid unstable parameters in Composables",
-                            "• LazyColumn performance best practices",
+                            "Minimize recomposition scope",
+                            "Use derivedStateOf for computed state",
+                            "key() for stable item identity in lists",
+                            "Avoid unstable parameters in Composables",
+                            "LazyColumn performance best practices",
                         ],
                     },
                 ],
@@ -2337,10 +2337,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Doze mode and App Standby • Battery Historian "
-                            "tool • WorkManager for battery-efficient "
-                            "background work • Reduce network calls, batch "
-                            "requests • Use JobScheduler constraints • Wake "
+                            "Doze mode and App Standby Battery Historian "
+                            "tool WorkManager for battery-efficient "
+                            "background work Reduce network calls, batch "
+                            "requests Use JobScheduler constraints Wake "
                             "locks: use carefully, release properly"
                         ],
                     }
@@ -2356,10 +2356,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• ProGuard/R8 for code shrinking • Resource "
-                            "shrinking: shrinkResources true • Vector drawables "
-                            "instead of PNGs • WebP format for images • Android "
-                            "App Bundle (AAB) for dynamic delivery • Remove "
+                            "ProGuard/R8 for code shrinking Resource "
+                            "shrinking: shrinkResources true Vector drawables "
+                            "instead of PNGs WebP format for images Android "
+                            "App Bundle (AAB) for dynamic delivery Remove "
                             "unused libraries and resources"
                         ],
                     }
@@ -2493,21 +2493,21 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Encrypted Storage",
                         "points": [
-                            "• EncryptedSharedPreferences for sensitive "
+                            "EncryptedSharedPreferences for sensitive "
                             "key-value data",
-                            "• SQLCipher for database encryption",
-                            "• Android Keystore for cryptographic keys",
-                            "• BiometricPrompt for user authentication",
+                            "SQLCipher for database encryption",
+                            "Android Keystore for cryptographic keys",
+                            "BiometricPrompt for user authentication",
                         ],
                     },
                     {
                         "heading": "Network Security",
                         "points": [
-                            "• HTTPS only, no HTTP",
-                            "• Certificate pinning for critical APIs",
-                            "• Network Security Configuration (XML)",
-                            "• Validate SSL certificates",
-                            "• Don't trust user input",
+                            "HTTPS only, no HTTP",
+                            "Certificate pinning for critical APIs",
+                            "Network Security Configuration (XML)",
+                            "Validate SSL certificates",
+                            "Don't trust user input",
                         ],
                     },
                 ],
@@ -2522,25 +2522,25 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "ProGuard/R8",
                         "points": [
-                            "• Code obfuscation",
-                            "• Makes reverse engineering harder",
-                            "• Keep rules for reflection and serialization",
+                            "Code obfuscation",
+                            "Makes reverse engineering harder",
+                            "Keep rules for reflection and serialization",
                         ],
                     },
                     {
                         "heading": "SafetyNet/Play Integrity API",
                         "points": [
-                            "• Device attestation",
-                            "• Detect rooted devices",
-                            "• Verify app integrity",
+                            "Device attestation",
+                            "Detect rooted devices",
+                            "Verify app integrity",
                         ],
                     },
                     {
                         "heading": "Input Validation",
                         "points": [
-                            "• Sanitize all user inputs",
-                            "• SQL injection prevention with Room",
-                            "• Avoid eval() or dynamic code execution",
+                            "Sanitize all user inputs",
+                            "SQL injection prevention with Room",
+                            "Avoid eval() or dynamic code execution",
                         ],
                     },
                 ],
@@ -2555,9 +2555,9 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• OAuth 2.0 / OpenID Connect • JWT tokens with "
-                            "proper expiration • Refresh token strategy • Never "
-                            "store passwords in plain text • Biometric "
+                            "OAuth 2.0 / OpenID Connect JWT tokens with "
+                            "proper expiration Refresh token strategy Never "
+                            "store passwords in plain text Biometric "
                             "authentication where appropriate"
                         ],
                     }
@@ -2573,10 +2573,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Request minimum permissions needed • Runtime "
-                            "permissions (Android 6.0+) • Handle permission "
-                            "denial gracefully • Location permissions: precise "
-                            "vs approximate • Background location: additional "
+                            "Request minimum permissions needed Runtime "
+                            "permissions (Android 6.0+) Handle permission "
+                            "denial gracefully Location permissions: precise "
+                            "vs approximate Background location: additional "
                             "justification needed"
                         ],
                     }
@@ -2694,33 +2694,33 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Build Configuration",
                         "points": [
-                            "• build.gradle (project level)",
-                            "• build.gradle (module level)",
-                            "• gradle.properties for project-wide settings",
-                            "• Build types: debug, release",
-                            "• Product flavors for app variants",
-                            "• Build variants: combination of type and flavor",
+                            "build.gradle (project level)",
+                            "build.gradle (module level)",
+                            "gradle.properties for project-wide settings",
+                            "Build types: debug, release",
+                            "Product flavors for app variants",
+                            "Build variants: combination of type and flavor",
                         ],
                     },
                     {
                         "heading": "Dependencies",
                         "points": [
-                            "• implementation: compile time only",
-                            "• api: transitive dependencies",
-                            "• testImplementation: unit tests",
-                            "• androidTestImplementation: instrumentation tests",
-                            "• Version catalogs for centralized dependency "
+                            "implementation: compile time only",
+                            "api: transitive dependencies",
+                            "testImplementation: unit tests",
+                            "androidTestImplementation: instrumentation tests",
+                            "Version catalogs for centralized dependency "
                             "management",
                         ],
                     },
                     {
                         "heading": "Optimization",
                         "points": [
-                            "• Gradle daemon",
-                            "• Parallel execution",
-                            "• Configuration cache",
-                            "• Build cache",
-                            "• Incremental compilation",
+                            "Gradle daemon",
+                            "Parallel execution",
+                            "Configuration cache",
+                            "Build cache",
+                            "Incremental compilation",
                         ],
                     },
                 ],
@@ -2835,26 +2835,26 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "CI Platforms",
                         "points": [
-                            "• GitHub Actions",
-                            "• GitLab CI",
-                            "• Jenkins",
-                            "• CircleCI",
-                            "• Bitrise",
+                            "GitHub Actions",
+                            "GitLab CI",
+                            "Jenkins",
+                            "CircleCI",
+                            "Bitrise",
                         ],
                     },
                     {
                         "heading": "Pipeline Stages",
                         "points": [
-                            "• Code checkout",
-                            "• Build",
-                            "• Unit tests",
-                            "• Instrumentation tests (on emulator/device)",
-                            "• Lint checks",
-                            "• Static analysis (Detekt, ktlint)",
-                            "• Code coverage reports",
-                            "• APK/AAB generation",
-                            "• Signing",
-                            "• Upload to distribution (Firebase App "
+                            "Code checkout",
+                            "Build",
+                            "Unit tests",
+                            "Instrumentation tests (on emulator/device)",
+                            "Lint checks",
+                            "Static analysis (Detekt, ktlint)",
+                            "Code coverage reports",
+                            "APK/AAB generation",
+                            "Signing",
+                            "Upload to distribution (Firebase App "
                             "Distribution, TestFlight)",
                         ],
                     },
@@ -2870,10 +2870,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Fastlane for automation • Google Play Console "
-                            "API • Internal testing track • Closed testing "
-                            "(alpha/beta) • Open testing • Production release "
-                            "with staged rollout • Release management and "
+                            "Fastlane for automation Google Play Console "
+                            "API Internal testing track Closed testing "
+                            "(alpha/beta) Open testing Production release "
+                            "with staged rollout Release management and "
                             "versioning"
                         ],
                     }
@@ -2889,9 +2889,9 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Debug keystore for development • Release "
-                            "keystore for production • Google Play App Signing "
-                            "• Keep upload key secure • Signing configurations "
+                            "Debug keystore for development Release "
+                            "keystore for production Google Play App Signing "
+                            "Keep upload key secure Signing configurations "
                             "in Gradle"
                         ],
                     }
@@ -3060,11 +3060,11 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Kotlin Multiplatform Mobile (KMM) • Jetpack "
-                            "Compose for Desktop • Material Design 3 (Material "
-                            "You) • Baseline profiles for improved performance "
-                            "• Android 13+ features: predictive back gesture, "
-                            "notification permissions • Privacy Sandbox on "
+                            "Kotlin Multiplatform Mobile (KMM) Jetpack "
+                            "Compose for Desktop Material Design 3 (Material "
+                            "You) Baseline profiles for improved performance "
+                            "Android 13+ features: predictive back gesture, "
+                            "notification permissions Privacy Sandbox on "
                             "Android"
                         ],
                     }
@@ -3081,10 +3081,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Firebase Cloud Messaging (FCM) • Firebase Remote "
-                            "Config • Firebase Authentication • Cloud Firestore "
-                            "• Firebase Analytics • Firebase Crashlytics • "
-                            "Firebase Performance Monitoring • Firebase App "
+                            "Firebase Cloud Messaging (FCM) Firebase Remote "
+                            "Config Firebase Authentication Cloud Firestore "
+                            "Firebase Analytics Firebase Crashlytics "
+                            "Firebase Performance Monitoring Firebase App "
                             "Distribution"
                         ],
                     }
@@ -3100,9 +3100,9 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Intent filters for custom schemes • Android App "
-                            "Links (verified HTTPS links) • assetlinks.json for "
-                            "domain verification • Navigation deeplinks • "
+                            "Intent filters for custom schemes Android App "
+                            "Links (verified HTTPS links) assetlinks.json for "
+                            "domain verification Navigation deeplinks "
                             "Dynamic links (Firebase)"
                         ],
                     }
@@ -3118,10 +3118,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Content descriptions for screen readers • "
-                            "Minimum touch target size (48dp) • Color contrast "
-                            "ratios • Focus order and keyboard navigation • "
-                            "Accessibility scanner tool • TalkBack testing"
+                            "Content descriptions for screen readers "
+                            "Minimum touch target size (48dp) Color contrast "
+                            "ratios Focus order and keyboard navigation "
+                            "Accessibility scanner tool TalkBack testing"
                         ],
                     }
                 ],
@@ -3136,9 +3136,9 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• strings.xml for different locales • RTL "
-                            "(Right-to-Left) layout support • Date, time, and "
-                            "number formatting • Plurals and quantity strings • "
+                            "strings.xml for different locales RTL "
+                            "(Right-to-Left) layout support Date, time, and "
+                            "number formatting Plurals and quantity strings "
                             "Locale-specific resources"
                         ],
                     }
@@ -3154,10 +3154,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• App listing optimization (ASO) • Screenshot and "
-                            "video requirements • Privacy policy requirements • "
-                            "Data safety section • In-app purchases and "
-                            "subscriptions • Play Billing Library • Store "
+                            "App listing optimization (ASO) Screenshot and "
+                            "video requirements Privacy policy requirements "
+                            "Data safety section In-app purchases and "
+                            "subscriptions Play Billing Library Store "
                             "listing experiments (A/B testing)"
                         ],
                     }
@@ -3181,10 +3181,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Offline-first architecture • Local database as "
-                            "single source of truth • Background sync "
-                            "strategies • Handling intermittent connectivity • "
-                            "Data consistency and conflict resolution • Battery "
+                            "Offline-first architecture Local database as "
+                            "single source of truth Background sync "
+                            "strategies Handling intermittent connectivity "
+                            "Data consistency and conflict resolution Battery "
                             "and bandwidth optimization"
                         ],
                     }
@@ -3200,45 +3200,45 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "News Feed App",
                         "points": [
-                            "• Pagination with paging 3 library",
-                            "• Pull-to-refresh",
-                            "• Image caching strategy",
-                            "• Push notifications for new content",
-                            "• Room database for offline access",
-                            "• Sync strategy: periodic WorkManager",
+                            "Pagination with paging 3 library",
+                            "Pull-to-refresh",
+                            "Image caching strategy",
+                            "Push notifications for new content",
+                            "Room database for offline access",
+                            "Sync strategy: periodic WorkManager",
                         ],
                     },
                     {
                         "heading": "Chat Application",
                         "points": [
-                            "• WebSocket for real-time messaging",
-                            "• Message queue for offline messages",
-                            "• Local database for message history",
-                            "• Delivery and read receipts",
-                            "• Push notifications with FCM",
-                            "• Media upload/download with progress",
+                            "WebSocket for real-time messaging",
+                            "Message queue for offline messages",
+                            "Local database for message history",
+                            "Delivery and read receipts",
+                            "Push notifications with FCM",
+                            "Media upload/download with progress",
                         ],
                     },
                     {
                         "heading": "E-commerce App",
                         "points": [
-                            "• Product catalog with search and filters",
-                            "• Shopping cart management",
-                            "• Payment gateway integration",
-                            "• Order tracking",
-                            "• Wishlist sync across devices",
-                            "• Product recommendations engine",
+                            "Product catalog with search and filters",
+                            "Shopping cart management",
+                            "Payment gateway integration",
+                            "Order tracking",
+                            "Wishlist sync across devices",
+                            "Product recommendations engine",
                         ],
                     },
                     {
                         "heading": "Ride-sharing App",
                         "points": [
-                            "• Real-time location tracking",
-                            "• Map integration (Google Maps SDK)",
-                            "• Driver-rider matching algorithm",
-                            "• ETA calculation",
-                            "• WebSocket for live updates",
-                            "• Background location updates",
+                            "Real-time location tracking",
+                            "Map integration (Google Maps SDK)",
+                            "Driver-rider matching algorithm",
+                            "ETA calculation",
+                            "WebSocket for live updates",
+                            "Background location updates",
                         ],
                     },
                 ],
@@ -3254,10 +3254,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• API versioning strategy • Backward compatibility "
-                            "• Feature flags for gradual rollout • A/B testing "
-                            "infrastructure • Analytics and crash reporting • "
-                            "CDN for static assets • Distributed caching"
+                            "API versioning strategy Backward compatibility "
+                            "Feature flags for gradual rollout A/B testing "
+                            "infrastructure Analytics and crash reporting "
+                            "CDN for static assets Distributed caching"
                         ],
                     }
                 ],
@@ -3280,23 +3280,23 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Common Questions",
                         "points": [
-                            "• How do you mentor junior developers?",
-                            "• Describe your code review process",
-                            "• How do you make architectural decisions?",
-                            "• Tell me about a time you had to refactor a large "
+                            "How do you mentor junior developers?",
+                            "Describe your code review process",
+                            "How do you make architectural decisions?",
+                            "Tell me about a time you had to refactor a large "
                             "codebase",
-                            "• How do you handle technical debt?",
-                            "• Describe a complex technical problem you " "solved",
+                            "How do you handle technical debt?",
+                            "Describe a complex technical problem you " "solved",
                         ],
                     },
                     {
                         "heading": "Key Points to Cover",
                         "points": [
-                            "• Collaboration with product and design teams",
-                            "• Setting coding standards",
-                            "• Knowledge sharing (tech talks, documentation)",
-                            "• Balancing speed and quality",
-                            "• Technology evaluation and adoption",
+                            "Collaboration with product and design teams",
+                            "Setting coding standards",
+                            "Knowledge sharing (tech talks, documentation)",
+                            "Balancing speed and quality",
+                            "Technology evaluation and adoption",
                         ],
                     },
                 ],
@@ -3311,11 +3311,11 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• How do you estimate tasks? • Tell me about a "
-                            "project that went off track • How do you "
-                            "prioritize features? • Describe your sprint "
-                            "planning process • How do you handle changing "
-                            "requirements? • Working with distributed teams"
+                            "How do you estimate tasks? Tell me about a "
+                            "project that went off track How do you "
+                            "prioritize features? Describe your sprint "
+                            "planning process How do you handle changing "
+                            "requirements? Working with distributed teams"
                         ],
                     }
                 ],
@@ -3330,10 +3330,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Describe your debugging process • How do you "
-                            "approach performance issues? • Tell me about a "
-                            "production incident you handled • How do you stay "
-                            "updated with Android development? • Describe a "
+                            "Describe your debugging process How do you "
+                            "approach performance issues? Tell me about a "
+                            "production incident you handled How do you stay "
+                            "updated with Android development? Describe a "
                             "time you disagreed with a team decision"
                         ],
                     }
@@ -3366,11 +3366,11 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Why do you want to work for our company? • What "
-                            "excites you about Android development? • Where do "
-                            "you see yourself in 5 years? • What are your "
-                            "strengths and weaknesses? • How do you handle "
-                            "criticism? • What motivates you?"
+                            "Why do you want to work for our company? What "
+                            "excites you about Android development? Where do "
+                            "you see yourself in 5 years? What are your "
+                            "strengths and weaknesses? How do you handle "
+                            "criticism? What motivates you?"
                         ],
                     }
                 ],
@@ -3393,11 +3393,11 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Research the company's Android apps • Review "
-                            "their tech stack (job description, tech blogs) • "
-                            "Practice coding on whiteboard or online editors • "
-                            "Prepare questions to ask the interviewer • Review "
-                            "your own projects and be ready to discuss • Update "
+                            "Research the company's Android apps Review "
+                            "their tech stack (job description, tech blogs) "
+                            "Practice coding on whiteboard or online editors "
+                            "Prepare questions to ask the interviewer Review "
+                            "your own projects and be ready to discuss Update "
                             "your portfolio/GitHub with recent work"
                         ],
                     }
@@ -3413,11 +3413,11 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Think aloud - explain your reasoning • Ask "
-                            "clarifying questions before coding • Consider edge "
-                            "cases and error handling • Discuss trade-offs in "
-                            "your solutions • Be honest about what you don't "
-                            "know • Show enthusiasm for learning"
+                            "Think aloud - explain your reasoning Ask "
+                            "clarifying questions before coding Consider edge "
+                            "cases and error handling Discuss trade-offs in "
+                            "your solutions Be honest about what you don't "
+                            "know Show enthusiasm for learning"
                         ],
                     }
                 ],
@@ -3432,12 +3432,12 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Implement a custom View • Create a simple cache "
-                            "with LRU eviction • Design a ViewModel for a "
-                            "specific screen • Implement pagination for a list "
-                            "• Handle configuration changes properly • "
+                            "Implement a custom View Create a simple cache "
+                            "with LRU eviction Design a ViewModel for a "
+                            "specific screen Implement pagination for a list "
+                            "Handle configuration changes properly "
                             "Implement a simple dependency injection container "
-                            "• Debug a memory leak scenario"
+                            "Debug a memory leak scenario"
                         ],
                     }
                 ],
@@ -3452,12 +3452,12 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• What does your typical sprint look like? • How "
-                            "do you handle technical debt? • What's your code "
-                            "review process? • How do you support career "
-                            "growth? • What are the biggest technical "
-                            "challenges? • How is the Android team structured? "
-                            "• What metrics do you track for app quality?"
+                            "What does your typical sprint look like? How "
+                            "do you handle technical debt? What's your code "
+                            "review process? How do you support career "
+                            "growth? What are the biggest technical "
+                            "challenges? How is the Android team structured? "
+                            "What metrics do you track for app quality?"
                         ],
                     }
                 ],
@@ -3510,10 +3510,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• developer.android.com - Official Android "
-                            "documentation • kotlinlang.org - Kotlin official "
-                            "site • developer.android.com/jetpack/compose - "
-                            "Compose docs • Android Developers YouTube "
+                            "developer.android.com - Official Android "
+                            "documentation kotlinlang.org - Kotlin official "
+                            "site developer.android.com/jetpack/compose - "
+                            "Compose docs Android Developers YouTube "
                             "channel"
                         ],
                     }
@@ -3529,9 +3529,9 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Android Developers Codelabs • Udacity Android "
-                            "courses • Coursera Android specializations • Ray "
-                            "Wenderlich tutorials • Medium articles and "
+                            "Android Developers Codelabs Udacity Android "
+                            "courses Coursera Android specializations Ray "
+                            "Wenderlich tutorials Medium articles and "
                             "publications"
                         ],
                     }
@@ -3547,8 +3547,8 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Stack Overflow • Reddit: r/androiddev • Android "
-                            "Dev Discord servers • LinkedIn Android groups • "
+                            "Stack Overflow Reddit: r/androiddev Android "
+                            "Dev Discord servers LinkedIn Android groups "
                             "Local Android meetups and conferences"
                         ],
                     }
@@ -3564,10 +3564,10 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            '• "Android Programming: The Big Nerd Ranch Guide" '
-                            '• "Kotlin Coroutines by Tutorials" • "Effective '
-                            'Java" by Joshua Bloch • "Clean Code" by Robert C. '
-                            'Martin • "Design Patterns" - Gang of Four'
+                            '"Android Programming: The Big Nerd Ranch Guide" '
+                            '"Kotlin Coroutines by Tutorials" "Effective '
+                            'Java" by Joshua Bloch "Clean Code" by Robert C. '
+                            'Martin "Design Patterns" - Gang of Four'
                         ],
                     }
                 ],
@@ -3582,9 +3582,9 @@ WorkContinuation.combine(listOf(chain1, chain2))
                     {
                         "heading": "Highlights",
                         "points": [
-                            "• Android Studio (IDE) • Postman (API testing) • "
-                            "Charles Proxy (network debugging) • Stetho (debug "
-                            "bridge) • LeakCanary (memory leak detection) • "
+                            "Android Studio (IDE) Postman (API testing) "
+                            "Charles Proxy (network debugging) Stetho (debug "
+                            "bridge) LeakCanary (memory leak detection) "
                             "Flipper (debugging platform)"
                         ],
                     }

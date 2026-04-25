@@ -497,37 +497,37 @@ Explains coroutine fundamentals and advanced interview-level concepts together, 
 
 #### Dispatchers
 
-- • Dispatchers.Main: UI operations
-- • Dispatchers.IO: Network, disk, database operations
-- • Dispatchers.Default: CPU-intensive work
-- • Dispatchers.Unconfined: Not recommended for general use
+- Dispatchers.Main: UI operations
+- Dispatchers.IO: Network, disk, database operations
+- Dispatchers.Default: CPU-intensive work
+- Dispatchers.Unconfined: Not recommended for general use
 
 #### Coroutine Scopes
 
-- • GlobalScope: app-wide (use sparingly)
-- • viewModelScope: tied to ViewModel lifecycle
-- • lifecycleScope: tied to Activity/Fragment lifecycle
-- • Custom CoroutineScope for specific components
+- GlobalScope: app-wide (use sparingly)
+- viewModelScope: tied to ViewModel lifecycle
+- lifecycleScope: tied to Activity/Fragment lifecycle
+- Custom CoroutineScope for specific components
 
 #### Coroutine Builders
 
-- • launch: fire-and-forget
-- • async: returns Deferred<T>, use with await()
-- • runBlocking: blocks thread (tests only)
-- • withContext: switch dispatcher
+- launch: fire-and-forget
+- async: returns Deferred<T>, use with await()
+- runBlocking: blocks thread (tests only)
+- withContext: switch dispatcher
 
 #### Exception Handling
 
-- • try-catch in suspend functions
-- • CoroutineExceptionHandler for uncaught exceptions
-- • supervisorScope: child failure doesn't cancel siblings
+- try-catch in suspend functions
+- CoroutineExceptionHandler for uncaught exceptions
+- supervisorScope: child failure doesn't cancel siblings
 
 #### Cancellation
 
-- • Cooperative cancellation
-- • Check isActive before long operations
-- • ensureActive() throws if cancelled
-- • NonCancellable context for critical cleanup
+- Cooperative cancellation
+- Check isActive before long operations
+- ensureActive() throws if cancelled
+- NonCancellable context for critical cleanup
 
 #### Example: Proper Coroutine Scope Usage
 
@@ -581,24 +581,24 @@ Combines practical Flow usage with interview-level reactive concepts, covering o
 
 #### Flow Builders
 
-- • flow { ... }: basic flow builder
-- • flowOf(...): fixed set of values
-- • asFlow(): convert collections
-- • channelFlow: concurrent emissions
+- flow { ... }: basic flow builder
+- flowOf(...): fixed set of values
+- asFlow(): convert collections
+- channelFlow: concurrent emissions
 
 #### Operators
 
-- • Transformation: map, filter, transform
-- • Flattening: flatMapConcat, flatMapMerge, flatMapLatest
-- • Combination: combine, zip, merge
-- • Terminal: collect, toList, first, reduce
+- Transformation: map, filter, transform
+- Flattening: flatMapConcat, flatMapMerge, flatMapLatest
+- Combination: combine, zip, merge
+- Terminal: collect, toList, first, reduce
 
 #### StateFlow vs SharedFlow
 
-- • StateFlow: always has value, replays latest to new collectors
-- • SharedFlow: configurable replay, can have no initial value
-- • Use StateFlow for UI state
-- • Use SharedFlow for events
+- StateFlow: always has value, replays latest to new collectors
+- SharedFlow: configurable replay, can have no initial value
+- Use StateFlow for UI state
+- Use SharedFlow for events
 
 #### Example: StateFlow for UI State
 
@@ -636,45 +636,45 @@ Reviews the Kotlin fundamentals senior Android engineers are expected to use flu
 
 #### Null Safety
 
-- • Nullable types: String? vs String
-- • Safe call operator: obj?.method()
-- • Elvis operator: val name = user?.name ?: "Unknown"
-- • !! operator: forces non-null (use sparingly)
-- • let, run, with, apply, also scope functions
+- Nullable types: String? vs String
+- Safe call operator: obj?.method()
+- Elvis operator: val name = user?.name ?: "Unknown"
+- !! operator: forces non-null (use sparingly)
+- let, run, with, apply, also scope functions
 
 #### Coroutines
 
-- • Lightweight threads for asynchronous programming
-- • suspend functions: can be paused and resumed
-- • Dispatchers: Main, IO, Default, Unconfined
-- • CoroutineScope, viewModelScope, lifecycleScope
-- • Structured concurrency prevents memory leaks
-- • Example:
+- Lightweight threads for asynchronous programming
+- suspend functions: can be paused and resumed
+- Dispatchers: Main, IO, Default, Unconfined
+- CoroutineScope, viewModelScope, lifecycleScope
+- Structured concurrency prevents memory leaks
+- Example:
 
 #### Flow
 
-- • Asynchronous data stream
-- • Cold stream: emits only when collected
-- • StateFlow: hot stream with state
-- • SharedFlow: hot stream for events
-- • Operators: map, filter, combine, flatMapLatest, etc.
-- • Preferred over LiveData in ViewModels
+- Asynchronous data stream
+- Cold stream: emits only when collected
+- StateFlow: hot stream with state
+- SharedFlow: hot stream for events
+- Operators: map, filter, combine, flatMapLatest, etc.
+- Preferred over LiveData in ViewModels
 
 #### Extension Functions
 
-- • Add functions to existing classes without inheritance
-- • fun String.toTitleCase() = this.split(" ").joinToString...
+- Add functions to existing classes without inheritance
+- fun String.toTitleCase() = this.split(" ").joinToString...
 
 #### Data Classes
 
-- • Auto-generates equals(), hashCode(), toString(), copy()
-- • data class User(val id: Int, val name: String)
-- • Ideal for models and DTOs
+- Auto-generates equals(), hashCode(), toString(), copy()
+- data class User(val id: Int, val name: String)
+- Ideal for models and DTOs
 
 #### Sealed Classes
 
-- • Restricted class hierarchies
-- • Perfect for representing state:
+- Restricted class hierarchies
+- Perfect for representing state:
 
 #### Coroutines Example
 
@@ -703,22 +703,22 @@ Covers the Java foundations that still matter when working in mixed codebases, u
 
 #### Garbage Collection
 
-- • Automatic memory management
-- • Generational GC: Young, Old, Permanent generations
-- • Avoid memory leaks: static references, listeners, handlers
+- Automatic memory management
+- Generational GC: Young, Old, Permanent generations
+- Avoid memory leaks: static references, listeners, handlers
 
 #### Concurrency (pre-Kotlin)
 
-- • Thread, Runnable, Executor framework
-- • AsyncTask (deprecated - use Coroutines)
-- • Handler & Looper for thread communication
-- • synchronized keyword and locks
+- Thread, Runnable, Executor framework
+- AsyncTask (deprecated - use Coroutines)
+- Handler & Looper for thread communication
+- synchronized keyword and locks
 
 #### Collections
 
-- • List, Set, Map interfaces
-- • ArrayList, LinkedList, HashMap, TreeMap, HashSet
-- • Thread-safe: Vector, ConcurrentHashMap
+- List, Set, Map interfaces
+- ArrayList, LinkedList, HashMap, TreeMap, HashSet
+- Thread-safe: Vector, ConcurrentHashMap
 
 ## 4. UI Toolkit: Views & Jetpack Compose
 
@@ -868,27 +868,27 @@ Reviews the classic Android view toolkit that still appears in production apps a
 
 #### Layout Types
 
-- • ConstraintLayout: Flat hierarchy, best performance
-- • LinearLayout: Vertical/horizontal arrangement
-- • FrameLayout: Stack views on top of each other
-- • RelativeLayout: Position relative to parent/siblings
-- • CoordinatorLayout: Complex scrolling behaviors
+- ConstraintLayout: Flat hierarchy, best performance
+- LinearLayout: Vertical/horizontal arrangement
+- FrameLayout: Stack views on top of each other
+- RelativeLayout: Position relative to parent/siblings
+- CoordinatorLayout: Complex scrolling behaviors
 
 #### RecyclerView
 
-- • Efficient scrolling lists
-- • ViewHolder pattern for view recycling
-- • DiffUtil for efficient updates
-- • ListAdapter simplifies DiffUtil usage
-- • Multiple view types support
-- • ItemDecoration for spacing and dividers
+- Efficient scrolling lists
+- ViewHolder pattern for view recycling
+- DiffUtil for efficient updates
+- ListAdapter simplifies DiffUtil usage
+- Multiple view types support
+- ItemDecoration for spacing and dividers
 
 #### Custom Views
 
-- • Extend View or ViewGroup
-- • Override onMeasure(), onLayout(), onDraw()
-- • Custom attributes via attrs.xml
-- • Canvas drawing with Paint
+- Extend View or ViewGroup
+- Override onMeasure(), onLayout(), onDraw()
+- Custom attributes via attrs.xml
+- Canvas drawing with Paint
 
 ### 4.5 Jetpack Compose (Modern UI)
 
@@ -896,46 +896,46 @@ Covers the Compose mental model, state handling, layouts, and side effects that 
 
 #### Core Principles
 
-- • Declarative UI: describe what UI should look like
-- • Composable functions: @Composable annotation
-- • Recomposition: UI updates when state changes
-- • State hoisting: move state to caller for reusability
+- Declarative UI: describe what UI should look like
+- Composable functions: @Composable annotation
+- Recomposition: UI updates when state changes
+- State hoisting: move state to caller for reusability
 
 #### State Management
 
-- • remember: preserves state across recompositions
-- • rememberSaveable: survives configuration changes
-- • mutableStateOf: observable state
-- • collectAsState(): observe Flow/StateFlow
-- • derivedStateOf: computed state
+- remember: preserves state across recompositions
+- rememberSaveable: survives configuration changes
+- mutableStateOf: observable state
+- collectAsState(): observe Flow/StateFlow
+- derivedStateOf: computed state
 
 #### Layouts
 
-- • Column, Row, Box (fundamental layouts)
-- • LazyColumn, LazyRow (RecyclerView equivalent)
-- • Scaffold: top bar, bottom bar, fab, drawer
-- • Surface: container with elevation
+- Column, Row, Box (fundamental layouts)
+- LazyColumn, LazyRow (RecyclerView equivalent)
+- Scaffold: top bar, bottom bar, fab, drawer
+- Surface: container with elevation
 
 #### Navigation in Compose
 
-- • NavHost and NavController
-- • Type-safe navigation with routes
-- • Passing arguments between screens
-- • BottomNavigation and NavigationRail
+- NavHost and NavController
+- Type-safe navigation with routes
+- Passing arguments between screens
+- BottomNavigation and NavigationRail
 
 #### Theming & Material Design
 
-- • MaterialTheme: colors, typography, shapes
-- • Dynamic theming (Material You)
-- • Dark mode support
-- • Custom theme creation
+- MaterialTheme: colors, typography, shapes
+- Dynamic theming (Material You)
+- Dark mode support
+- Custom theme creation
 
 #### Side Effects
 
-- • LaunchedEffect: coroutine tied to composable lifecycle
-- • DisposableEffect: cleanup when composable leaves composition
-- • SideEffect: sync Compose state to non-Compose code
-- • rememberCoroutineScope: manual coroutine launching
+- LaunchedEffect: coroutine tied to composable lifecycle
+- DisposableEffect: cleanup when composable leaves composition
+- SideEffect: sync Compose state to non-Compose code
+- rememberCoroutineScope: manual coroutine launching
 
 ## 5. State & Navigation
 
@@ -1108,27 +1108,27 @@ Covers the Android-focused dependency injection stack with Hilt and Dagger conce
 
 #### Hilt (Recommended for Android)
 
-- • Built on top of Dagger
-- • Reduces Dagger boilerplate for Android
-- • Standard components and scopes
-- • @HiltAndroidApp: Application class
-- • @AndroidEntryPoint: Activities, Fragments, Views, Services
-- • @Inject: constructor injection
-- • @Module: provides dependencies
-- • @InstallIn: defines component lifecycle
+- Built on top of Dagger
+- Reduces Dagger boilerplate for Android
+- Standard components and scopes
+- @HiltAndroidApp: Application class
+- @AndroidEntryPoint: Activities, Fragments, Views, Services
+- @Inject: constructor injection
+- @Module: provides dependencies
+- @InstallIn: defines component lifecycle
 
 #### Scopes in Hilt
 
-- • @Singleton: app lifecycle
-- • @ActivityScoped: activity lifecycle
-- • @ViewModelScoped: ViewModel lifecycle
-- • @FragmentScoped: fragment lifecycle
+- @Singleton: app lifecycle
+- @ActivityScoped: activity lifecycle
+- @ViewModelScoped: ViewModel lifecycle
+- @FragmentScoped: fragment lifecycle
 
 #### Qualifiers
 
-- • Multiple implementations of same interface
-- • @Named("qualifier")
-- • Custom qualifiers with @Qualifier annotation
+- Multiple implementations of same interface
+- @Named("qualifier")
+- Custom qualifiers with @Qualifier annotation
 
 #### Example: Hilt Modules & Scopes
 
@@ -1190,7 +1190,7 @@ Introduces Koin as a simpler runtime DI alternative and frames when that tradeof
 
 #### Highlights
 
-- • Lightweight, Kotlin-first DI framework • No code generation, pure Kotlin DSL • Easy to learn and set up • module { ... }: define dependencies • single { ... }: singleton • factory { ... }: new instance each time • by viewModel(): inject ViewModel • Good for small to medium projects
+- Lightweight, Kotlin-first DI framework No code generation, pure Kotlin DSL Easy to learn and set up module { ... }: define dependencies single { ... }: singleton factory { ... }: new instance each time by viewModel(): inject ViewModel Good for small to medium projects
 
 ### 6.4 Manual Dependency Injection
 
@@ -1198,7 +1198,7 @@ Shows how explicit wiring can still be useful for small modules, tests, and unde
 
 #### Highlights
 
-- • Service locator pattern • Constructor injection manually • Simple for small projects • No external dependencies • Full control over object creation
+- Service locator pattern Constructor injection manually Simple for small projects No external dependencies Full control over object creation
 
 ## 7. Data Management & Persistence
 
@@ -1217,29 +1217,29 @@ Explains Room as the standard structured persistence layer for Android apps, inc
 
 #### Components
 
-- • Entity: Table definition with @Entity
-- • DAO (Data Access Object): Database operations with @Dao
-- • Database: Abstract class with @Database
+- Entity: Table definition with @Entity
+- DAO (Data Access Object): Database operations with @Dao
+- Database: Abstract class with @Database
 
 #### Relationships
 
-- • One-to-One: @Embedded or @Relation
-- • One-to-Many: @Relation with parentColumn and entityColumn
-- • Many-to-Many: Junction table with @Entity
+- One-to-One: @Embedded or @Relation
+- One-to-Many: @Relation with parentColumn and entityColumn
+- Many-to-Many: Junction table with @Entity
 
 #### Migrations
 
-- • Database schema changes
-- • Migration class with migrate() method
-- • fallbackToDestructiveMigration() for development
-- • Test migrations thoroughly
+- Database schema changes
+- Migration class with migrate() method
+- fallbackToDestructiveMigration() for development
+- Test migrations thoroughly
 
 #### Advanced Features
 
-- • Full-text search with @Fts4
-- • Database views with @DatabaseView
-- • Type converters for custom types
-- • Pre-populated databases
+- Full-text search with @Fts4
+- Database views with @DatabaseView
+- Type converters for custom types
+- Pre-populated databases
 
 #### Example: Complete Room Setup
 
@@ -1363,7 +1363,7 @@ Covers simple key-value persistence, typical limitations, and when legacy prefer
 
 #### Highlights
 
-- • Key-value storage for simple data • Stores primitives: Boolean, Int, Long, Float, String • DataStore preferred (modern alternative): - Preferences DataStore (key-value) - Proto DataStore (typed objects) - Asynchronous with Flow - Type-safe and transactional
+- Key-value storage for simple data Stores primitives: Boolean, Int, Long, Float, String DataStore preferred (modern alternative): - Preferences DataStore (key-value) - Proto DataStore (typed objects) - Asynchronous with Flow - Type-safe and transactional
 
 ### 7.4 File Storage
 
@@ -1371,16 +1371,16 @@ Reviews file-based persistence options and the tradeoffs around private storage,
 
 #### Internal Storage
 
-- • Private to app, deleted on uninstall
-- • context.filesDir for files
-- • context.cacheDir for temporary files
+- Private to app, deleted on uninstall
+- context.filesDir for files
+- context.cacheDir for temporary files
 
 #### External Storage
 
-- • Scoped Storage (Android 10+)
-- • MediaStore API for media files
-- • Storage Access Framework (SAF) for documents
-- • App-specific directory (no permissions needed)
+- Scoped Storage (Android 10+)
+- MediaStore API for media files
+- Storage Access Framework (SAF) for documents
+- App-specific directory (no permissions needed)
 
 ### 7.5 Repository Pattern
 
@@ -1388,7 +1388,7 @@ Explains how repositories coordinate local and remote data sources while present
 
 #### Highlights
 
-- • Single source of truth for data • Abstracts data sources (network, database, cache) • Handles data caching and sync logic • ViewModel depends on Repository, not data sources directly
+- Single source of truth for data Abstracts data sources (network, database, cache) Handles data caching and sync logic ViewModel depends on Repository, not data sources directly
 
 ## 8. Networking & APIs
 
@@ -1400,23 +1400,23 @@ Combines the core Android HTTP client stack with Retrofit interface design, coro
 
 #### Setup
 
-- • Define API interface with annotations
-- • @GET, @POST, @PUT, @DELETE, @PATCH
-- • @Path, @Query, @Body, @Header
-- • Converter factories: Gson, Moshi, Kotlinx Serialization
+- Define API interface with annotations
+- @GET, @POST, @PUT, @DELETE, @PATCH
+- @Path, @Query, @Body, @Header
+- Converter factories: Gson, Moshi, Kotlinx Serialization
 
 #### Coroutines Integration
 
-- • suspend functions for API calls
-- • Response<T> for access to headers and status codes
-- • Exception handling with try-catch
+- suspend functions for API calls
+- Response<T> for access to headers and status codes
+- Exception handling with try-catch
 
 #### Interceptors (OkHttp)
 
-- • Logging: HttpLoggingInterceptor
-- • Authentication: Add tokens to requests
-- • Retry logic
-- • Caching strategies
+- Logging: HttpLoggingInterceptor
+- Authentication: Add tokens to requests
+- Retry logic
+- Caching strategies
 
 #### Example: Complete Network Setup
 
@@ -1494,7 +1494,7 @@ Covers Apollo-based GraphQL integration on Android, including schema-driven requ
 
 #### Highlights
 
-- • Query specific fields needed • Single endpoint vs multiple REST endpoints • Type-safe code generation • Real-time data with subscriptions • Normalized caching
+- Query specific fields needed Single endpoint vs multiple REST endpoints Type-safe code generation Real-time data with subscriptions Normalized caching
 
 #### Example: Apollo Client Setup
 
@@ -1547,7 +1547,7 @@ Explains persistent two-way communication for real-time features such as chat, l
 
 #### Highlights
 
-- • Full-duplex communication • OkHttp WebSocket support • Real-time chat, live updates, gaming • Connection management and reconnection logic
+- Full-duplex communication OkHttp WebSocket support Real-time chat, live updates, gaming Connection management and reconnection logic
 
 ### 8.5 API Response Handling
 
@@ -1558,11 +1558,11 @@ Focuses on mapping, validation, error handling, and resilience strategies when t
 
 #### Error Handling
 
-- • Network errors (no connectivity)
-- • HTTP errors (4xx, 5xx)
-- • Parsing errors
-- • Timeout errors
-- • Retry strategies with exponential backoff
+- Network errors (no connectivity)
+- HTTP errors (4xx, 5xx)
+- Parsing errors
+- Timeout errors
+- Retry strategies with exponential backoff
 
 #### Result/Resource Pattern Example
 
@@ -1741,7 +1741,7 @@ Covers race conditions, shared mutable state, and the synchronization patterns s
 
 #### Highlights
 
-- • @Volatile annotation for visibility • Atomic operations: AtomicInteger, AtomicBoolean • Mutex for mutual exclusion in coroutines • Thread-safe collections: ConcurrentHashMap • Immutable data structures preferred
+- @Volatile annotation for visibility Atomic operations: AtomicInteger, AtomicBoolean Mutex for mutual exclusion in coroutines Thread-safe collections: ConcurrentHashMap Immutable data structures preferred
 
 ## 10. Testing Strategy
 
@@ -1753,26 +1753,26 @@ Covers the fastest feedback layer for verifying business logic, mapping, and iso
 
 #### JUnit & Mockito
 
-- • JUnit 4 or JUnit 5 (Jupiter)
-- • @Test, @Before, @After annotations
-- • Assertions: assertEquals, assertTrue, assertNotNull
-- • Mockito for mocking dependencies
-- • mock(), when(), verify()
+- JUnit 4 or JUnit 5 (Jupiter)
+- @Test, @Before, @After annotations
+- Assertions: assertEquals, assertTrue, assertNotNull
+- Mockito for mocking dependencies
+- mock(), when(), verify()
 
 #### MockK (Kotlin)
 
-- • Kotlin-first mocking library
-- • mockk<T>(): create mock
-- • every { ... } returns ...: stub behavior
-- • verify { ... }: verify calls
-- • Supports suspend functions and coroutines
+- Kotlin-first mocking library
+- mockk<T>(): create mock
+- every { ... } returns ...: stub behavior
+- verify { ... }: verify calls
+- Supports suspend functions and coroutines
 
 #### Coroutine Testing
 
-- • kotlinx-coroutines-test library
-- • runTest: test coroutines
-- • TestDispatcher for controlling virtual time
-- • advanceTimeBy(), advanceUntilIdle()
+- kotlinx-coroutines-test library
+- runTest: test coroutines
+- TestDispatcher for controlling virtual time
+- advanceTimeBy(), advanceUntilIdle()
 
 #### Example: Testing ViewModels with MockK
 
@@ -1826,7 +1826,7 @@ Focuses on testing declarative Compose UIs with semantics, recomposition-aware a
 
 #### Highlights
 
-- • createComposeRule(): test setup • onNodeWithText(), onNodeWithTag() • performClick(), performTextInput() • assertIsDisplayed(), assertTextEquals() • Semantics for accessibility and testing
+- createComposeRule(): test setup onNodeWithText(), onNodeWithTag() performClick(), performTextInput() assertIsDisplayed(), assertTextEquals() Semantics for accessibility and testing
 
 #### Example: Compose UI Tests
 
@@ -1893,23 +1893,23 @@ Reviews on-device or emulator-based testing and the tradeoffs between realism, c
 
 #### Espresso (UI Testing)
 
-- • onView(): find view
-- • perform(): perform action (click, typeText, swipe)
-- • check(): verify view state
-- • IdlingResource for async operations
-- • RecyclerView actions and assertions
+- onView(): find view
+- perform(): perform action (click, typeText, swipe)
+- check(): verify view state
+- IdlingResource for async operations
+- RecyclerView actions and assertions
 
 #### UI Automator
 
-- • Cross-app interactions
-- • System UI testing
-- • UiDevice, UiObject, UiSelector
+- Cross-app interactions
+- System UI testing
+- UiDevice, UiObject, UiSelector
 
 #### Room Testing
 
-- • In-memory database for tests
-- • Room.inMemoryDatabaseBuilder()
-- • Test migrations
+- In-memory database for tests
+- Room.inMemoryDatabaseBuilder()
+- Test migrations
 
 ### 10.5 Test Architecture
 
@@ -1917,7 +1917,7 @@ Explains how to structure tests, fakes, fixtures, and environment boundaries so 
 
 #### Highlights
 
-- • Test Pyramid: More unit tests, fewer UI tests • Given-When-Then pattern • Test doubles: Mock, Stub, Fake, Spy • Repository pattern enables easy testing • Dependency injection makes mocking easier • Code coverage tools: JaCoCo
+- Test Pyramid: More unit tests, fewer UI tests Given-When-Then pattern Test doubles: Mock, Stub, Fake, Spy Repository pattern enables easy testing Dependency injection makes mocking easier Code coverage tools: JaCoCo
 
 ## 11. Performance & Observability
 
@@ -1929,7 +1929,7 @@ Covers startup performance from measurement to optimization, including critical-
 
 #### Highlights
 
-- • App Startup library for initialization • Lazy initialization with by lazy • ContentProvider initialization overhead • Baseline Profiles for faster startup • Strict Mode for detecting main thread violations
+- App Startup library for initialization Lazy initialization with by lazy ContentProvider initialization overhead Baseline Profiles for faster startup Strict Mode for detecting main thread violations
 
 #### Example: App Startup Library
 
@@ -1972,7 +1972,7 @@ Brings together crash reporting, analytics, logging, and performance monitoring 
 
 #### Highlights
 
-- • Firebase Crashlytics • Firebase Analytics • Custom event tracking • Performance monitoring • Network request logging • User session recording (where privacy permits)
+- Firebase Crashlytics Firebase Analytics Custom event tracking Performance monitoring Network request logging User session recording (where privacy permits)
 
 ### 11.3 Modern Android Summary
 
@@ -1995,21 +1995,21 @@ Covers heap behavior, leak detection, and object-lifecycle awareness needed to k
 
 #### Memory Leaks
 
-- • Common causes:
+- Common causes:
 - Static references to Activities/Fragments
 - Non-static inner classes holding Activity reference
 - Unregistered listeners and callbacks
 - Handler with Activity reference
-- • Detection: LeakCanary library
-- • Prevention: WeakReference, proper lifecycle handling
+- Detection: LeakCanary library
+- Prevention: WeakReference, proper lifecycle handling
 
 #### Memory Optimization
 
-- • Bitmap management: inSampleSize, recycle()
-- • Image loading libraries: Glide, Coil
-- • Avoid object churn in loops
-- • Use SparseArray instead of HashMap for int keys
-- • onTrimMemory() callback for memory pressure
+- Bitmap management: inSampleSize, recycle()
+- Image loading libraries: Glide, Coil
+- Avoid object churn in loops
+- Use SparseArray instead of HashMap for int keys
+- onTrimMemory() callback for memory pressure
 
 ### 11.5 UI Performance
 
@@ -2017,27 +2017,27 @@ Reviews rendering performance concerns such as layout cost, recomposition, scrol
 
 #### Layout Performance
 
-- • Flatten view hierarchy with ConstraintLayout
-- • Avoid nested LinearLayouts with weights
-- • ViewStub for lazy inflation
-- • Merge tag to reduce hierarchy
-- • Include tag for reusable layouts
+- Flatten view hierarchy with ConstraintLayout
+- Avoid nested LinearLayouts with weights
+- ViewStub for lazy inflation
+- Merge tag to reduce hierarchy
+- Include tag for reusable layouts
 
 #### Rendering Performance
 
-- • 16ms per frame for 60fps (jank threshold)
-- • Systrace for performance profiling
-- • GPU overdraw: minimize overlapping draws
-- • Hardware acceleration
-- • RecyclerView optimization: setHasFixedSize(), setItemViewCacheSize()
+- 16ms per frame for 60fps (jank threshold)
+- Systrace for performance profiling
+- GPU overdraw: minimize overlapping draws
+- Hardware acceleration
+- RecyclerView optimization: setHasFixedSize(), setItemViewCacheSize()
 
 #### Compose Performance
 
-- • Minimize recomposition scope
-- • Use derivedStateOf for computed state
-- • key() for stable item identity in lists
-- • Avoid unstable parameters in Composables
-- • LazyColumn performance best practices
+- Minimize recomposition scope
+- Use derivedStateOf for computed state
+- key() for stable item identity in lists
+- Avoid unstable parameters in Composables
+- LazyColumn performance best practices
 
 ### 11.6 Battery Optimization
 
@@ -2045,7 +2045,7 @@ Explains how background behavior, networking, wakeups, and scheduling choices af
 
 #### Highlights
 
-- • Doze mode and App Standby • Battery Historian tool • WorkManager for battery-efficient background work • Reduce network calls, batch requests • Use JobScheduler constraints • Wake locks: use carefully, release properly
+- Doze mode and App Standby Battery Historian tool WorkManager for battery-efficient background work Reduce network calls, batch requests Use JobScheduler constraints Wake locks: use carefully, release properly
 
 ### 11.7 APK Size Optimization
 
@@ -2053,7 +2053,7 @@ Covers strategies for reducing binary size, modularizing delivery, and shipping 
 
 #### Highlights
 
-- • ProGuard/R8 for code shrinking • Resource shrinking: shrinkResources true • Vector drawables instead of PNGs • WebP format for images • Android App Bundle (AAB) for dynamic delivery • Remove unused libraries and resources
+- ProGuard/R8 for code shrinking Resource shrinking: shrinkResources true Vector drawables instead of PNGs WebP format for images Android App Bundle (AAB) for dynamic delivery Remove unused libraries and resources
 
 ## 12. Security, Privacy & App Integrity
 
@@ -2156,18 +2156,18 @@ Covers the broad data-protection mindset expected in Android apps, from storage 
 
 #### Encrypted Storage
 
-- • EncryptedSharedPreferences for sensitive key-value data
-- • SQLCipher for database encryption
-- • Android Keystore for cryptographic keys
-- • BiometricPrompt for user authentication
+- EncryptedSharedPreferences for sensitive key-value data
+- SQLCipher for database encryption
+- Android Keystore for cryptographic keys
+- BiometricPrompt for user authentication
 
 #### Network Security
 
-- • HTTPS only, no HTTP
-- • Certificate pinning for critical APIs
-- • Network Security Configuration (XML)
-- • Validate SSL certificates
-- • Don't trust user input
+- HTTPS only, no HTTP
+- Certificate pinning for critical APIs
+- Network Security Configuration (XML)
+- Validate SSL certificates
+- Don't trust user input
 
 ### 12.5 Code Security
 
@@ -2175,21 +2175,21 @@ Reviews hardening practices aimed at reducing reverse engineering, insecure defa
 
 #### ProGuard/R8
 
-- • Code obfuscation
-- • Makes reverse engineering harder
-- • Keep rules for reflection and serialization
+- Code obfuscation
+- Makes reverse engineering harder
+- Keep rules for reflection and serialization
 
 #### SafetyNet/Play Integrity API
 
-- • Device attestation
-- • Detect rooted devices
-- • Verify app integrity
+- Device attestation
+- Detect rooted devices
+- Verify app integrity
 
 #### Input Validation
 
-- • Sanitize all user inputs
-- • SQL injection prevention with Room
-- • Avoid eval() or dynamic code execution
+- Sanitize all user inputs
+- SQL injection prevention with Room
+- Avoid eval() or dynamic code execution
 
 ### 12.6 Authentication & Authorization
 
@@ -2197,7 +2197,7 @@ Explains identity verification and access-control concepts as they appear in mob
 
 #### Highlights
 
-- • OAuth 2.0 / OpenID Connect • JWT tokens with proper expiration • Refresh token strategy • Never store passwords in plain text • Biometric authentication where appropriate
+- OAuth 2.0 / OpenID Connect JWT tokens with proper expiration Refresh token strategy Never store passwords in plain text Biometric authentication where appropriate
 
 ### 12.7 Permissions
 
@@ -2205,7 +2205,7 @@ Covers the Android permission model, runtime request strategy, and how to minimi
 
 #### Highlights
 
-- • Request minimum permissions needed • Runtime permissions (Android 6.0+) • Handle permission denial gracefully • Location permissions: precise vs approximate • Background location: additional justification needed
+- Request minimum permissions needed Runtime permissions (Android 6.0+) Handle permission denial gracefully Location permissions: precise vs approximate Background location: additional justification needed
 
 ## 13. Modern Build Systems, Release & CI/CD
 
@@ -2279,28 +2279,28 @@ Combines Android build-system fundamentals with modern Gradle practices such as 
 
 #### Build Configuration
 
-- • build.gradle (project level)
-- • build.gradle (module level)
-- • gradle.properties for project-wide settings
-- • Build types: debug, release
-- • Product flavors for app variants
-- • Build variants: combination of type and flavor
+- build.gradle (project level)
+- build.gradle (module level)
+- gradle.properties for project-wide settings
+- Build types: debug, release
+- Product flavors for app variants
+- Build variants: combination of type and flavor
 
 #### Dependencies
 
-- • implementation: compile time only
-- • api: transitive dependencies
-- • testImplementation: unit tests
-- • androidTestImplementation: instrumentation tests
-- • Version catalogs for centralized dependency management
+- implementation: compile time only
+- api: transitive dependencies
+- testImplementation: unit tests
+- androidTestImplementation: instrumentation tests
+- Version catalogs for centralized dependency management
 
 #### Optimization
 
-- • Gradle daemon
-- • Parallel execution
-- • Configuration cache
-- • Build cache
-- • Incremental compilation
+- Gradle daemon
+- Parallel execution
+- Configuration cache
+- Build cache
+- Incremental compilation
 
 #### Example: Version Catalogs (libs.versions.toml)
 
@@ -2386,24 +2386,24 @@ Explains CI as the feedback loop that continuously validates changes through bui
 
 #### CI Platforms
 
-- • GitHub Actions
-- • GitLab CI
-- • Jenkins
-- • CircleCI
-- • Bitrise
+- GitHub Actions
+- GitLab CI
+- Jenkins
+- CircleCI
+- Bitrise
 
 #### Pipeline Stages
 
-- • Code checkout
-- • Build
-- • Unit tests
-- • Instrumentation tests (on emulator/device)
-- • Lint checks
-- • Static analysis (Detekt, ktlint)
-- • Code coverage reports
-- • APK/AAB generation
-- • Signing
-- • Upload to distribution (Firebase App Distribution, TestFlight)
+- Code checkout
+- Build
+- Unit tests
+- Instrumentation tests (on emulator/device)
+- Lint checks
+- Static analysis (Detekt, ktlint)
+- Code coverage reports
+- APK/AAB generation
+- Signing
+- Upload to distribution (Firebase App Distribution, TestFlight)
 
 ### 13.7 Continuous Deployment
 
@@ -2411,7 +2411,7 @@ Covers the release automation path from tested artifacts to controlled rollout a
 
 #### Highlights
 
-- • Fastlane for automation • Google Play Console API • Internal testing track • Closed testing (alpha/beta) • Open testing • Production release with staged rollout • Release management and versioning
+- Fastlane for automation Google Play Console API Internal testing track Closed testing (alpha/beta) Open testing Production release with staged rollout Release management and versioning
 
 ### 13.8 App Signing
 
@@ -2419,7 +2419,7 @@ Explains how Android signing works, why key management matters, and how signing 
 
 #### Highlights
 
-- • Debug keystore for development • Release keystore for production • Google Play App Signing • Keep upload key secure • Signing configurations in Gradle
+- Debug keystore for development Release keystore for production Google Play App Signing Keep upload key secure Signing configurations in Gradle
 
 ## 14. Advanced Modern Android Topics
 
@@ -2547,7 +2547,7 @@ Highlights broader modern Android trends and platform shifts that often come up 
 
 #### Highlights
 
-- • Kotlin Multiplatform Mobile (KMM) • Jetpack Compose for Desktop • Material Design 3 (Material You) • Baseline profiles for improved performance • Android 13+ features: predictive back gesture, notification permissions • Privacy Sandbox on Android
+- Kotlin Multiplatform Mobile (KMM) Jetpack Compose for Desktop Material Design 3 (Material You) Baseline profiles for improved performance Android 13+ features: predictive back gesture, notification permissions Privacy Sandbox on Android
 
 ### 14.6 Firebase Services
 
@@ -2555,7 +2555,7 @@ Summarizes the Firebase tools most often used to add messaging, analytics, remot
 
 #### Highlights
 
-- • Firebase Cloud Messaging (FCM) • Firebase Remote Config • Firebase Authentication • Cloud Firestore • Firebase Analytics • Firebase Crashlytics • Firebase Performance Monitoring • Firebase App Distribution
+- Firebase Cloud Messaging (FCM) Firebase Remote Config Firebase Authentication Cloud Firestore Firebase Analytics Firebase Crashlytics Firebase Performance Monitoring Firebase App Distribution
 
 ### 14.7 Android App Links & Deep Linking
 
@@ -2563,7 +2563,7 @@ Covers how Android apps participate in URL routing, verified links, and in-app n
 
 #### Highlights
 
-- • Intent filters for custom schemes • Android App Links (verified HTTPS links) • assetlinks.json for domain verification • Navigation deeplinks • Dynamic links (Firebase)
+- Intent filters for custom schemes Android App Links (verified HTTPS links) assetlinks.json for domain verification Navigation deeplinks Dynamic links (Firebase)
 
 ### 14.8 Accessibility
 
@@ -2571,7 +2571,7 @@ Reviews the accessibility expectations of well-built Android apps, from semantic
 
 #### Highlights
 
-- • Content descriptions for screen readers • Minimum touch target size (48dp) • Color contrast ratios • Focus order and keyboard navigation • Accessibility scanner tool • TalkBack testing
+- Content descriptions for screen readers Minimum touch target size (48dp) Color contrast ratios Focus order and keyboard navigation Accessibility scanner tool TalkBack testing
 
 ### 14.9 Localization & Internationalization
 
@@ -2579,7 +2579,7 @@ Explains how Android apps adapt content, layout, and formatting for multiple loc
 
 #### Highlights
 
-- • strings.xml for different locales • RTL (Right-to-Left) layout support • Date, time, and number formatting • Plurals and quantity strings • Locale-specific resources
+- strings.xml for different locales RTL (Right-to-Left) layout support Date, time, and number formatting Plurals and quantity strings Locale-specific resources
 
 ### 14.10 Google Play Store
 
@@ -2587,7 +2587,7 @@ Covers the release-surface concerns beyond code, including listing quality, poli
 
 #### Highlights
 
-- • App listing optimization (ASO) • Screenshot and video requirements • Privacy policy requirements • Data safety section • In-app purchases and subscriptions • Play Billing Library • Store listing experiments (A/B testing)
+- App listing optimization (ASO) Screenshot and video requirements Privacy policy requirements Data safety section In-app purchases and subscriptions Play Billing Library Store listing experiments (A/B testing)
 
 ## 15. System Design for Mobile
 
@@ -2599,7 +2599,7 @@ Introduces the system-design principles that matter most on mobile, especially a
 
 #### Highlights
 
-- • Offline-first architecture • Local database as single source of truth • Background sync strategies • Handling intermittent connectivity • Data consistency and conflict resolution • Battery and bandwidth optimization
+- Offline-first architecture Local database as single source of truth Background sync strategies Handling intermittent connectivity Data consistency and conflict resolution Battery and bandwidth optimization
 
 ### 15.2 Common Design Scenarios
 
@@ -2607,39 +2607,39 @@ Walks through common product patterns senior Android engineers are expected to r
 
 #### News Feed App
 
-- • Pagination with paging 3 library
-- • Pull-to-refresh
-- • Image caching strategy
-- • Push notifications for new content
-- • Room database for offline access
-- • Sync strategy: periodic WorkManager
+- Pagination with paging 3 library
+- Pull-to-refresh
+- Image caching strategy
+- Push notifications for new content
+- Room database for offline access
+- Sync strategy: periodic WorkManager
 
 #### Chat Application
 
-- • WebSocket for real-time messaging
-- • Message queue for offline messages
-- • Local database for message history
-- • Delivery and read receipts
-- • Push notifications with FCM
-- • Media upload/download with progress
+- WebSocket for real-time messaging
+- Message queue for offline messages
+- Local database for message history
+- Delivery and read receipts
+- Push notifications with FCM
+- Media upload/download with progress
 
 #### E-commerce App
 
-- • Product catalog with search and filters
-- • Shopping cart management
-- • Payment gateway integration
-- • Order tracking
-- • Wishlist sync across devices
-- • Product recommendations engine
+- Product catalog with search and filters
+- Shopping cart management
+- Payment gateway integration
+- Order tracking
+- Wishlist sync across devices
+- Product recommendations engine
 
 #### Ride-sharing App
 
-- • Real-time location tracking
-- • Map integration (Google Maps SDK)
-- • Driver-rider matching algorithm
-- • ETA calculation
-- • WebSocket for live updates
-- • Background location updates
+- Real-time location tracking
+- Map integration (Google Maps SDK)
+- Driver-rider matching algorithm
+- ETA calculation
+- WebSocket for live updates
+- Background location updates
 
 ### 15.3 Scalability Considerations
 
@@ -2647,7 +2647,7 @@ Highlights the scale-related concerns that influence mobile architecture over ti
 
 #### Highlights
 
-- • API versioning strategy • Backward compatibility • Feature flags for gradual rollout • A/B testing infrastructure • Analytics and crash reporting • CDN for static assets • Distributed caching
+- API versioning strategy Backward compatibility Feature flags for gradual rollout A/B testing infrastructure Analytics and crash reporting CDN for static assets Distributed caching
 
 ## 16. Leadership & Behavioral Questions
 
@@ -2659,20 +2659,20 @@ Frames the leadership conversations that assess mentoring, code quality influenc
 
 #### Common Questions
 
-- • How do you mentor junior developers?
-- • Describe your code review process
-- • How do you make architectural decisions?
-- • Tell me about a time you had to refactor a large codebase
-- • How do you handle technical debt?
-- • Describe a complex technical problem you solved
+- How do you mentor junior developers?
+- Describe your code review process
+- How do you make architectural decisions?
+- Tell me about a time you had to refactor a large codebase
+- How do you handle technical debt?
+- Describe a complex technical problem you solved
 
 #### Key Points to Cover
 
-- • Collaboration with product and design teams
-- • Setting coding standards
-- • Knowledge sharing (tech talks, documentation)
-- • Balancing speed and quality
-- • Technology evaluation and adoption
+- Collaboration with product and design teams
+- Setting coding standards
+- Knowledge sharing (tech talks, documentation)
+- Balancing speed and quality
+- Technology evaluation and adoption
 
 ### 16.2 Project Management
 
@@ -2680,7 +2680,7 @@ Covers delivery-oriented questions around estimation, prioritization, planning, 
 
 #### Highlights
 
-- • How do you estimate tasks? • Tell me about a project that went off track • How do you prioritize features? • Describe your sprint planning process • How do you handle changing requirements? • Working with distributed teams
+- How do you estimate tasks? Tell me about a project that went off track How do you prioritize features? Describe your sprint planning process How do you handle changing requirements? Working with distributed teams
 
 ### 16.3 Problem-Solving Approach
 
@@ -2688,7 +2688,7 @@ Focuses on how senior engineers investigate issues, make tradeoffs, and communic
 
 #### Highlights
 
-- • Describe your debugging process • How do you approach performance issues? • Tell me about a production incident you handled • How do you stay updated with Android development? • Describe a time you disagreed with a team decision
+- Describe your debugging process How do you approach performance issues? Tell me about a production incident you handled How do you stay updated with Android development? Describe a time you disagreed with a team decision
 
 ### 16.4 STAR Method for Behavioral Questions
 
@@ -2704,7 +2704,7 @@ Summarizes the reflective questions used to understand motivation, self-awarenes
 
 #### Highlights
 
-- • Why do you want to work for our company? • What excites you about Android development? • Where do you see yourself in 5 years? • What are your strengths and weaknesses? • How do you handle criticism? • What motivates you?
+- Why do you want to work for our company? What excites you about Android development? Where do you see yourself in 5 years? What are your strengths and weaknesses? How do you handle criticism? What motivates you?
 
 ## 17. Interview Preparation Strategy
 
@@ -2716,7 +2716,7 @@ Outlines the preparation work that most improves confidence and recall before a 
 
 #### Highlights
 
-- • Research the company's Android apps • Review their tech stack (job description, tech blogs) • Practice coding on whiteboard or online editors • Prepare questions to ask the interviewer • Review your own projects and be ready to discuss • Update your portfolio/GitHub with recent work
+- Research the company's Android apps Review their tech stack (job description, tech blogs) Practice coding on whiteboard or online editors Prepare questions to ask the interviewer Review your own projects and be ready to discuss Update your portfolio/GitHub with recent work
 
 ### 17.2 During the Interview
 
@@ -2724,7 +2724,7 @@ Covers the communication habits and problem-solving behaviors that make your tec
 
 #### Highlights
 
-- • Think aloud - explain your reasoning • Ask clarifying questions before coding • Consider edge cases and error handling • Discuss trade-offs in your solutions • Be honest about what you don't know • Show enthusiasm for learning
+- Think aloud - explain your reasoning Ask clarifying questions before coding Consider edge cases and error handling Discuss trade-offs in your solutions Be honest about what you don't know Show enthusiasm for learning
 
 ### 17.3 Common Coding Questions
 
@@ -2732,7 +2732,7 @@ Summarizes the implementation-style problems that commonly appear in senior Andr
 
 #### Highlights
 
-- • Implement a custom View • Create a simple cache with LRU eviction • Design a ViewModel for a specific screen • Implement pagination for a list • Handle configuration changes properly • Implement a simple dependency injection container • Debug a memory leak scenario
+- Implement a custom View Create a simple cache with LRU eviction Design a ViewModel for a specific screen Implement pagination for a list Handle configuration changes properly Implement a simple dependency injection container Debug a memory leak scenario
 
 ### 17.4 Questions to Ask Interviewer
 
@@ -2740,7 +2740,7 @@ Helps you finish interviews strongly by asking questions that reveal team maturi
 
 #### Highlights
 
-- • What does your typical sprint look like? • How do you handle technical debt? • What's your code review process? • How do you support career growth? • What are the biggest technical challenges? • How is the Android team structured? • What metrics do you track for app quality?
+- What does your typical sprint look like? How do you handle technical debt? What's your code review process? How do you support career growth? What are the biggest technical challenges? How is the Android team structured? What metrics do you track for app quality?
 
 ### 17.5 Overview
 
@@ -2760,7 +2760,7 @@ Points to the most authoritative product and language documentation for accurate
 
 #### Highlights
 
-- • developer.android.com - Official Android documentation • kotlinlang.org - Kotlin official site • developer.android.com/jetpack/compose - Compose docs • Android Developers YouTube channel
+- developer.android.com - Official Android documentation kotlinlang.org - Kotlin official site developer.android.com/jetpack/compose - Compose docs Android Developers YouTube channel
 
 ### 18.2 Learning Platforms
 
@@ -2768,7 +2768,7 @@ Highlights structured learning sources that are useful when you want guided refr
 
 #### Highlights
 
-- • Android Developers Codelabs • Udacity Android courses • Coursera Android specializations • Ray Wenderlich tutorials • Medium articles and publications
+- Android Developers Codelabs Udacity Android courses Coursera Android specializations Ray Wenderlich tutorials Medium articles and publications
 
 ### 18.3 Communities
 
@@ -2776,7 +2776,7 @@ Lists the communities where Android engineers share solutions, trends, release n
 
 #### Highlights
 
-- • Stack Overflow • Reddit: r/androiddev • Android Dev Discord servers • LinkedIn Android groups • Local Android meetups and conferences
+- Stack Overflow Reddit: r/androiddev Android Dev Discord servers LinkedIn Android groups Local Android meetups and conferences
 
 ### 18.4 Recommended Books
 
@@ -2784,7 +2784,7 @@ Collects high-value books that deepen Android fundamentals, software craftsmansh
 
 #### Highlights
 
-- • "Android Programming: The Big Nerd Ranch Guide" • "Kotlin Coroutines by Tutorials" • "Effective Java" by Joshua Bloch • "Clean Code" by Robert C. Martin • "Design Patterns" - Gang of Four
+- "Android Programming: The Big Nerd Ranch Guide" "Kotlin Coroutines by Tutorials" "Effective Java" by Joshua Bloch "Clean Code" by Robert C. Martin "Design Patterns" - Gang of Four
 
 ### 18.5 Tools & Libraries to Know
 
@@ -2792,4 +2792,4 @@ Summarizes the tools senior Android engineers should recognize for debugging, AP
 
 #### Highlights
 
-- • Android Studio (IDE) • Postman (API testing) • Charles Proxy (network debugging) • Stetho (debug bridge) • LeakCanary (memory leak detection) • Flipper (debugging platform)
+- Android Studio (IDE) Postman (API testing) Charles Proxy (network debugging) Stetho (debug bridge) LeakCanary (memory leak detection) Flipper (debugging platform)
