@@ -43,6 +43,7 @@
       max-width: 1100px;
       margin: 0 auto;
       padding: 32px 20px 56px;
+      overflow-x: clip;
     }
 
     .hero {
@@ -147,6 +148,7 @@
       color: var(--text);
       font-size: 0.92rem;
       outline: none;
+      max-width: 100%;
     }
 
     .theme-preview {
@@ -248,32 +250,136 @@
     }
 
     .toc-title {
-      margin: 0 0 14px;
-      font-size: 1rem;
+      margin: 0;
+      font-size: 1.1rem;
       color: var(--accent);
       letter-spacing: 0.02em;
     }
 
+    .toc-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .toc-subtitle {
+      margin: 6px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.94rem;
+    }
+
+    .toc-summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--panel-soft-bg);
+      color: var(--text);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
     .toc-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
     }
 
     .toc-link {
       display: block;
-      padding: 10px 12px;
-      border-radius: 12px;
+      padding: 16px;
+      border-radius: 18px;
       border: 1px solid var(--border);
       background: var(--panel-soft-bg);
-      color: var(--muted);
+      color: var(--text);
       text-decoration: none;
-      font-size: 0.95rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      min-width: 0;
     }
 
     .toc-link:hover {
-      color: var(--text);
+      transform: translateY(-2px);
       border-color: rgba(94, 234, 212, 0.45);
+      box-shadow: 0 16px 28px rgba(0, 0, 0, 0.16);
+    }
+
+    .toc-link::after {
+      content: "";
+      position: absolute;
+      inset: auto -20px -20px auto;
+      width: 100px;
+      height: 100px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 65%);
+      pointer-events: none;
+    }
+
+    .toc-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .toc-step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 38px;
+      height: 38px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #06211d;
+      font-weight: 800;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .toc-duration {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    .toc-card-title {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--text);
+    }
+
+    .toc-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .toc-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font-size: 0.82rem;
     }
 
     .section {
@@ -347,6 +453,7 @@
     .section-header h2 {
       margin: 0;
       color: var(--text);
+      min-width: 0;
     }
 
     .section-priority {
@@ -412,6 +519,7 @@
       margin-bottom: 12px;
       font-size: 1.15rem;
       flex-wrap: wrap;
+      min-width: 0;
     }
 
     .topic-content {
@@ -556,6 +664,7 @@
       font-family: "Cascadia Code", "Consolas", "SFMono-Regular", monospace;
       font-size: 0.9rem;
       line-height: 1.6;
+      -webkit-overflow-scrolling: touch;
     }
 
     .empty-state {
@@ -570,25 +679,269 @@
       color: var(--accent);
     }
 
+    @media (max-width: 900px) {
+      .page {
+        padding: 24px 16px 44px;
+      }
+
+      .toc-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section {
+        padding: 20px;
+      }
+
+      .section-header-actions {
+        margin-left: 0;
+      }
+
+      .topic-actions {
+        margin-left: 0;
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
     @media (max-width: 700px) {
       .controls-top {
         grid-template-columns: 1fr;
       }
 
+      .page {
+        padding: 18px 12px 34px;
+      }
+
       .hero {
-        padding: 22px;
+        padding: 20px 16px;
+        border-radius: 20px;
+      }
+
+      .controls,
+      .toc,
+      .section {
+        padding: 16px;
+        border-radius: 18px;
       }
 
       .hero h1 {
-        font-size: 1.95rem;
+        font-size: 1.7rem;
+      }
+
+      .hero p,
+      .section-summary,
+      .toc-subtitle,
+      .topic-description,
+      .subtopic-desc {
+        line-height: 1.55;
+      }
+
+      .theme-row {
+        align-items: stretch;
+      }
+
+      .theme-select {
+        width: 100%;
+      }
+
+      .theme-preview {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .filter-row,
+      .view-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .filter-chip,
+      .action-button {
+        width: 100%;
+        text-align: center;
+      }
+
+      .toc-header {
+        align-items: stretch;
+      }
+
+      .toc-summary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .toc-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .toc-link {
+        padding: 14px;
+      }
+
+      .toc-card-top {
+        align-items: center;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .section-number,
+      .arrow-toggle {
+        width: 34px;
+        min-width: 34px;
+        height: 34px;
+      }
+
+      .section-header h2 {
+        font-size: 1.1rem;
+      }
+
+      .section-priority {
+        font-size: 0.78rem;
       }
 
       .section-summary {
         margin-left: 0;
       }
 
-      .section-header {
+      .section-header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .topic {
+        margin-top: 14px;
+        padding-top: 14px;
+      }
+
+      .topic-title {
+        gap: 8px;
+        font-size: 1rem;
+      }
+
+      .topic-number {
+        min-width: 42px;
+        padding: 5px 8px;
+        font-size: 0.8rem;
+      }
+
+      .icon {
+        width: 12px;
+        height: 12px;
+        flex-basis: 12px;
+      }
+
+      .topic-actions {
+        gap: 8px;
+      }
+
+      .topic-check {
+        margin-left: 0;
+      }
+
+      .content-section,
+      .topic-content {
+        gap: 14px;
+      }
+
+      .subtopics {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .subtopic {
+        padding: 12px 13px;
+      }
+
+      .code-block-header {
+        flex-direction: row;
+        align-items: center;
+        padding: 10px 12px;
+      }
+
+      .code-block-meta {
+        min-width: 0;
+        font-size: 0.83rem;
+      }
+
+      .code-block pre {
+        padding: 12px;
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page {
+        padding: 14px 10px 28px;
+      }
+
+      .hero {
+        padding: 16px 14px;
+      }
+
+      .hero h1 {
+        font-size: 1.45rem;
+      }
+
+      .hero-meta,
+      .theme-row {
+        gap: 8px;
+      }
+
+      .hero-pill,
+      .toc-pill,
+      .toc-duration,
+      .section-priority,
+      .filter-chip,
+      .action-button {
+        font-size: 0.78rem;
+      }
+
+      .controls,
+      .toc,
+      .section {
+        padding: 14px;
+      }
+
+      .filter-row,
+      .view-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-label {
+        flex-direction: column;
         align-items: flex-start;
+        gap: 6px;
+      }
+
+      .toc-card-title {
+        font-size: 0.95rem;
+      }
+
+      .section-header h2 {
+        font-size: 1rem;
+      }
+
+      .topic-title {
+        font-size: 0.95rem;
+      }
+
+      .topic-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .code-block-header {
+        padding: 9px 10px;
+      }
+
+      .code-block pre {
+        padding: 10px;
+        font-size: 0.76rem;
       }
     }
   </style>
@@ -615,6 +968,7 @@
           <option value="midnight-gold">Midnight Gold</option>
           <option value="crimson-luxe">Crimson Luxe</option>
           <option value="ice-slate">Ice Slate</option>
+          <option value="monochrome-lilac">Monochrome Lilac</option>
         </select>
         <span class="theme-preview"><span class="theme-dot"></span>Switch on the fly</span>
       </div>
@@ -1108,28 +1462,6 @@
             "language": "kotlin",
             "title": "Example: Module Dependencies",
             "code": "// settings/build.gradle.kts\nplugins {\n    id(\"com.android.library\")\n    id(\"org.jetbrains.kotlin.android\")\n    id(\"com.google.dagger.hilt.android\")\n}\n\ndependencies {\n    implementation(project(\":core:ui\"))\n    implementation(project(\":core:domain\"))\n    implementation(project(\":core:network\"))\n\n    // Feature module only depends on core modules\n    // No direct dependency on other feature modules!\n}"
-          }
-        ]
-      },
-      {
-        "title": "Dependency Injection (DI) - Hilt vs Koin in 2026",
-        "description": "DI is the glue that connects your layers. The choice depends on your platform targets.",
-        "content_sections": [
-          {
-            "heading": "Hilt (The Android Standard)",
-            "points": [
-              "Built on top of Dagger. Provides compile-time safety.",
-              "Best for Android-only apps due to its deep integration with ViewModels and WorkManager.",
-              "Uses KSP (Kotlin Symbol Processing) in 2026 for 2x faster build times than old kapt."
-            ]
-          },
-          {
-            "heading": "Koin (The KMP Favorite)",
-            "points": [
-              "A lightweight, runtime DI (no code generation).",
-              "Highly preferred for Kotlin Multiplatform because it works natively on iOS and Web.",
-              "Very easy to set up with almost zero boilerplate."
-            ]
           }
         ]
       }
@@ -1693,6 +2025,50 @@
             "code": "// Define navigation routes with arguments\nsealed class Screen(val route: String) {\n    object Home : Screen(\"home\")\n    object Detail : Screen(\"detail/{userId}\") {\n        fun createRoute(userId: String) = \"detail/$userId\"\n    }\n    object Settings : Screen(\"settings\")\n}\n\n// NavHost setup\n@Composable\nAppNavHost(\n    navController: NavHostController\n) {\n    NavHost(\n        navController = navController,\n        startDestination = Screen.Home.route\n    ) {\n        composable(Screen.Home.route) {\n            HomeScreen(\n                onUserClick = { userId ->\n                    navController.navigate(Screen.Detail.createRoute(userId))\n                }\n            )\n        }\n\n        composable(\n            route = Screen.Detail.route,\n            arguments = listOf(\n                navArgument(\"userId\") { type = NavType.StringType }\n            )\n        ) { backStackEntry ->\n            val userId = backStackEntry.arguments?.getString(\"userId\")!!\n            DetailScreen(userId = userId)\n        }\n    }\n}\n\n// Deep linking\ncomposable(\n    route = Screen.Detail.route,\n    deepLinks = listOf(\n        deepLink { uriPattern(\"myapp://user/{userId}\" },\n        deepLink { action = Intent.ACTION_VIEW }\n    )\n) { ... }"
           }
         ]
+      },
+      {
+        "title": "Type-Safe Compose Navigation",
+        "description": "The evolution from string-based routes to serializable Kotlin objects ensures compile-time safety across your app.",
+        "content_sections": [
+          {
+            "heading": "Type-Safe Destinations",
+            "points": [
+              "Uses @Serializable data classes/objects to define routes instead of fragile strings.",
+              "Arguments are automatically serialized/deserialized via kotlinx.serialization.",
+              "Enables \"Safe Args\" functionality directly in Compose without Gradle plugins."
+            ]
+          },
+          {
+            "heading": "Navigation 3 (The State-First Future)",
+            "points": [
+              "Removes the NavController in favor of direct backstack ownership (a simple List<Key>).",
+              "Allows storing navigation state in ViewModels, making it easier to test and share logic.",
+              "Native support for \"Scenes\" to handle adaptive layouts (multi-pane) on large screens."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Cross-Platform & KMP Solutions",
+        "description": "Navigation logic is increasingly moved to shared code to support Android, iOS, and Desktop simultaneously.",
+        "content_sections": [
+          {
+            "heading": "Voyager",
+            "points": [
+              "A pragmatic, screen-centric library popular for its \"multi-stack\" support (e.g., BottomTabs).",
+              "Built-in support for transitions and lifecycle-aware state management.",
+              "Easier onboarding for teams moving from traditional Android navigation."
+            ]
+          },
+          {
+            "heading": "Decompose",
+            "points": [
+              "The \"Power User\" choice for Kotlin Multiplatform (KMP).",
+              "Decouples navigation logic from UI entirely using a component-tree architecture.",
+              "Handles complex lifecycles and process death natively across all platforms."
+            ]
+          }
+        ]
       }
     ],
     "description": "Focuses on app-level architecture decisions, state ownership, modular boundaries, and navigation structure rather than repeating lower-level platform fundamentals."
@@ -1701,6 +2077,28 @@
     "id": "dependency-injection",
     "title": "Dependency Injection",
     "topics": [
+      {
+        "title": "Dependency Injection (DI) - Hilt vs Koin in 2026",
+        "description": "DI is the glue that connects your layers. The choice depends on your platform targets.",
+        "content_sections": [
+          {
+            "heading": "Hilt (The Android Standard)",
+            "points": [
+              "Built on top of Dagger. Provides compile-time safety.",
+              "Best for Android-only apps due to its deep integration with ViewModels and WorkManager.",
+              "Uses KSP (Kotlin Symbol Processing) in 2026 for 2x faster build times than old kapt."
+            ]
+          },
+          {
+            "heading": "Koin (The KMP Favorite)",
+            "points": [
+              "A lightweight, runtime DI (no code generation).",
+              "Highly preferred for Kotlin Multiplatform because it works natively on iOS and Web.",
+              "Very easy to set up with almost zero boilerplate."
+            ]
+          }
+        ]
+      },
       {
         "title": "Hilt Deep Dive",
         "icon": "",
@@ -2073,10 +2471,33 @@
     "title": "Concurrency, Threading & Background Work",
     "topics": [
       {
-        "title": "WorkManager",
-        "icon": "",
-        "description": "Explains the recommended API for deferrable and reliable background execution under Android power-management constraints.",
+        "title": "WorkManager: Core Mechanisms & Reliability",
+        "description": "WorkManager manages the complexity of background execution by abstracting system-level APIs based on device conditions and API levels.Explains the recommended API for deferrable and reliable background execution under Android power-management constraints.",
         "content_sections": [
+          {
+            "heading": "Guaranteed Persistence",
+            "points": [
+              "Uses an internal SQLite database to track tasks, ensuring they survive app crashes and reboots.",
+              "Intelligently picks between JobScheduler (API 23+) and a combination of AlarmManager + BroadcastReceiver for older versions.",
+              "Adheres to modern system health standards like Doze mode and App Standby to optimize battery life."
+            ]
+          },
+          {
+            "heading": "Constraint-Based Triggers",
+            "points": [
+              "Network: Run only when connected to Wi-Fi or an unmetered network to save data.",
+              "Power: Schedule work to only occur while the device is charging or has a sufficient battery level.",
+              "Storage & Idle: Trigger maintenance tasks when storage is not low or the device is in an idle state."
+            ]
+          },
+          {
+            "heading": "Work Types",
+            "points": [
+              "One-Time Work: Execute a task once, with optional delay and constraints.",
+              "Periodic Work: Schedule recurring tasks at defined intervals (e.g., sync every 12 hours).",
+              "Chained Work: Create complex sequences of dependent tasks that run in order."
+            ]
+          },
           {
             "heading": "Key Points",
             "points": [
@@ -2091,6 +2512,77 @@
             "language": "kotlin",
             "title": "Example: WorkManager for Background Tasks",
             "code": "// Periodic Work - sync data every 6 hours\nval syncRequest = PeriodicWorkRequestBuilder<SyncWorker>(\n    6, TimeUnit.HOURS,\n    15, TimeUnit.MINUTES // flex interval\n)\n    .setConstraints(\n        Constraints.Builder()\n            .setRequiredNetworkType(NetworkType.CONNECTED)\n            .setRequiresBatteryNotLow(true)\n            .build()\n    )\n    .addTag(\"sync\")\n    .build()\n\nWorkManager.getInstance(context)\n    .enqueueUniquePeriodicWork(\n        \"data_sync\",\n        ExistingPeriodicWorkPolicy.KEEP,\n        syncRequest\n    )\n\n// One-time Work with input/output\nval uploadRequest = OneTimeWorkRequestBuilder<UploadWorker>()\n    .setInputData(workDataOf(\"file_uri\" to fileUri))\n    .setConstraints(\n        Constraints.Builder()\n            .setRequiredNetworkType(NetworkType.UNMETERED)\n            .build()\n    )\n    .build()\n\n// Worker implementation\nclass SyncWorker(\n    context: Context,\n    params: WorkerParameters\n) : CoroutineWorker(context, params) {\n\n    override suspend fun doWork: Result {\n        return runCatching {\n            val remoteData = api.fetchData()\n            database.insertAll(remoteData)\n            Result.success()\n        }.getOrElse {\n            if (runAttemptCount < 3) Result.retry()\n            else Result.failure()\n        }\n    }\n}"
+          }
+        ]
+      },
+      {
+        "title": "WorkManager: Primary Use-Cases",
+        "description": "WorkManager is best for non-immediate tasks that must complete reliably over time.",
+        "content_sections": [
+          {
+            "heading": "Data Synchronization",
+            "points": [
+              "Uploading logs or analytics to backend servers periodically without blocking the UI.",
+              "Syncing local database changes with a remote server (e.g., email or message drafts)."
+            ]
+          },
+          {
+            "heading": "Media & File Processing",
+            "points": [
+              "Applying filters to images or transcoding videos after they are captured.",
+              "Large file uploads (e.g., 100+ images) that should continue even if the user leaves the app."
+            ]
+          },
+          {
+            "heading": "System Maintenance",
+            "points": [
+              "Daily database cleanup or old cache removal to keep the app performing smoothly.",
+              "Periodic content updates (e.g., pre-fetching news or assets) so data is ready when the user opens the app."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Expedited Work for Urgent Tasks",
+        "description": "Expedited work is for tasks that must run immediately, even if the system is under memory pressure or the app is in the background.",
+        "content_sections": [
+          {
+            "heading": "Setting up Expedited Work",
+            "points": [
+              "Override the `getForegroundInfo()` method in your Worker to handle notifications for older Android versions.",
+              "Use `setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)` to define behavior when your quota is hit.",
+              "Ideal for user-initiated actions like sending a chat message or processing an immediate upload."
+            ],
+            "code_blocks": [
+              "val request = OneTimeWorkRequestBuilder<UploadWorker>()\n    .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)\n    .build()\n\nWorkManager.getInstance(context).enqueue(request)"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Work Chaining & Data Flow",
+        "description": "Chaining allows you to orchestrate complex background pipelines where tasks depend on the successful completion of previous ones.",
+        "content_sections": [
+          {
+            "heading": "Sequential Execution",
+            "points": [
+              "Use `beginWith()` followed by `then()` to create a linear execution path.",
+              "Workers pass data using `Data` objects; the output of the first becomes the input of the second.",
+              "If a worker fails, the entire chain stops by default, preventing corrupted data states."
+            ],
+            "code_blocks": [
+              "WorkManager.getInstance(context)\n    .beginWith(filterWorker) // Task 1: Image Filtering\n    .then(compressWorker)    // Task 2: Compression (runs after filtering)\n    .then(uploadWorker)      // Task 3: Upload (runs after compression)\n    .enqueue()"
+            ]
+          },
+          {
+            "heading": "Parallel Branching (Combine)",
+            "points": [
+              "You can run multiple chains in parallel and join them together before a final task.",
+              "Use `WorkContinuation.combine()` to merge separate branches."
+            ],
+            "code_blocks": [
+              "val chain1 = WorkManager.getInstance(context).beginWith(workA)\nval chain2 = WorkManager.getInstance(context).beginWith(workB)\n\nWorkContinuation.combine(listOf(chain1, chain2))\n    .then(finalReportWorker)\n    .enqueue()"
+            ]
           }
         ]
       },
@@ -3395,6 +3887,25 @@
         bodyBg: "radial-gradient(circle at top, rgba(56, 189, 248, 0.16), transparent 24%), linear-gradient(180deg, #0c141c 0%, #0a1219 42%)",
         toggleBg: "rgba(24, 41, 56, 0.86)",
       },
+      "monochrome-lilac": {
+        bg: "#090909",
+        surface: "#141414",
+        surfaceSoft: "#1d1d1f",
+        text: "#f5f4f8",
+        muted: "#b9b5c6",
+        border: "#34313b",
+        accent: "#d8c7ff",
+        accentStrong: "#b89cff",
+        accentSoft: "rgba(216, 199, 255, 0.12)",
+        codeBg: "#0d0d10",
+        codeText: "#f1eef9",
+        shadow: "0 20px 48px rgba(0, 0, 0, 0.42)",
+        heroBg: "linear-gradient(180deg, rgba(28, 28, 31, 0.98), rgba(10, 10, 12, 0.99))",
+        panelBg: "rgba(20, 20, 20, 0.92)",
+        panelSoftBg: "rgba(29, 29, 31, 0.88)",
+        bodyBg: "radial-gradient(circle at top, rgba(184, 156, 255, 0.18), transparent 24%), linear-gradient(180deg, #0a0a0b 0%, #090909 45%)",
+        toggleBg: "rgba(32, 32, 35, 0.9)",
+      },
     };
 
     function applyTheme(themeName) {
@@ -3509,6 +4020,27 @@
       if (priority === "must-know") return "Must Know";
       if (priority === "important") return "Important";
       return "Advanced";
+    }
+
+    function estimateSectionDuration(section, priority) {
+      const topicCount = (section.topics || []).length;
+      const sectionWeight = (section.topics || []).reduce((total, topic) => {
+        const contentSectionCount = (topic.content_sections || []).length;
+        const codeBlockCount = (topic.code_blocks || []).length;
+        return total + 20 + contentSectionCount * 12 + codeBlockCount * 10;
+      }, 0);
+
+      let minutes = Math.max(25, sectionWeight);
+      if (priority === "must-know") minutes += 20;
+      if (priority === "advanced") minutes += 10;
+      minutes += topicCount * 3;
+
+      if (minutes >= 120) {
+        const hours = Math.round((minutes / 60) * 10) / 10;
+        return `${hours} hr`;
+      }
+
+      return `${minutes} min`;
     }
 
     function getTopicKey(section, topic, sectionIndex, topicIndex) {
@@ -3652,18 +4184,47 @@
       renderPriorityFilters();
       updateProgress(data);
 
+      const visibleRoadmapSections = data.filter((section) => {
+        return activePriority === "all" || getSectionPriority(section.title) === activePriority;
+      });
+
+      const totalVisibleTopics = visibleRoadmapSections.reduce(
+        (sum, section) => sum + ((section.topics || []).length),
+        0
+      );
+
       tocContainer.innerHTML = `
-        <h2 class="toc-title">Study Roadmap</h2>
+        <div class="toc-header">
+          <div>
+            <h2 class="toc-title">Study Roadmap</h2>
+            <p class="toc-subtitle">
+              A guided revision path with estimated study duration for each section, so you can move through the material with clearer pacing.
+            </p>
+          </div>
+          <div class="toc-summary">${visibleRoadmapSections.length} sections • ${totalVisibleTopics} topics</div>
+        </div>
         <div class="toc-grid">
           ${data
             .map((section, index) => {
-              if (activePriority !== "all" && getSectionPriority(section.title) !== activePriority) {
+              const priority = getSectionPriority(section.title);
+              if (activePriority !== "all" && priority !== activePriority) {
                 return "";
               }
 
+              const topicCount = (section.topics || []).length;
+              const duration = estimateSectionDuration(section, priority);
+
               return `
             <a class="toc-link" href="#section-${index + 1}">
-              ${index + 1}. ${escapeHtml(section.title || "Untitled Section")}
+              <div class="toc-card-top">
+                <span class="toc-step">${index + 1}</span>
+                <span class="toc-duration">${duration}</span>
+              </div>
+              <h3 class="toc-card-title">${escapeHtml(section.title || "Untitled Section")}</h3>
+              <div class="toc-card-meta">
+                <span class="toc-pill">${topicCount} topic${topicCount === 1 ? "" : "s"}</span>
+                <span class="toc-pill">${getPriorityLabel(priority)}</span>
+              </div>
             </a>
           `;
             })

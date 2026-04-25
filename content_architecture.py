@@ -278,29 +278,6 @@
                                        '    // Feature module only depends on core modules\n'
                                        '    // No direct dependency on other feature modules!\n'
                                        '}'}]
-            },
-        
-            {
-                'title': 'Dependency Injection (DI) - Hilt vs Koin in 2026',
-                'description': 'DI is the glue that connects your layers. The choice depends on your platform targets.',
-                'content_sections': [
-                    {
-                        'heading': 'Hilt (The Android Standard)',
-                        'points': [
-                            'Built on top of Dagger. Provides compile-time safety.',
-                            'Best for Android-only apps due to its deep integration with ViewModels and WorkManager.',
-                            'Uses KSP (Kotlin Symbol Processing) in 2026 for 2x faster build times than old kapt.'
-                        ]
-                    },
-                    {
-                        'heading': 'Koin (The KMP Favorite)',
-                        'points': [
-                            'A lightweight, runtime DI (no code generation).',
-                            'Highly preferred for Kotlin Multiplatform because it works natively on iOS and Web.',
-                            'Very easy to set up with almost zero boilerplate.'
-                        ]
-                    }
-                ]
             }
         ]
     }
