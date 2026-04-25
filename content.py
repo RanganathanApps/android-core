@@ -1715,7 +1715,7 @@ CONTENT = [
   'description': 'Collects the security foundations required for modern Android apps, including '
                  'storage hardening, authentication flows, permissions, and tamper protection.'},
  {'id': 'build-release-ci-cd',
-  'title': 'Build, Release & CI/CD',
+  'title': 'Modern Build Systems, Release & CI/CD',
   'topics': [{'title': 'GitHub Actions for Android',
               'icon': '',
               'description': 'Shows how Android teams automate validation, builds, and artifact '
@@ -1847,6 +1847,68 @@ CONTENT = [
                                        '    implementation(libs.compose.ui)\n'
                                        '    implementation(libs.hilt.android)\n'
                                        '}'}]},
+             {
+            'title': 'The Shift to Kotlin DSL & Gradle 8+',
+            'description': 'Modern Android builds have moved from Groovy to type-safe Kotlin scripting, making build logic as maintainable as app code.',
+            'content_sections': [
+                {
+                    'heading': 'Kotlin DSL (.gradle.kts)',
+                    'points': [
+                        'Full IDE support with auto-completion, refactoring, and source-code navigation.',
+                        'Compile-time error checking, eliminating "guesswork" when configuring complex build logic.',
+                        'Standardized syntax (double quotes, explicit assignments) ensures consistency across team members.'
+                    ]
+                },
+                {
+                    'heading': 'Version Catalogs (TOML)',
+                    'points': [
+                        'Centralizes all dependencies and versions in a single `libs.versions.toml` file.',
+                        'Eliminates "magic strings" and manual version syncing across multi-module projects.',
+                        'Enables type-safe accessors in build scripts (e.g., alias(libs.androidx.compose)).'
+                    ]
+                },
+                {
+                    'heading': 'Convention Plugins',
+                    'points': [
+                        'Replaces massive "common.gradle" files with reusable Kotlin logic in the `buildSrc` or `composite builds`.',
+                        'Allows teams to define "Standard Android Library" or "Compose UI" configurations once.',
+                        'Significantly reduces boilerplate in module-level build files.'
+                    ]
+                }
+            ]
+        },
+        {
+            'title': 'Kotlin DSL & Gradle Evolution',
+            'description': 'The modern Android build system leverages Kotlin DSL and advanced Gradle features to provide a type-safe, performant developer experience.',
+            'content_sections': [
+                {
+                    'heading': 'Core Benefits of Kotlin DSL',
+                    'points': [
+                        'Type Safety: Catch errors at compile-time instead of runtime during builds.',
+                        'IDE Support: Full auto-completion, syntax highlighting, and refactoring in Android Studio.',
+                        'Unified Language: Use Kotlin for both app logic and build configuration for better consistency.',
+                        'Maintainability: Stricter syntax (double quotes, explicit "=" assignments) makes scripts predictable.'
+                    ]
+                },
+                {
+                    'heading': 'Modern Configuration Components',
+                    'points': [
+                        'settings.gradle.kts: Defines project-level repositories and module structure.',
+                        'Root build.gradle.kts: Manages global plugin versions and common build logic.',
+                        'Module build.gradle.kts: Configures SDK versions, build types, and specific dependencies.',
+                        'Version Catalogs (TOML): Centralizes dependency management in libs.versions.toml for multi-module consistency.'
+                    ]
+                },
+                {
+                    'heading': 'Advanced Build Features',
+                    'points': [
+                        'Declarative Plugins: Use the plugins {} block for type-safe accessors over old apply syntax.',
+                        'Build Variants: Manage productFlavors and buildTypes natively within Kotlin scripts.',
+                        'KSP Integration: Using Kotlin Symbol Processing (KSP) instead of kapt for significantly faster build speeds.'
+                    ]
+                }
+            ]
+        },
              {'title': 'Continuous Integration',
               'icon': '',
               'description': 'Explains CI as the feedback loop that continuously validates changes '

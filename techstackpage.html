@@ -19,6 +19,13 @@
       --code-bg: #08111f;
       --code-text: #d8e5f8;
       --shadow: 0 18px 45px rgba(2, 8, 23, 0.35);
+      --hero-bg: linear-gradient(180deg, rgba(19, 35, 58, 0.94), rgba(10, 19, 33, 0.98));
+      --panel-bg: rgba(15, 27, 45, 0.88);
+      --panel-soft-bg: rgba(19, 35, 58, 0.8);
+      --body-bg:
+        radial-gradient(circle at top, rgba(20, 184, 166, 0.18), transparent 28%),
+        linear-gradient(180deg, #08101c 0%, var(--bg) 38%);
+      --toggle-bg: rgba(19, 35, 58, 0.82);
     }
 
     * {
@@ -28,9 +35,7 @@
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(20, 184, 166, 0.18), transparent 28%),
-        linear-gradient(180deg, #08101c 0%, var(--bg) 38%);
+      background: var(--body-bg);
       color: var(--text);
     }
 
@@ -45,7 +50,7 @@
       padding: 28px;
       border: 1px solid var(--border);
       border-radius: 24px;
-      background: linear-gradient(180deg, rgba(19, 35, 58, 0.94), rgba(10, 19, 33, 0.98));
+      background: var(--hero-bg);
       box-shadow: var(--shadow);
     }
 
@@ -84,7 +89,7 @@
       padding: 22px;
       border: 1px solid var(--border);
       border-radius: 22px;
-      background: rgba(15, 27, 45, 0.88);
+      background: var(--panel-bg);
       box-shadow: var(--shadow);
     }
 
@@ -93,7 +98,7 @@
       padding: 22px;
       border: 1px solid var(--border);
       border-radius: 22px;
-      background: rgba(15, 27, 45, 0.88);
+      background: var(--panel-bg);
       box-shadow: var(--shadow);
     }
 
@@ -120,11 +125,56 @@
       box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.12);
     }
 
+    .theme-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+      align-items: center;
+    }
+
+    .theme-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-right: 2px;
+    }
+
+    .theme-select {
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text);
+      font-size: 0.92rem;
+      outline: none;
+    }
+
+    .theme-preview {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--panel-soft-bg);
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .theme-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
+    }
+
     .progress-card {
       padding: 14px;
       border-radius: 16px;
       border: 1px solid var(--border);
-      background: rgba(19, 35, 58, 0.75);
+      background: var(--panel-soft-bg);
     }
 
     .progress-label {
@@ -169,7 +219,7 @@
       padding: 8px 12px;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: rgba(19, 35, 58, 0.8);
+      background: var(--panel-soft-bg);
       color: var(--muted);
       cursor: pointer;
       font-size: 0.9rem;
@@ -186,7 +236,7 @@
       padding: 8px 12px;
       border-radius: 12px;
       border: 1px solid var(--border);
-      background: rgba(19, 35, 58, 0.82);
+      background: var(--toggle-bg);
       color: var(--text);
       cursor: pointer;
       font-size: 0.9rem;
@@ -215,7 +265,7 @@
       padding: 10px 12px;
       border-radius: 12px;
       border: 1px solid var(--border);
-      background: rgba(19, 35, 58, 0.8);
+      background: var(--panel-soft-bg);
       color: var(--muted);
       text-decoration: none;
       font-size: 0.95rem;
@@ -249,6 +299,35 @@
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
+    }
+
+    .arrow-toggle {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-size: 0;
+      position: relative;
+    }
+
+    .arrow-toggle::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid var(--text);
+      border-bottom: 2px solid var(--text);
+      transform: rotate(45deg);
+      transition: transform 0.18s ease, margin 0.18s ease;
+      margin-top: -4px;
+    }
+
+    .arrow-toggle[aria-expanded="false"]::before {
+      transform: rotate(-45deg);
+      margin-top: 0;
+      margin-left: -3px;
     }
 
     .section-number {
@@ -428,6 +507,7 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       background: var(--surface-soft);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
     }
 
     .subtopic-title {
@@ -456,7 +536,7 @@
       padding: 10px 14px;
       font-size: 0.9rem;
       color: #cbd5e1;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .code-block-meta {
@@ -482,7 +562,7 @@
       padding: 24px;
       border: 1px dashed var(--border);
       border-radius: 16px;
-      background: rgba(19, 35, 58, 0.75);
+      background: var(--panel-soft-bg);
       color: var(--muted);
     }
 
@@ -528,6 +608,16 @@
       </div>
     </section>
     <section class="controls">
+      <div class="theme-row">
+        <span class="theme-label">Theme</span>
+        <select id="theme-select" class="theme-select">
+          <option value="deep-teal">Deep Teal</option>
+          <option value="midnight-gold">Midnight Gold</option>
+          <option value="crimson-luxe">Crimson Luxe</option>
+          <option value="ice-slate">Ice Slate</option>
+        </select>
+        <span class="theme-preview"><span class="theme-dot"></span>Switch on the fly</span>
+      </div>
       <div class="controls-top">
         <div>
           <input id="search-input" list="search-suggestions" class="search-input" type="search" placeholder="Search topics, concepts, tools, or examples">
@@ -561,6 +651,7 @@
     const tocContainer = document.getElementById("toc");
     const searchInput = document.getElementById("search-input");
     const searchSuggestions = document.getElementById("search-suggestions");
+    const themeSelect = document.getElementById("theme-select");
     const priorityFilters = document.getElementById("priority-filters");
     const progressText = document.getElementById("progress-text");
     const progressFill = document.getElementById("progress-fill");
@@ -571,6 +662,7 @@
     const rawData = document.getElementById("content-data").textContent.trim();
     const placeholderToken = "{{" + "CONTENT_JSON" + "}}";
     const progressStorageKey = "android-interview-guide-progress";
+    const themeStorageKey = "android-interview-guide-theme";
     let lastDataSignature = "";
     let currentData = [];
     let activePriority = "all";
@@ -584,6 +676,114 @@
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#39;");
+    }
+
+    const THEMES = {
+      "deep-teal": {
+        bg: "#07111f",
+        surface: "#0f1b2d",
+        surfaceSoft: "#13233a",
+        text: "#e5eefb",
+        muted: "#98abc7",
+        border: "#243853",
+        accent: "#5eead4",
+        accentStrong: "#14b8a6",
+        accentSoft: "rgba(94, 234, 212, 0.12)",
+        codeBg: "#08111f",
+        codeText: "#d8e5f8",
+        shadow: "0 18px 45px rgba(2, 8, 23, 0.35)",
+        heroBg: "linear-gradient(180deg, rgba(19, 35, 58, 0.94), rgba(10, 19, 33, 0.98))",
+        panelBg: "rgba(15, 27, 45, 0.88)",
+        panelSoftBg: "rgba(19, 35, 58, 0.8)",
+        bodyBg: "radial-gradient(circle at top, rgba(20, 184, 166, 0.18), transparent 28%), linear-gradient(180deg, #08101c 0%, #07111f 38%)",
+        toggleBg: "rgba(19, 35, 58, 0.82)",
+      },
+      "midnight-gold": {
+        bg: "#120d09",
+        surface: "#1b1410",
+        surfaceSoft: "#251b16",
+        text: "#f7efe5",
+        muted: "#c8b59d",
+        border: "#443126",
+        accent: "#f6c56a",
+        accentStrong: "#d59a2d",
+        accentSoft: "rgba(246, 197, 106, 0.12)",
+        codeBg: "#100b08",
+        codeText: "#f8ead2",
+        shadow: "0 20px 48px rgba(0, 0, 0, 0.38)",
+        heroBg: "linear-gradient(180deg, rgba(46, 30, 19, 0.96), rgba(20, 14, 10, 0.98))",
+        panelBg: "rgba(30, 22, 17, 0.9)",
+        panelSoftBg: "rgba(37, 27, 22, 0.84)",
+        bodyBg: "radial-gradient(circle at top, rgba(246, 197, 106, 0.16), transparent 24%), linear-gradient(180deg, #140f0a 0%, #120d09 42%)",
+        toggleBg: "rgba(40, 29, 22, 0.88)",
+      },
+      "crimson-luxe": {
+        bg: "#140b12",
+        surface: "#21111a",
+        surfaceSoft: "#2d1622",
+        text: "#f8eaf0",
+        muted: "#c9a7b6",
+        border: "#4c2437",
+        accent: "#ff8fb0",
+        accentStrong: "#e44978",
+        accentSoft: "rgba(255, 143, 176, 0.13)",
+        codeBg: "#120811",
+        codeText: "#fde8f0",
+        shadow: "0 18px 44px rgba(20, 4, 12, 0.42)",
+        heroBg: "linear-gradient(180deg, rgba(54, 23, 37, 0.96), rgba(20, 9, 16, 0.98))",
+        panelBg: "rgba(36, 17, 28, 0.9)",
+        panelSoftBg: "rgba(45, 22, 34, 0.85)",
+        bodyBg: "radial-gradient(circle at top, rgba(228, 73, 120, 0.18), transparent 24%), linear-gradient(180deg, #160b12 0%, #140b12 44%)",
+        toggleBg: "rgba(50, 22, 35, 0.86)",
+      },
+      "ice-slate": {
+        bg: "#0a1219",
+        surface: "#121f2b",
+        surfaceSoft: "#182938",
+        text: "#e7f1f7",
+        muted: "#98b5c7",
+        border: "#2b4356",
+        accent: "#7dd3fc",
+        accentStrong: "#38bdf8",
+        accentSoft: "rgba(125, 211, 252, 0.12)",
+        codeBg: "#091118",
+        codeText: "#dcedf8",
+        shadow: "0 18px 42px rgba(3, 10, 18, 0.34)",
+        heroBg: "linear-gradient(180deg, rgba(23, 38, 52, 0.96), rgba(11, 19, 27, 0.98))",
+        panelBg: "rgba(18, 31, 43, 0.9)",
+        panelSoftBg: "rgba(24, 41, 56, 0.84)",
+        bodyBg: "radial-gradient(circle at top, rgba(56, 189, 248, 0.16), transparent 24%), linear-gradient(180deg, #0c141c 0%, #0a1219 42%)",
+        toggleBg: "rgba(24, 41, 56, 0.86)",
+      },
+    };
+
+    function applyTheme(themeName) {
+      const theme = THEMES[themeName] || THEMES["deep-teal"];
+      const root = document.documentElement;
+      root.style.setProperty("--bg", theme.bg);
+      root.style.setProperty("--surface", theme.surface);
+      root.style.setProperty("--surface-soft", theme.surfaceSoft);
+      root.style.setProperty("--text", theme.text);
+      root.style.setProperty("--muted", theme.muted);
+      root.style.setProperty("--border", theme.border);
+      root.style.setProperty("--accent", theme.accent);
+      root.style.setProperty("--accent-strong", theme.accentStrong);
+      root.style.setProperty("--accent-soft", theme.accentSoft);
+      root.style.setProperty("--code-bg", theme.codeBg);
+      root.style.setProperty("--code-text", theme.codeText);
+      root.style.setProperty("--shadow", theme.shadow);
+      root.style.setProperty("--hero-bg", theme.heroBg);
+      root.style.setProperty("--panel-bg", theme.panelBg);
+      root.style.setProperty("--panel-soft-bg", theme.panelSoftBg);
+      root.style.setProperty("--body-bg", theme.bodyBg);
+      root.style.setProperty("--toggle-bg", theme.toggleBg);
+      themeSelect.value = themeName in THEMES ? themeName : "deep-teal";
+
+      try {
+        localStorage.setItem(themeStorageKey, themeSelect.value);
+      } catch (error) {
+        console.error("Failed to save theme preference:", error);
+      }
     }
 
     function formatCode(code) {
@@ -858,7 +1058,7 @@
             <h2>${escapeHtml(section.title || "Untitled Section")}</h2>
             <div class="section-header-actions">
               <span class="section-priority priority-${sectionPriority}">${getPriorityLabel(sectionPriority)}</span>
-              <button type="button" class="toggle-button" data-target="${sectionBodyId}" aria-expanded="true">Collapse</button>
+              <button type="button" class="toggle-button arrow-toggle" data-target="${sectionBodyId}" aria-expanded="true" title="Toggle section"></button>
             </div>
           </div>
           <p class="section-summary">
@@ -922,7 +1122,7 @@
                     <span>${escapeHtml(block.title || "Code Example")}</span>
                     <span>${escapeHtml(block.language || "text")}</span>
                   </div>
-                  <button type="button" class="toggle-button" data-target="${codeBodyId}" aria-expanded="false">Show Code</button>
+                  <button type="button" class="toggle-button arrow-toggle" data-target="${codeBodyId}" aria-expanded="false" title="Toggle code"></button>
                 </div>
                 <div id="${codeBodyId}" class="code-content hidden">
                   <pre><code>${formattedCode}</code></pre>
@@ -938,7 +1138,7 @@
               <span class="icon">${escapeHtml(topic.icon || "")}</span>
               <span>${escapeHtml(topic.title || "Untitled Topic")}</span>
               <div class="topic-actions">
-                <button type="button" class="toggle-button" data-target="${topicBodyId}" aria-expanded="${topicExpanded ? "true" : "false"}">${topicExpanded ? "Hide Topic" : "Show Topic"}</button>
+                <button type="button" class="toggle-button arrow-toggle" data-target="${topicBodyId}" aria-expanded="${topicExpanded ? "true" : "false"}" title="Toggle topic"></button>
                 <label class="topic-check">
                   <input type="checkbox" data-topic-key="${escapeHtml(topicKey)}" ${isComplete ? "checked" : ""}>
                   <span>Done</span>
@@ -1008,6 +1208,11 @@
 
     async function startPage() {
       loadCompletedTopics();
+      applyTheme(localStorage.getItem(themeStorageKey) || "deep-teal");
+
+      themeSelect.addEventListener("change", (event) => {
+        applyTheme(event.target.value || "deep-teal");
+      });
 
       container.addEventListener("click", (event) => {
         const button = event.target.closest(".toggle-button[data-target]");
