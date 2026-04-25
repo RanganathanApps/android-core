@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senior Modern Android Interview Guide</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07111f;
+      --surface: #0f1b2d;
+      --surface-soft: #13233a;
+      --text: #e5eefb;
+      --muted: #98abc7;
+      --border: #243853;
+      --accent: #5eead4;
+      --accent-strong: #14b8a6;
+      --accent-soft: rgba(94, 234, 212, 0.12);
+      --code-bg: #08111f;
+      --code-text: #d8e5f8;
+      --shadow: 0 18px 45px rgba(2, 8, 23, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(20, 184, 166, 0.18), transparent 28%),
+        linear-gradient(180deg, #08101c 0%, var(--bg) 38%);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    .hero {
+      margin-bottom: 24px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(19, 35, 58, 0.94), rgba(10, 19, 33, 0.98));
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 2.4rem;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.7;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(94, 234, 212, 0.08);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .toc {
+      margin-bottom: 24px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(15, 27, 45, 0.88);
+      box-shadow: var(--shadow);
+    }
+
+    .controls {
+      margin-bottom: 24px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(15, 27, 45, 0.88);
+      box-shadow: var(--shadow);
+    }
+
+    .controls-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text);
+      font-size: 0.96rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: rgba(94, 234, 212, 0.55);
+      box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.12);
+    }
+
+    .progress-card {
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(19, 35, 58, 0.75);
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .progress-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(152, 171, 199, 0.18);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+      transition: width 0.2s ease;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .view-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .filter-chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(19, 35, 58, 0.8);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .filter-chip.active {
+      border-color: rgba(94, 234, 212, 0.45);
+      background: rgba(94, 234, 212, 0.12);
+      color: var(--text);
+    }
+
+    .action-button,
+    .toggle-button {
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(19, 35, 58, 0.82);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .action-button:hover,
+    .toggle-button:hover {
+      border-color: rgba(94, 234, 212, 0.45);
+    }
+
+    .toc-title {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .toc-link {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(19, 35, 58, 0.8);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .toc-link:hover {
+      color: var(--text);
+      border-color: rgba(94, 234, 212, 0.45);
+    }
+
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    .section-header-actions {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 38px;
+      height: 38px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #06211d;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .section-priority {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .priority-must-know {
+      color: #bbf7d0;
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.24);
+    }
+
+    .priority-important {
+      color: #fde68a;
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.24);
+    }
+
+    .priority-advanced {
+      color: #bfdbfe;
+      background: rgba(96, 165, 250, 0.12);
+      border-color: rgba(96, 165, 250, 0.24);
+    }
+
+    .section-summary {
+      margin: 0 0 16px 52px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .section-body.hidden,
+    .topic-body.hidden,
+    .code-content.hidden {
+      display: none;
+    }
+
+    .topic {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .topic.is-complete {
+      opacity: 0.72;
+    }
+
+    .topic:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .topic-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+      flex-wrap: wrap;
+    }
+
+    .topic-content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .topic-actions {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      flex: 0 0 14px;
+      background: linear-gradient(135deg, var(--accent), #14b8a6);
+      box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
+    }
+
+    .topic-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(94, 234, 212, 0.25);
+      background: rgba(94, 234, 212, 0.08);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .topic-check {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .topic-check input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent-strong);
+      cursor: pointer;
+    }
+
+    .topic-description {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .topic-subheading {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .content-section {
+      display: grid;
+      gap: 10px;
+    }
+
+    .key-points {
+      display: grid;
+      gap: 10px;
+    }
+
+    .key-point {
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+
+    .subtopics {
+      display: grid;
+      gap: 12px;
+    }
+
+    .subtopic {
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface-soft);
+    }
+
+    .subtopic-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtopic-desc {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .code-block {
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+      background: var(--code-bg);
+    }
+
+    .code-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .code-block-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .code-block pre {
+      margin: 0;
+      padding: 14px;
+      overflow-x: auto;
+      color: var(--code-text);
+      white-space: pre;
+      tab-size: 2;
+      font-family: "Cascadia Code", "Consolas", "SFMono-Regular", monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .empty-state {
+      padding: 24px;
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      background: rgba(19, 35, 58, 0.75);
+      color: var(--muted);
+    }
+
+    code {
+      color: var(--accent);
+    }
+
+    @media (max-width: 700px) {
+      .controls-top {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 22px;
+      }
+
+      .hero h1 {
+        font-size: 1.95rem;
+      }
+
+      .section-summary {
+        margin-left: 0;
+      }
+
+      .section-header {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <h1>Senior Modern Android Interview Guide</h1>
+      <p>
+        A structured study guide built from your interview notes and deep-dive material. It is ordered to cover platform
+        fundamentals first, then modern Android implementation, then senior-level system design, delivery, and behavioral prep.
+      </p>
+      <div class="hero-meta">
+        <span class="hero-pill">Interview-focused ordering</span>
+        <span class="hero-pill">Modern Android coverage</span>
+        <span class="hero-pill">Examples + deep dives</span>
+      </div>
+    </section>
+    <section class="controls">
+      <div class="controls-top">
+        <input id="search-input" class="search-input" type="search" placeholder="Search topics, concepts, tools, or examples">
+        <div class="progress-card">
+          <div class="progress-label">
+            <span>Prep progress</span>
+            <span id="progress-text">0 / 0 topics done</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+      <div id="priority-filters" class="filter-row"></div>
+      <div class="view-actions">
+        <button id="expand-sections" type="button" class="action-button">Expand All Sections</button>
+        <button id="collapse-topics" type="button" class="action-button">Collapse All Topics</button>
+        <button id="expand-topics" type="button" class="action-button">Expand All Topics</button>
+        <button id="collapse-code" type="button" class="action-button">Collapse All Code</button>
+      </div>
+    </section>
+    <nav class="toc" id="toc"></nav>
+    <div id="content"></div>
+  </main>
+
+  <script id="content-data" type="application/json">{{CONTENT_JSON}}</script>
+  <script>
+    const container = document.getElementById("content");
+    const tocContainer = document.getElementById("toc");
+    const searchInput = document.getElementById("search-input");
+    const priorityFilters = document.getElementById("priority-filters");
+    const progressText = document.getElementById("progress-text");
+    const progressFill = document.getElementById("progress-fill");
+    const expandSectionsButton = document.getElementById("expand-sections");
+    const collapseTopicsButton = document.getElementById("collapse-topics");
+    const expandTopicsButton = document.getElementById("expand-topics");
+    const collapseCodeButton = document.getElementById("collapse-code");
+    const rawData = document.getElementById("content-data").textContent.trim();
+    const placeholderToken = "{{" + "CONTENT_JSON" + "}}";
+    const progressStorageKey = "android-interview-guide-progress";
+    let lastDataSignature = "";
+    let activePriority = "all";
+    let searchTerm = "";
+    let completedTopics = new Set();
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function formatCode(code) {
+      const normalized = String(code || "").replace(/\r\n/g, "\n").replace(/\t/g, "  ");
+      const lines = normalized.split("\n");
+
+      while (lines.length && !lines[0].trim()) {
+        lines.shift();
+      }
+
+      while (lines.length && !lines[lines.length - 1].trim()) {
+        lines.pop();
+      }
+
+      const nonEmpty = lines.filter((line) => line.trim());
+      if (nonEmpty.length > 0) {
+        const commonIndent = Math.min(
+          ...nonEmpty.map((line) => line.match(/^ */)[0].length)
+        );
+
+        return lines.map((line) => line.slice(commonIndent)).join("\n");
+      }
+
+      return lines.join("\n");
+    }
+
+    function loadCompletedTopics() {
+      try {
+        const saved = localStorage.getItem(progressStorageKey);
+        const parsed = saved ? JSON.parse(saved) : [];
+        completedTopics = new Set(Array.isArray(parsed) ? parsed : []);
+      } catch (error) {
+        completedTopics = new Set();
+      }
+    }
+
+    function saveCompletedTopics() {
+      try {
+        localStorage.setItem(progressStorageKey, JSON.stringify(Array.from(completedTopics)));
+      } catch (error) {
+        console.error("Failed to save progress:", error);
+      }
+    }
+
+    function getSectionPriority(sectionTitle) {
+      const title = String(sectionTitle || "").toLowerCase();
+      if (
+        title.includes("fundamentals") ||
+        title.includes("kotlin") ||
+        title.includes("compose") ||
+        title.includes("architecture") ||
+        title.includes("dependency injection") ||
+        title.includes("networking") ||
+        title.includes("testing") ||
+        title.includes("security")
+      ) {
+        return "must-know";
+      }
+
+      if (
+        title.includes("data management") ||
+        title.includes("concurrency") ||
+        title.includes("performance") ||
+        title.includes("build") ||
+        title.includes("system design") ||
+        title.includes("interview preparation")
+      ) {
+        return "important";
+      }
+
+      return "advanced";
+    }
+
+    function getPriorityLabel(priority) {
+      if (priority === "must-know") return "Must Know";
+      if (priority === "important") return "Important";
+      return "Advanced";
+    }
+
+    function getTopicKey(section, topic, sectionIndex, topicIndex) {
+      return `${sectionIndex + 1}.${topicIndex + 1}:${section.title || ""}:${topic.title || ""}`;
+    }
+
+    function matchesSearch(sectionTitle, topic, topicNumber) {
+      if (!searchTerm) return true;
+      const haystack = [
+        sectionTitle,
+        topicNumber,
+        topic.title,
+        topic.description,
+        ...(topic.content_sections || []).flatMap((contentSection) => [
+          contentSection.heading,
+          ...(contentSection.points || []),
+          ...(contentSection.subtopics || []).flatMap((subtopic) => [subtopic.title, subtopic.description]),
+        ]),
+        ...(topic.code_blocks || []).flatMap((block) => [block.title, block.code]),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(searchTerm);
+    }
+
+    function updateProgress(data) {
+      const totalTopics = data.reduce((sum, section) => sum + ((section.topics || []).length), 0);
+      const doneTopics = data.reduce((sum, section, sectionIndex) => {
+        return sum + (section.topics || []).filter((topic, topicIndex) => {
+          return completedTopics.has(getTopicKey(section, topic, sectionIndex, topicIndex));
+        }).length;
+      }, 0);
+
+      progressText.textContent = `${doneTopics} / ${totalTopics} topics done`;
+      progressFill.style.width = totalTopics ? `${(doneTopics / totalTopics) * 100}%` : "0%";
+    }
+
+    function renderPriorityFilters() {
+      const filters = [
+        { id: "all", label: "All Sections" },
+        { id: "must-know", label: "Must Know" },
+        { id: "important", label: "Important" },
+        { id: "advanced", label: "Advanced" },
+      ];
+
+      priorityFilters.innerHTML = filters
+        .map((filter) => `
+          <button
+            type="button"
+            class="filter-chip ${filter.id === activePriority ? "active" : ""}"
+            data-priority="${filter.id}"
+          >
+            ${escapeHtml(filter.label)}
+          </button>
+        `)
+        .join("");
+
+      priorityFilters.querySelectorAll("[data-priority]").forEach((button) => {
+        button.addEventListener("click", () => {
+          activePriority = button.getAttribute("data-priority") || "all";
+          renderContent(JSON.parse(lastDataSignature));
+        });
+      });
+    }
+
+    function renderContent(data) {
+      container.innerHTML = "";
+      tocContainer.innerHTML = "";
+
+      if (!Array.isArray(data) || data.length === 0) {
+        container.innerHTML = '<div class="empty-state">No content available yet.</div>';
+        return;
+      }
+
+      renderPriorityFilters();
+      updateProgress(data);
+
+      tocContainer.innerHTML = `
+        <h2 class="toc-title">Study Roadmap</h2>
+        <div class="toc-grid">
+          ${data
+            .map((section, index) => {
+              if (activePriority !== "all" && getSectionPriority(section.title) !== activePriority) {
+                return "";
+              }
+
+              return `
+            <a class="toc-link" href="#section-${index + 1}">
+              ${index + 1}. ${escapeHtml(section.title || "Untitled Section")}
+            </a>
+          `;
+            })
+            .join("")}
+        </div>
+      `;
+
+      data.forEach((section, index) => {
+        const sectionPriority = getSectionPriority(section.title);
+        if (activePriority !== "all" && sectionPriority !== activePriority) {
+          return;
+        }
+
+        const visibleTopics = (section.topics || []).filter((topic, topicIndex) => {
+          const topicNumber = `${index + 1}.${topicIndex + 1}`;
+          return matchesSearch(section.title || "", topic, topicNumber);
+        });
+
+        if (visibleTopics.length === 0) {
+          return;
+        }
+
+        const sectionEl = document.createElement("section");
+        sectionEl.className = "section";
+        sectionEl.id = `section-${index + 1}`;
+        const topicCount = visibleTopics.length;
+        const sectionBodyId = `section-body-${index + 1}`;
+
+        sectionEl.innerHTML = `
+          <div class="section-header">
+            <span class="section-number">${index + 1}</span>
+            <h2>${escapeHtml(section.title || "Untitled Section")}</h2>
+            <div class="section-header-actions">
+              <span class="section-priority priority-${sectionPriority}">${getPriorityLabel(sectionPriority)}</span>
+              <button type="button" class="toggle-button" data-target="${sectionBodyId}" aria-expanded="true">Collapse</button>
+            </div>
+          </div>
+          <p class="section-summary">
+            ${section.description ? `${escapeHtml(section.description)} ` : ""}
+            ${topicCount} topic${topicCount === 1 ? "" : "s"} in this section.
+          </p>
+        `;
+
+        const sectionBody = document.createElement("div");
+        sectionBody.className = "section-body";
+        sectionBody.id = sectionBodyId;
+
+        visibleTopics.forEach((topic) => {
+          const topicIndex = (section.topics || []).indexOf(topic);
+          const topicEl = document.createElement("article");
+          topicEl.className = "topic";
+          const topicNumber = `${index + 1}.${topicIndex + 1}`;
+          const topicKey = getTopicKey(section, topic, index, topicIndex);
+          const isComplete = completedTopics.has(topicKey);
+          const topicBodyId = `topic-body-${index + 1}-${topicIndex + 1}`;
+          const topicExpanded = Boolean(searchTerm);
+
+          if (isComplete) {
+            topicEl.classList.add("is-complete");
+          }
+
+          const contentSectionsHtml = (topic.content_sections || [])
+            .map((contentSection) => {
+              const pointsHtml = (contentSection.points || [])
+                .map((point) => `<div class="key-point">${escapeHtml(point)}</div>`)
+                .join("");
+
+              const subtopicsHtml = (contentSection.subtopics || [])
+                .map((subtopic) => `
+                  <div class="subtopic">
+                    <div class="subtopic-title">${escapeHtml(subtopic.title || "")}</div>
+                    <div class="subtopic-desc">${escapeHtml(subtopic.description || "")}</div>
+                  </div>
+                `)
+                .join("");
+
+              return `
+                <div class="content-section">
+                  ${contentSection.heading ? `<h4 class="topic-subheading">${escapeHtml(contentSection.heading)}</h4>` : ""}
+                  ${pointsHtml ? `<div class="key-points">${pointsHtml}</div>` : ""}
+                  ${subtopicsHtml ? `<div class="subtopics">${subtopicsHtml}</div>` : ""}
+                </div>
+              `;
+            })
+            .join("");
+
+          const codeBlocksHtml = (topic.code_blocks || [])
+            .map((block, codeIndex) => {
+              const codeBodyId = `code-body-${index + 1}-${topicIndex + 1}-${codeIndex + 1}`;
+              const formattedCode = escapeHtml(formatCode(block.code || ""));
+
+              return `
+              <div class="code-block">
+                <div class="code-block-header">
+                  <div class="code-block-meta">
+                    <span>${escapeHtml(block.title || "Code Example")}</span>
+                    <span>${escapeHtml(block.language || "text")}</span>
+                  </div>
+                  <button type="button" class="toggle-button" data-target="${codeBodyId}" aria-expanded="false">Show Code</button>
+                </div>
+                <div id="${codeBodyId}" class="code-content hidden">
+                  <pre><code>${formattedCode}</code></pre>
+                </div>
+              </div>
+            `;
+            })
+            .join("");
+
+          topicEl.innerHTML = `
+            <div class="topic-title">
+              <span class="topic-number">${topicNumber}</span>
+              <span class="icon">${escapeHtml(topic.icon || "")}</span>
+              <span>${escapeHtml(topic.title || "Untitled Topic")}</span>
+              <div class="topic-actions">
+                <button type="button" class="toggle-button" data-target="${topicBodyId}" aria-expanded="${topicExpanded ? "true" : "false"}">${topicExpanded ? "Hide Topic" : "Show Topic"}</button>
+                <label class="topic-check">
+                  <input type="checkbox" data-topic-key="${escapeHtml(topicKey)}" ${isComplete ? "checked" : ""}>
+                  <span>Done</span>
+                </label>
+              </div>
+            </div>
+            <div id="${topicBodyId}" class="topic-body ${topicExpanded ? "" : "hidden"}">
+              <div class="topic-content">
+              ${topic.description ? `<p class="topic-description">${escapeHtml(topic.description)}</p>` : ""}
+              ${contentSectionsHtml}
+              ${codeBlocksHtml}
+              </div>
+            </div>
+          `;
+
+          sectionBody.appendChild(topicEl);
+        });
+
+        sectionEl.appendChild(sectionBody);
+        container.appendChild(sectionEl);
+      });
+
+      if (!container.innerHTML.trim()) {
+        container.innerHTML = '<div class="empty-state">No topics matched your current search or priority filter.</div>';
+      }
+
+      container.querySelectorAll("[data-topic-key]").forEach((checkbox) => {
+        checkbox.addEventListener("change", (event) => {
+          const key = event.target.getAttribute("data-topic-key");
+          if (!key) return;
+
+          if (event.target.checked) {
+            completedTopics.add(key);
+          } else {
+            completedTopics.delete(key);
+          }
+
+          saveCompletedTopics();
+          renderContent(data);
+        });
+      });
+
+      container.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const targetId = button.getAttribute("data-target");
+          const target = targetId ? document.getElementById(targetId) : null;
+          if (!target) return;
+
+          const isHidden = target.classList.toggle("hidden");
+          const expanded = !isHidden;
+          button.setAttribute("aria-expanded", expanded ? "true" : "false");
+
+          if (target.classList.contains("code-content")) {
+            button.textContent = expanded ? "Hide Code" : "Show Code";
+          } else if (target.classList.contains("topic-body")) {
+            button.textContent = expanded ? "Hide Topic" : "Show Topic";
+          } else {
+            button.textContent = expanded ? "Collapse" : "Expand";
+          }
+        });
+      });
+    }
+
+    function renderMessage(message) {
+      container.innerHTML = `<div class="empty-state">${message}</div>`;
+    }
+
+    function updateIfChanged(data) {
+      const nextSignature = JSON.stringify(data);
+      if (nextSignature !== lastDataSignature) {
+        lastDataSignature = nextSignature;
+        renderContent(data);
+      } else {
+        renderContent(data);
+      }
+    }
+
+    function parseEmbeddedData() {
+      if (!rawData || rawData === placeholderToken) {
+        return null;
+      }
+
+      try {
+        return JSON.parse(rawData);
+      } catch (error) {
+        renderMessage("Injected data is invalid JSON. Regenerate <code>final.html</code>.");
+        console.error("Failed to parse embedded content data:", error);
+        return false;
+      }
+    }
+
+    async function fetchLiveData() {
+      const response = await fetch("/content-data", { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+      return response.json();
+    }
+
+    async function startPage() {
+      loadCompletedTopics();
+
+      expandSectionsButton.addEventListener("click", () => {
+        document.querySelectorAll(".section-body").forEach((element) => element.classList.remove("hidden"));
+        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
+          const targetId = button.getAttribute("data-target");
+          const target = targetId ? document.getElementById(targetId) : null;
+          if (target && target.classList.contains("section-body")) {
+            button.textContent = "Collapse";
+            button.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+
+      collapseTopicsButton.addEventListener("click", () => {
+        document.querySelectorAll(".topic-body").forEach((element) => element.classList.add("hidden"));
+        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
+          const targetId = button.getAttribute("data-target");
+          const target = targetId ? document.getElementById(targetId) : null;
+          if (target && target.classList.contains("topic-body")) {
+            button.textContent = "Show Topic";
+            button.setAttribute("aria-expanded", "false");
+          }
+        });
+      });
+
+      expandTopicsButton.addEventListener("click", () => {
+        document.querySelectorAll(".topic-body").forEach((element) => element.classList.remove("hidden"));
+        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
+          const targetId = button.getAttribute("data-target");
+          const target = targetId ? document.getElementById(targetId) : null;
+          if (target && target.classList.contains("topic-body")) {
+            button.textContent = "Hide Topic";
+            button.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+
+      collapseCodeButton.addEventListener("click", () => {
+        document.querySelectorAll(".code-content").forEach((element) => element.classList.add("hidden"));
+        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
+          const targetId = button.getAttribute("data-target");
+          const target = targetId ? document.getElementById(targetId) : null;
+          if (target && target.classList.contains("code-content")) {
+            button.textContent = "Show Code";
+            button.setAttribute("aria-expanded", "false");
+          }
+        });
+      });
+
+      searchInput.addEventListener("input", (event) => {
+        searchTerm = String(event.target.value || "").trim().toLowerCase();
+        if (lastDataSignature) {
+          renderContent(JSON.parse(lastDataSignature));
+        }
+      });
+
+      const embeddedData = parseEmbeddedData();
+      if (embeddedData === false) {
+        return;
+      }
+
+      if (embeddedData) {
+        updateIfChanged(embeddedData);
+        return;
+      }
+
+      try {
+        const liveData = await fetchLiveData();
+        updateIfChanged(liveData);
+
+        setInterval(async () => {
+          try {
+            const latestData = await fetchLiveData();
+            updateIfChanged(latestData);
+          } catch (error) {
+            console.error("Live refresh failed:", error);
+          }
+        }, 2000);
+      } catch (error) {
+        renderMessage(
+          'Template only: run <code>python devserver.py</code> and open <code>http://127.0.0.1:8000</code>, or generate <code>final.html</code>.'
+        );
+        console.error("Failed to load live content data:", error);
+      }
+    }
+
+    startPage();
+  </script>
+</body>
+</html>
