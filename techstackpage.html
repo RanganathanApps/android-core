@@ -529,7 +529,10 @@
     </section>
     <section class="controls">
       <div class="controls-top">
-        <input id="search-input" class="search-input" type="search" placeholder="Search topics, concepts, tools, or examples">
+        <div>
+          <input id="search-input" list="search-suggestions" class="search-input" type="search" placeholder="Search topics, concepts, tools, or examples">
+          <datalist id="search-suggestions"></datalist>
+        </div>
         <div class="progress-card">
           <div class="progress-label">
             <span>Prep progress</span>
@@ -557,6 +560,7 @@
     const container = document.getElementById("content");
     const tocContainer = document.getElementById("toc");
     const searchInput = document.getElementById("search-input");
+    const searchSuggestions = document.getElementById("search-suggestions");
     const priorityFilters = document.getElementById("priority-filters");
     const progressText = document.getElementById("progress-text");
     const progressFill = document.getElementById("progress-fill");
@@ -568,6 +572,7 @@
     const placeholderToken = "{{" + "CONTENT_JSON" + "}}";
     const progressStorageKey = "android-interview-guide-progress";
     let lastDataSignature = "";
+    let currentData = [];
     let activePriority = "all";
     let searchTerm = "";
     let completedTopics = new Set();
@@ -603,6 +608,14 @@
       }
 
       return lines.join("\n");
+    }
+
+    function normalizeSearchText(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9+#./-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
     }
 
     function loadCompletedTopics() {
@@ -677,10 +690,73 @@
         ...(topic.code_blocks || []).flatMap((block) => [block.title, block.code]),
       ]
         .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+        .join(" ");
 
-      return haystack.includes(searchTerm);
+      return normalizeSearchText(haystack).includes(searchTerm);
+    }
+
+    function buildSuggestions(data) {
+      const suggestions = new Set();
+
+      data.forEach((section, sectionIndex) => {
+        suggestions.add(`${sectionIndex + 1}. ${section.title || ""}`.trim());
+        suggestions.add(section.title || "");
+
+        (section.topics || []).forEach((topic, topicIndex) => {
+          suggestions.add(`${sectionIndex + 1}.${topicIndex + 1} ${topic.title || ""}`.trim());
+          suggestions.add(topic.title || "");
+
+          (topic.content_sections || []).forEach((contentSection) => {
+            if (contentSection.heading) {
+              suggestions.add(contentSection.heading);
+            }
+
+            (contentSection.subtopics || []).forEach((subtopic) => {
+              if (subtopic.title) {
+                suggestions.add(subtopic.title);
+              }
+            });
+          });
+
+          (topic.code_blocks || []).forEach((block) => {
+            if (block.title) {
+              suggestions.add(block.title);
+            }
+          });
+        });
+      });
+
+      const filtered = Array.from(suggestions)
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b))
+        .slice(0, 200);
+
+      searchSuggestions.innerHTML = filtered
+        .map((item) => `<option value="${escapeHtml(item)}"></option>`)
+        .join("");
+    }
+
+    function setToggleButtonState(button, target) {
+      if (!button || !target) return;
+      const expanded = !target.classList.contains("hidden");
+      button.setAttribute("aria-expanded", expanded ? "true" : "false");
+
+      if (target.classList.contains("code-content")) {
+        button.textContent = expanded ? "Hide Code" : "Show Code";
+      } else if (target.classList.contains("topic-body")) {
+        button.textContent = expanded ? "Hide Topic" : "Show Topic";
+      } else if (target.classList.contains("section-body")) {
+        button.textContent = expanded ? "Collapse" : "Expand";
+      }
+    }
+
+    function syncToggleButtons() {
+      document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
+        const targetId = button.getAttribute("data-target");
+        const target = targetId ? document.getElementById(targetId) : null;
+        setToggleButtonState(button, target);
+      });
     }
 
     function updateProgress(data) {
@@ -718,7 +794,7 @@
       priorityFilters.querySelectorAll("[data-priority]").forEach((button) => {
         button.addEventListener("click", () => {
           activePriority = button.getAttribute("data-priority") || "all";
-          renderContent(JSON.parse(lastDataSignature));
+          renderContent(currentData);
         });
       });
     }
@@ -732,6 +808,7 @@
         return;
       }
 
+      buildSuggestions(data);
       renderPriorityFilters();
       updateProgress(data);
 
@@ -888,41 +965,7 @@
         container.innerHTML = '<div class="empty-state">No topics matched your current search or priority filter.</div>';
       }
 
-      container.querySelectorAll("[data-topic-key]").forEach((checkbox) => {
-        checkbox.addEventListener("change", (event) => {
-          const key = event.target.getAttribute("data-topic-key");
-          if (!key) return;
-
-          if (event.target.checked) {
-            completedTopics.add(key);
-          } else {
-            completedTopics.delete(key);
-          }
-
-          saveCompletedTopics();
-          renderContent(data);
-        });
-      });
-
-      container.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-        button.addEventListener("click", () => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (!target) return;
-
-          const isHidden = target.classList.toggle("hidden");
-          const expanded = !isHidden;
-          button.setAttribute("aria-expanded", expanded ? "true" : "false");
-
-          if (target.classList.contains("code-content")) {
-            button.textContent = expanded ? "Hide Code" : "Show Code";
-          } else if (target.classList.contains("topic-body")) {
-            button.textContent = expanded ? "Hide Topic" : "Show Topic";
-          } else {
-            button.textContent = expanded ? "Collapse" : "Expand";
-          }
-        });
-      });
+      syncToggleButtons();
     }
 
     function renderMessage(message) {
@@ -933,8 +976,10 @@
       const nextSignature = JSON.stringify(data);
       if (nextSignature !== lastDataSignature) {
         lastDataSignature = nextSignature;
+        currentData = data;
         renderContent(data);
       } else {
+        currentData = data;
         renderContent(data);
       }
     }
@@ -964,58 +1009,62 @@
     async function startPage() {
       loadCompletedTopics();
 
+      container.addEventListener("click", (event) => {
+        const button = event.target.closest(".toggle-button[data-target]");
+        if (!button) return;
+
+        const targetId = button.getAttribute("data-target");
+        const target = targetId ? document.getElementById(targetId) : null;
+        if (!target) return;
+
+        event.preventDefault();
+        target.classList.toggle("hidden");
+        setToggleButtonState(button, target);
+      });
+
+      container.addEventListener("change", (event) => {
+        const checkbox = event.target.closest("[data-topic-key]");
+        if (!checkbox) return;
+
+        const key = checkbox.getAttribute("data-topic-key");
+        if (!key) return;
+
+        if (checkbox.checked) {
+          completedTopics.add(key);
+        } else {
+          completedTopics.delete(key);
+        }
+
+        saveCompletedTopics();
+        if (currentData.length > 0) {
+          renderContent(currentData);
+        }
+      });
+
       expandSectionsButton.addEventListener("click", () => {
         document.querySelectorAll(".section-body").forEach((element) => element.classList.remove("hidden"));
-        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (target && target.classList.contains("section-body")) {
-            button.textContent = "Collapse";
-            button.setAttribute("aria-expanded", "true");
-          }
-        });
+        syncToggleButtons();
       });
 
       collapseTopicsButton.addEventListener("click", () => {
         document.querySelectorAll(".topic-body").forEach((element) => element.classList.add("hidden"));
-        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (target && target.classList.contains("topic-body")) {
-            button.textContent = "Show Topic";
-            button.setAttribute("aria-expanded", "false");
-          }
-        });
+        syncToggleButtons();
       });
 
       expandTopicsButton.addEventListener("click", () => {
         document.querySelectorAll(".topic-body").forEach((element) => element.classList.remove("hidden"));
-        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (target && target.classList.contains("topic-body")) {
-            button.textContent = "Hide Topic";
-            button.setAttribute("aria-expanded", "true");
-          }
-        });
+        syncToggleButtons();
       });
 
       collapseCodeButton.addEventListener("click", () => {
         document.querySelectorAll(".code-content").forEach((element) => element.classList.add("hidden"));
-        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (target && target.classList.contains("code-content")) {
-            button.textContent = "Show Code";
-            button.setAttribute("aria-expanded", "false");
-          }
-        });
+        syncToggleButtons();
       });
 
       searchInput.addEventListener("input", (event) => {
-        searchTerm = String(event.target.value || "").trim().toLowerCase();
-        if (lastDataSignature) {
-          renderContent(JSON.parse(lastDataSignature));
+        searchTerm = normalizeSearchText(event.target.value || "");
+        if (currentData.length > 0) {
+          renderContent(currentData);
         }
       });
 

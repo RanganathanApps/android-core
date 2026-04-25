@@ -529,7 +529,10 @@
     </section>
     <section class="controls">
       <div class="controls-top">
-        <input id="search-input" class="search-input" type="search" placeholder="Search topics, concepts, tools, or examples">
+        <div>
+          <input id="search-input" list="search-suggestions" class="search-input" type="search" placeholder="Search topics, concepts, tools, or examples">
+          <datalist id="search-suggestions"></datalist>
+        </div>
         <div class="progress-card">
           <div class="progress-label">
             <span>Prep progress</span>
@@ -555,7 +558,7 @@
   <script id="content-data" type="application/json">[
   {
     "id": "android-fundamentals-platform-architecture",
-    "title": "Android Fundamentals & Platform Architecture",
+    "title": "Android Fundamentals & Jetpack Components",
     "topics": [
       {
         "title": "Android Application Components",
@@ -657,7 +660,7 @@
       {
         "title": "Android Jetpack Architecture Components",
         "icon": "",
-        "description": "Summarizes the Jetpack components most frequently used to structure modern Android apps around lifecycle awareness and predictable state handling.",
+        "description": "Summarizes the Jetpack components most frequently used to structure modern Android apps around lifecycle awareness and predictable state handling.Architecture focuses on robust, testable logic and state-driven UI flow. In 2026, the shift is toward high-consistency UDF (Unidirectional Data Flow) and KMP-ready logic.",
         "content_sections": [
           {
             "heading": "ViewModel",
@@ -696,6 +699,27 @@
             ]
           },
           {
+            "heading": "ViewModel & StateFlow Strategies",
+            "points": [
+              "Utilizing StateFlow for UI state to ensure \"at-least-once\" delivery and persistence during configuration changes.",
+              "Handling \"Single-Live Events\" via SharedFlow to prevent event re-triggering (e.g., Snackbars, Nav events).",
+              "SavedStateHandle integration for 2026 process-death resilience in a modularized environment."
+            ]
+          },
+          {
+            "heading": "Navigation 3 Paradigm",
+            "subtopics": [
+              {
+                "title": "Type-Safe Navigation",
+                "description": "Moving away from String routes to Kotlin DSL and Serializable objects for compile-time safety."
+              },
+              {
+                "title": "Navigation as State",
+                "description": "The backstack is treated as a state object (SceneState), making navigation 100% unit-testable without UI."
+              }
+            ]
+          },
+          {
             "heading": "WorkManager",
             "points": [
               "• Deferrable, guaranteed background work",
@@ -703,12 +727,324 @@
               "• Constraints: network, charging, idle",
               "• Chaining and parallel work support"
             ]
+          },
+          {
+            "heading": "Core Data & Logic",
+            "points": [
+              "Paging 3.4: Handles massive datasets with built-in support for separators, headers, and state headers. Works seamlessly with Room and Retrofit/Ktor.",
+              "Room: The SQLite abstraction layer. In 2026, focus on its Kotlin Multiplatform (KMP) capabilities for sharing DAOs across platforms.",
+              "ViewModel & LiveData/StateFlow: Managing UI-related data in a lifecycle-conscious way. (Note: LiveData is largely replaced by StateFlow in 2026).",
+              "Navigation 3: The newest type-safe, state-driven navigation framework for Compose."
+            ]
           }
         ],
-        "code_blocks": []
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "MVI State Update Pattern",
+            "code": "private val _uiState = MutableStateFlow(UiState())\nval uiState = _uiState.asStateFlow()\n\nfun onIntent(intent: UserIntent) {\n    when(intent) {\n        is UserIntent.Refresh -> _uiState.update { it.copy(isLoading = true) }\n    }\n}"
+          }
+        ]
+      },
+      {
+        "title": "Foundation Components & Security",
+        "description": "Foundation components provide the underlying cross-platform support and modern security protocols like Passkeys.undation components provide low-level capabilities, backward compatibility, and the testing infrastructure",
+        "content_sections": [
+          {
+            "heading": "Security & Identity",
+            "points": [
+              "Credentials Manager: The unified API for Passkeys, Biometrics, and Google Identity.",
+              "DataStore-Tink: Using hardware-backed encryption for all local preferences and small data blocks.",
+              "Android KTX: Leveraging Kotlin-first extensions for cleaner, idiomatic system interaction."
+            ]
+          },
+          {
+            "heading": "The Basics",
+            "points": [
+              "AppCompat: Providing backward compatibility for UI and system features.",
+              "Android KTX: Kotlin extensions that turn complex Java-style APIs into concise Kotlin code.",
+              "Multidex: Support for apps with over 64k methods (standardized but still a foundation component).",
+              "Test: Comprehensive libraries for JUnit 5 and Espresso/Compose UI testing."
+            ]
+          }
+        ],
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "Credential Manager Implementation",
+            "code": "val request = GetCredentialRequest.Builder()\n    .addCredentialOption(GetPasswordOption())\n    .addCredentialOption(GetPublicKeyCredentialOption(requestJson))\n    .build()\n\ncredentialManager.getCredential(context, request)"
+          }
+        ]
+      },
+      {
+        "title": "Behavior Components & Agentic AI",
+        "description": "These manage how the app behaves within the Android ecosystem, including permissions, notifications, and background work. Behavioral components manage how your app interacts with the OS, including background execution and the new AppFunctions AI protocol.",
+        "content_sections": [
+          {
+            "heading": "Efficiency",
+            "points": [
+              "AppFunctions: Defining @AppFunction endpoints for Gemini and system AI agents to trigger app logic.",
+              "Baseline Profiles: Crucial for optimizing JIT/AOT compilation paths to ensure 60/120 FPS UI performance."
+            ]
+          },
+          {
+            "heading": "User & System Interaction",
+            "points": [
+              "Permissions: Modern handling via Activity Result APIs. In 2026, focus on \"Approximate Location\" and \"Photo Picker\" integrations.",
+              "WorkManager: The standard for deferrable, guaranteed background execution.",
+              "Notifications: Handling channels, bubbles, and high-priority messaging.",
+              "Sharing: The ShareTarget and Sharing shortcuts for deep system integration.",
+              "AppFunctions: The 2026 way to let AI agents trigger your app actions."
+            ]
+          }
+        ],
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "AI-Ready AppFunction",
+            "code": "@AppFunction\nsuspend fun executeInternalTask(input: String): TaskResult {\n    // This function is now discoverable by On-Device AI agents\n    return repository.process(input)\n}"
+          },
+          {
+            "language": "kotlin",
+            "title": "Modern Permission Request",
+            "code": "val requestPermissionLauncher = registerForActivityResult(\n    ActivityResultContracts.RequestPermission()\n) { isGranted ->\n    if (isGranted) { /* Access granted */ }\n}"
+          }
+        ]
+      },
+      {
+        "title": "UI components, Visuals & Theming",
+        "description": "These components focus on the user-facing layer, from the modern Compose framework to utility libraries like Palette.",
+        "content_sections": [
+          {
+            "heading": "Graphics & Color",
+            "points": [
+              "Palette: Extracts prominent colors from images to dynamically theme UI elements. Critical for \"Music Player\" style UIs.",
+              "Compose Material 3: The standard for Material You and Dynamic Color.",
+              "Emoji2: Ensures your app can render modern emojis even on older Android versions.",
+              "Animations: Shared element transitions and the Motion subsystem for fluid UX."
+            ]
+          },
+          {
+            "heading": "Legacy & Integration",
+            "points": [
+              "Fragments & Views: Still important for maintaining older codebases or using specific View-based libraries.",
+              "Slices: (Legacy Alert) While still in the docs, Slices are largely deprecated in favor of AppFunctions and Widgets in 2026."
+            ]
+          }
+        ],
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "Extracting Palette Colors",
+            "code": "Palette.from(bitmap).generate { palette ->\n    val dominantColor = palette?.getDominantColor(defaultColor)\n    // Update UI background to match image\n}"
+          }
+        ]
       }
     ],
     "description": "Covers the platform building blocks, lifecycle model, and core Jetpack architecture pieces that senior Android engineers are expected to understand deeply before discussing higher-level design tradeoffs."
+  },
+  {
+    "id": "modern-architecture-patterns",
+    "title": "Modern Patterns and Modular Architectures",
+    "topics": [
+      {
+        "title": "The Unidirectional Data Flow (UDF) Standard",
+        "description": "By 2026, UDF is the mandatory standard for Compose apps. Both MVVM+ and MVI rely on a single source of truth for UI state.",
+        "content_sections": [
+          {
+            "heading": "MVVM+ (The Pragmatic Choice)",
+            "points": [
+              "ViewModel exposes multiple StateFlows or a single UiState object.",
+              "Business logic resides in UseCases to keep ViewModels lean.",
+              "Best for standard CRUD apps where state transitions are straightforward."
+            ]
+          },
+          {
+            "heading": "MVI (The State Machine)",
+            "description": "MVI (Model-View-Intent) provides unidirectional data flow: Intent → Model → View. This pattern ensures predictable state management and makes debugging easier through explicit state transitions.",
+            "points": [
+              "Model: A single, immutable State object representing the entire screen.",
+              "Intent: A sealed class of user actions (e.g., ClickLogin, ChangeUsername).",
+              "Reducer: A pure function that takes the current State + Intent and returns a New State.",
+              "Best for complex UIs (Chat, Payments, Media Players) where state consistency is critical."
+            ],
+            "subtopics": [
+              {
+                "title": "State",
+                "description": "Single immutable data class representing entire UI state"
+              },
+              {
+                "title": "Intent",
+                "description": "User actions or events that trigger state changes"
+              },
+              {
+                "title": "Effect",
+                "description": "One-time events like navigation, snackbars, dialogs"
+              },
+              {
+                "title": "Reducer",
+                "description": "Pure function that transforms state based on intents"
+              }
+            ]
+          }
+        ],
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "MVI Reducer Example (2026)",
+            "code": "data class ScreenState(val items: List<String> = emptyList(), val isLoading: Boolean = false)\n\nsealed class UiIntent { object LoadData : UiIntent() }\n\n// The Reducer ensures state transitions are predictable\nfun reduce(oldState: ScreenState, intent: UiIntent): ScreenState = when(intent) {\n    is UiIntent.LoadData -> oldState.copy(isLoading = true)\n}"
+          },
+          {
+            "language": "kotlin",
+            "title": "Example: Complete MVI Implementation",
+            "code": "// 1. UI STATE - single source of truth\ndata class UserListState(\n    val isLoading: Boolean = false,\n    val users: List<User> = emptyList(),\n    val error: String? = null,\n    val searchQuery: String = \"\"\n)\n\n// 2. INTENT - user actions\nsealed class UserListIntent {\n    data class Search(val query: String) : UserListIntent()\n    data class LoadMore() : UserListIntent()\n    data class DeleteUser(val userId: String) : UserListIntent()\n    object Refresh : UserListIntent()\n}\n\n// 3. EFFECT - one-time events (navigation, snackbars)\nsealed class UserListEffect {\n    data class ShowError(val message: String) : UserListEffect()\n    data class NavigateToDetail(val userId: String) : UserListEffect()\n    data class ShowSnackbar(val message: String) : UserListEffect()\n}\n\n// 4. VIEWMODEL - processes intents, emits state\nclass UserListViewModel(\n    private val getUsersUseCase: GetUsersUseCase\n) : ViewModel() {\n\n    private val _state = MutableStateFlow(UserListState())\n    val state: StateFlow<UserListState> = _state.asStateFlow()\n\n    private val _effect = MutableSharedFlow<UserListEffect>()\n    val effect: SharedFlow<UserListEffect> = _effect.asSharedFlow()\n\n    fun processIntent(intent: UserListIntent) {\n        when (intent) {\n            is UserListIntent.Search -> handleSearch(intent.query)\n            is UserListIntent.LoadMore -> handleLoadMore()\n            is UserListIntent.DeleteUser -> handleDelete(intent.userId)\n            UserListIntent.Refresh -> handleRefresh()\n        }\n    }\n\n    private fun handleSearch(query: String) {\n        _state.update { it.copy(searchQuery = query, isLoading = true) }\n        viewModelScope.launch {\n            getUsersUseCase(query).onSuccess { users ->\n                _state.update { it.copy(users = users, isLoading = false) }\n            }.onFailure { e ->\n                _state.update { it.copy(error = e.message, isLoading = false) }\n                _effect.emit(UserListEffect.ShowError(e.message ?: \"Error\"))\n            }\n        }\n    }\n}"
+          }
+        ]
+      },
+      {
+        "title": "The 3-Layer Clean Architecture",
+        "icon": "",
+        "description": "Clean Architecture separates the code into three distinct layers to ensure that business logic is independent of the UI and database. Clean Architecture separates code into layers with strict dependency rules - inner layers know nothing about outer layers. This creates testable, maintainable, and scalable codebases.",
+        "content_sections": [
+          {
+            "heading": "1. Presentation Layer (UI/ViewModel)",
+            "points": [
+              "Purely handles how data is displayed and user interaction.",
+              "Contains Composables and ViewModels.",
+              "Depends only on the Domain Layer."
+            ]
+          },
+          {
+            "heading": "2. Domain Layer (The Brain)",
+            "points": [
+              "The most stable layer. Contains Entities and UseCases.",
+              "In 2026, this layer is usually written in pure Kotlin (no Android dependencies) to be used in KMP.",
+              "Defines Repository Interfaces that the Data layer must implement."
+            ]
+          },
+          {
+            "heading": "3. Data Layer (The Source)",
+            "points": [
+              "Implements Repository Interfaces.",
+              "Coordinates between Network (Ktor/Retrofit) and Local Database (Room).",
+              "Handles Data Mapping (converting API models to Domain entities)."
+            ]
+          },
+          {
+            "heading": "Layer Responsibilities",
+            "points": [
+              "Domain layer has NO Android dependencies - testable without Robolectric",
+              "Use cases encapsulate single business logic - easier to test and maintain",
+              "Repository defines contract, implementation is in data layer",
+              "Dependency direction always points inward - domain doesn't know data sources"
+            ]
+          },
+          {
+            "heading": "Architecture Layers",
+            "points": [],
+            "subtopics": [
+              {
+                "title": "Domain Layer",
+                "description": "Use cases, entities, repository interfaces - pure Kotlin, no Android deps"
+              },
+              {
+                "title": "Data Layer",
+                "description": "Repository implementations, data sources (local/remote), mappers"
+              },
+              {
+                "title": "Presentation Layer",
+                "description": "ViewModels, Composables, UI state - Android-specific UI code"
+              },
+              {
+                "title": "DI Layer",
+                "description": "Hilt modules, dependency provision - connects all layers"
+              }
+            ]
+          }
+        ],
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "Example: Clean Architecture Layers",
+            "code": "// DOMAIN LAYER - Business logic, pure Kotlin\nclass GetUserUseCase(\n    private val repository: UserRepository\n) {\n    suspend operator fun invoke(userId: String): Result<User> {\n        return runCatching {\n            // Business rules here\n            val user = repository.getUser(userId)\n            if (user.isActive) user\n            else throw UserInactiveException()\n        }\n    }\n}\n\n// DATA LAYER - Repository implementations, data sources\nclass UserRepositoryImpl(\n    private val localDataSource: UserLocalDataSource,\n    private val remoteDataSource: UserRemoteDataSource\n) : UserRepository {\n\n    override suspend fun getUser(id: String): User {\n        // Single source of truth logic\n        return localDataSource.getUser(id)\n            ?: remoteDataSource.fetchUser(id).also {\n                localDataSource.saveUser(it)\n            }\n    }\n}\n\n// PRESENTATION LAYER - UI, ViewModels\nclass UserViewModel(\n    private val getUserUseCase: GetUserUseCase\n) : ViewModel() { ... }"
+          }
+        ]
+      },
+      {
+        "title": "Modularization: Feature-Based - Scalability & Build Speed",
+        "description": "Modularization improves build times, enables parallel development, and provides better code organization. Strategic module boundaries are crucial for maintainability. Modern apps are no longer monolithic. They are broken into independent Gradle modules.",
+        "content_sections": [
+          {
+            "heading": "Module Types",
+            "points": [
+              "Feature Modules: (e.g., :feature:login, :feature:dashboard) Contains UI and ViewModels for a specific flow.",
+              "Core Modules: (e.g., :core:network, :core:database, :core:ui-kit) Reusable utilities used across features.",
+              "Domain Modules: Often a single :domain module or split per feature to allow sharing logic via KMP."
+            ]
+          },
+          {
+            "heading": "Benefits",
+            "points": [
+              "Faster Build Times: Gradle only recompiles the changed module.",
+              "Code Ownership: Different teams can own different modules without merge conflicts.",
+              "Dynamic Delivery: Allows downloading features on-demand to keep the initial APK size small."
+            ]
+          },
+          {
+            "heading": "Module Types",
+            "points": [],
+            "subtopics": [
+              {
+                "title": "Feature Modules",
+                "description": "Each feature = separate module - auth, profile, settings. Independent builds"
+              },
+              {
+                "title": "Library Modules",
+                "description": "Common code: ui-components, utils, network, database. Shared across features"
+              },
+              {
+                "title": "App Module",
+                "description": "Entry point, wires dependencies, applies configurations"
+              },
+              {
+                "title": "Dynamic Delivery",
+                "description": "Play Feature Delivery - on-demand module loading for large apps"
+              }
+            ]
+          }
+        ],
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "Example: Module Dependencies",
+            "code": "// settings/build.gradle.kts\nplugins {\n    id(\"com.android.library\")\n    id(\"org.jetbrains.kotlin.android\")\n    id(\"com.google.dagger.hilt.android\")\n}\n\ndependencies {\n    implementation(project(\":core:ui\"))\n    implementation(project(\":core:domain\"))\n    implementation(project(\":core:network\"))\n\n    // Feature module only depends on core modules\n    // No direct dependency on other feature modules!\n}"
+          }
+        ]
+      },
+      {
+        "title": "Dependency Injection (DI) - Hilt vs Koin in 2026",
+        "description": "DI is the glue that connects your layers. The choice depends on your platform targets.",
+        "content_sections": [
+          {
+            "heading": "Hilt (The Android Standard)",
+            "points": [
+              "Built on top of Dagger. Provides compile-time safety.",
+              "Best for Android-only apps due to its deep integration with ViewModels and WorkManager.",
+              "Uses KSP (Kotlin Symbol Processing) in 2026 for 2x faster build times than old kapt."
+            ]
+          },
+          {
+            "heading": "Koin (The KMP Favorite)",
+            "points": [
+              "A lightweight, runtime DI (no code generation).",
+              "Highly preferred for Kotlin Multiplatform because it works natively on iOS and Web.",
+              "Very easy to set up with almost zero boilerplate."
+            ]
+          }
+        ]
+      }
+    ],
+    "description": "Expands the architecture portion of the guide with modern Android design patterns, clean layering, modularization, and DI tradeoffs that are especially useful in senior interviews."
   },
   {
     "id": "kotlin-coroutines-flow",
@@ -717,7 +1053,7 @@
       {
         "title": "Coroutines Deep Dive",
         "icon": "",
-        "description": "Coroutines are the backbone of asynchronous programming in Android. They provide a cleaner alternative to RxJava with structured concurrency. Understanding dispatchers, scopes, and proper error handling is essential for building responsive apps.",
+        "description": "Explains coroutine fundamentals and advanced interview-level concepts together, including dispatchers, scopes, structured concurrency, cancellation, and practical usage patterns in Android apps.",
         "content_sections": [
           {
             "heading": "Core Concepts",
@@ -748,6 +1084,50 @@
                 "description": "Tied to Activity/Fragment lifecycle - auto-cancels when lifecycle ends"
               }
             ]
+          },
+          {
+            "heading": "Dispatchers",
+            "points": [
+              "• Dispatchers.Main: UI operations",
+              "• Dispatchers.IO: Network, disk, database operations",
+              "• Dispatchers.Default: CPU-intensive work",
+              "• Dispatchers.Unconfined: Not recommended for general use"
+            ]
+          },
+          {
+            "heading": "Coroutine Scopes",
+            "points": [
+              "• GlobalScope: app-wide (use sparingly)",
+              "• viewModelScope: tied to ViewModel lifecycle",
+              "• lifecycleScope: tied to Activity/Fragment lifecycle",
+              "• Custom CoroutineScope for specific components"
+            ]
+          },
+          {
+            "heading": "Coroutine Builders",
+            "points": [
+              "• launch: fire-and-forget",
+              "• async: returns Deferred<T>, use with await()",
+              "• runBlocking: blocks thread (tests only)",
+              "• withContext: switch dispatcher"
+            ]
+          },
+          {
+            "heading": "Exception Handling",
+            "points": [
+              "• try-catch in suspend functions",
+              "• CoroutineExceptionHandler for uncaught exceptions",
+              "• supervisorScope: child failure doesn't cancel siblings"
+            ]
+          },
+          {
+            "heading": "Cancellation",
+            "points": [
+              "• Cooperative cancellation",
+              "• Check isActive before long operations",
+              "• ensureActive() throws if cancelled",
+              "• NonCancellable context for critical cleanup"
+            ]
           }
         ],
         "code_blocks": [
@@ -761,7 +1141,7 @@
       {
         "title": "Flow Advanced Patterns",
         "icon": "",
-        "description": "Flow is Kotlin's reactive streams implementation. Master these patterns for reactive data handling in modern Android apps. StateFlow and SharedFlow are the recommended alternatives to LiveData.",
+        "description": "Combines practical Flow usage with interview-level reactive concepts, covering operators, builders, state streams, lifecycle collection, and how to model modern Android data flow.",
         "content_sections": [
           {
             "heading": "Key Flow Operators",
@@ -792,6 +1172,33 @@
                 "title": "CallbackFlow",
                 "description": "Convert callbacks to Flow - useful for legacy APIs and event listeners"
               }
+            ]
+          },
+          {
+            "heading": "Flow Builders",
+            "points": [
+              "• flow { ... }: basic flow builder",
+              "• flowOf(...): fixed set of values",
+              "• asFlow(): convert collections",
+              "• channelFlow: concurrent emissions"
+            ]
+          },
+          {
+            "heading": "Operators",
+            "points": [
+              "• Transformation: map, filter, transform",
+              "• Flattening: flatMapConcat, flatMapMerge, flatMapLatest",
+              "• Combination: combine, zip, merge",
+              "• Terminal: collect, toList, first, reduce"
+            ]
+          },
+          {
+            "heading": "StateFlow vs SharedFlow",
+            "points": [
+              "• StateFlow: always has value, replays latest to new collectors",
+              "• SharedFlow: configurable replay, can have no initial value",
+              "• Use StateFlow for UI state",
+              "• Use SharedFlow for events"
             ]
           }
         ],
@@ -929,96 +1336,9 @@
           }
         ],
         "code_blocks": []
-      },
-      {
-        "title": "Kotlin Coroutines Deep Dive",
-        "icon": "",
-        "description": "Explains coroutine concepts in more interview-style detail, including scopes, dispatchers, and how structured concurrency replaces older async patterns.",
-        "content_sections": [
-          {
-            "heading": "Dispatchers",
-            "points": [
-              "• Dispatchers.Main: UI operations",
-              "• Dispatchers.IO: Network, disk, database operations",
-              "• Dispatchers.Default: CPU-intensive work",
-              "• Dispatchers.Unconfined: Not recommended for general use"
-            ]
-          },
-          {
-            "heading": "Coroutine Scopes",
-            "points": [
-              "• GlobalScope: app-wide (use sparingly)",
-              "• viewModelScope: tied to ViewModel lifecycle",
-              "• lifecycleScope: tied to Activity/Fragment lifecycle",
-              "• Custom CoroutineScope for specific components"
-            ]
-          },
-          {
-            "heading": "Coroutine Builders",
-            "points": [
-              "• launch: fire-and-forget",
-              "• async: returns Deferred<T>, use with await()",
-              "• runBlocking: blocks thread (tests only)",
-              "• withContext: switch dispatcher"
-            ]
-          },
-          {
-            "heading": "Exception Handling",
-            "points": [
-              "• try-catch in suspend functions",
-              "• CoroutineExceptionHandler for uncaught exceptions",
-              "• supervisorScope: child failure doesn't cancel siblings"
-            ]
-          },
-          {
-            "heading": "Cancellation",
-            "points": [
-              "• Cooperative cancellation",
-              "• Check isActive before long operations",
-              "• ensureActive() throws if cancelled",
-              "• NonCancellable context for critical cleanup"
-            ]
-          }
-        ],
-        "code_blocks": []
-      },
-      {
-        "title": "Flow Advanced Concepts",
-        "icon": "",
-        "description": "Expands on Flow as a reactive stream abstraction and focuses on state propagation, stream composition, and lifecycle-aware collection patterns.",
-        "content_sections": [
-          {
-            "heading": "Flow Builders",
-            "points": [
-              "• flow { ... }: basic flow builder",
-              "• flowOf(...): fixed set of values",
-              "• asFlow(): convert collections",
-              "• channelFlow: concurrent emissions"
-            ]
-          },
-          {
-            "heading": "Operators",
-            "points": [
-              "• Transformation: map, filter, transform",
-              "• Flattening: flatMapConcat, flatMapMerge, flatMapLatest",
-              "• Combination: combine, zip, merge",
-              "• Terminal: collect, toList, first, reduce"
-            ]
-          },
-          {
-            "heading": "StateFlow vs SharedFlow",
-            "points": [
-              "• StateFlow: always has value, replays latest to new collectors",
-              "• SharedFlow: configurable replay, can have no initial value",
-              "• Use StateFlow for UI state",
-              "• Use SharedFlow for events"
-            ]
-          }
-        ],
-        "code_blocks": []
       }
     ],
-    "description": "Focuses on the modern Android language toolkit: Kotlin expressiveness, coroutine-based concurrency, and reactive state/data pipelines built with Flow and its variants."
+    "description": "Covers Kotlin language fluency plus the coroutine and Flow patterns that power modern Android concurrency, state propagation, and reactive UI updates."
   },
   {
     "id": "ui-toolkit-views-jetpack-compose",
@@ -1246,126 +1566,9 @@
     "description": "Compares classic Android UI foundations with modern declarative Compose patterns so you can explain both legacy codebases and current best practices confidently."
   },
   {
-    "id": "architecture-state-navigation",
-    "title": "Architecture, State & Navigation",
+    "id": "state-navigation",
+    "title": "State & Navigation",
     "topics": [
-      {
-        "title": "Clean Architecture",
-        "icon": "",
-        "description": "Clean Architecture separates code into layers with strict dependency rules - inner layers know nothing about outer layers. This creates testable, maintainable, and scalable codebases.",
-        "content_sections": [
-          {
-            "heading": "Layer Responsibilities",
-            "points": [
-              "Domain layer has NO Android dependencies - testable without Robolectric",
-              "Use cases encapsulate single business logic - easier to test and maintain",
-              "Repository defines contract, implementation is in data layer",
-              "Dependency direction always points inward - domain doesn't know data sources"
-            ]
-          },
-          {
-            "heading": "Architecture Layers",
-            "points": [],
-            "subtopics": [
-              {
-                "title": "Domain Layer",
-                "description": "Use cases, entities, repository interfaces - pure Kotlin, no Android deps"
-              },
-              {
-                "title": "Data Layer",
-                "description": "Repository implementations, data sources (local/remote), mappers"
-              },
-              {
-                "title": "Presentation Layer",
-                "description": "ViewModels, Composables, UI state - Android-specific UI code"
-              },
-              {
-                "title": "DI Layer",
-                "description": "Hilt modules, dependency provision - connects all layers"
-              }
-            ]
-          }
-        ],
-        "code_blocks": [
-          {
-            "language": "kotlin",
-            "title": "Example: Clean Architecture Layers",
-            "code": "// DOMAIN LAYER - Business logic, pure Kotlin\nclass GetUserUseCase(\n    private val repository: UserRepository\n) {\n    suspend operator fun invoke(userId: String): Result<User> {\n        return runCatching {\n            // Business rules here\n            val user = repository.getUser(userId)\n            if (user.isActive) user\n            else throw UserInactiveException()\n        }\n    }\n}\n\n// DATA LAYER - Repository implementations, data sources\nclass UserRepositoryImpl(\n    private val localDataSource: UserLocalDataSource,\n    private val remoteDataSource: UserRemoteDataSource\n) : UserRepository {\n\n    override suspend fun getUser(id: String): User {\n        // Single source of truth logic\n        return localDataSource.getUser(id)\n            ?: remoteDataSource.fetchUser(id).also {\n                localDataSource.saveUser(it)\n            }\n    }\n}\n\n// PRESENTATION LAYER - UI, ViewModels\nclass UserViewModel(\n    private val getUserUseCase: GetUserUseCase\n) : ViewModel() { ... }"
-          }
-        ]
-      },
-      {
-        "title": "MVI Pattern",
-        "icon": "",
-        "description": "MVI (Model-View-Intent) provides unidirectional data flow: Intent → Model → View. This pattern ensures predictable state management and makes debugging easier through explicit state transitions.",
-        "content_sections": [
-          {
-            "heading": "MVI Components",
-            "points": [],
-            "subtopics": [
-              {
-                "title": "State",
-                "description": "Single immutable data class representing entire UI state"
-              },
-              {
-                "title": "Intent",
-                "description": "User actions or events that trigger state changes"
-              },
-              {
-                "title": "Effect",
-                "description": "One-time events like navigation, snackbars, dialogs"
-              },
-              {
-                "title": "Reducer",
-                "description": "Pure function that transforms state based on intents"
-              }
-            ]
-          }
-        ],
-        "code_blocks": [
-          {
-            "language": "kotlin",
-            "title": "Example: Complete MVI Implementation",
-            "code": "// 1. UI STATE - single source of truth\ndata class UserListState(\n    val isLoading: Boolean = false,\n    val users: List<User> = emptyList(),\n    val error: String? = null,\n    val searchQuery: String = \"\"\n)\n\n// 2. INTENT - user actions\nsealed class UserListIntent {\n    data class Search(val query: String) : UserListIntent()\n    data class LoadMore() : UserListIntent()\n    data class DeleteUser(val userId: String) : UserListIntent()\n    object Refresh : UserListIntent()\n}\n\n// 3. EFFECT - one-time events (navigation, snackbars)\nsealed class UserListEffect {\n    data class ShowError(val message: String) : UserListEffect()\n    data class NavigateToDetail(val userId: String) : UserListEffect()\n    data class ShowSnackbar(val message: String) : UserListEffect()\n}\n\n// 4. VIEWMODEL - processes intents, emits state\nclass UserListViewModel(\n    private val getUsersUseCase: GetUsersUseCase\n) : ViewModel() {\n\n    private val _state = MutableStateFlow(UserListState())\n    val state: StateFlow<UserListState> = _state.asStateFlow()\n\n    private val _effect = MutableSharedFlow<UserListEffect>()\n    val effect: SharedFlow<UserListEffect> = _effect.asSharedFlow()\n\n    fun processIntent(intent: UserListIntent) {\n        when (intent) {\n            is UserListIntent.Search -> handleSearch(intent.query)\n            is UserListIntent.LoadMore -> handleLoadMore()\n            is UserListIntent.DeleteUser -> handleDelete(intent.userId)\n            UserListIntent.Refresh -> handleRefresh()\n        }\n    }\n\n    private fun handleSearch(query: String) {\n        _state.update { it.copy(searchQuery = query, isLoading = true) }\n        viewModelScope.launch {\n            getUsersUseCase(query).onSuccess { users ->\n                _state.update { it.copy(users = users, isLoading = false) }\n            }.onFailure { e ->\n                _state.update { it.copy(error = e.message, isLoading = false) }\n                _effect.emit(UserListEffect.ShowError(e.message ?: \"Error\"))\n            }\n        }\n    }\n}"
-          }
-        ]
-      },
-      {
-        "title": "Modularization Strategy",
-        "icon": "",
-        "description": "Modularization improves build times, enables parallel development, and provides better code organization. Strategic module boundaries are crucial for maintainability.",
-        "content_sections": [
-          {
-            "heading": "Module Types",
-            "points": [],
-            "subtopics": [
-              {
-                "title": "Feature Modules",
-                "description": "Each feature = separate module - auth, profile, settings. Independent builds"
-              },
-              {
-                "title": "Library Modules",
-                "description": "Common code: ui-components, utils, network, database. Shared across features"
-              },
-              {
-                "title": "App Module",
-                "description": "Entry point, wires dependencies, applies configurations"
-              },
-              {
-                "title": "Dynamic Delivery",
-                "description": "Play Feature Delivery - on-demand module loading for large apps"
-              }
-            ]
-          }
-        ],
-        "code_blocks": [
-          {
-            "language": "kotlin",
-            "title": "Example: Module Dependencies",
-            "code": "// settings/build.gradle.kts\nplugins {\n    id(\"com.android.library\")\n    id(\"org.jetbrains.kotlin.android\")\n    id(\"com.google.dagger.hilt.android\")\n}\n\ndependencies {\n    implementation(project(\":core:ui\"))\n    implementation(project(\":core:domain\"))\n    implementation(project(\":core:network\"))\n\n    // Feature module only depends on core modules\n    // No direct dependency on other feature modules!\n}"
-          }
-        ]
-      },
       {
         "title": "ViewModel & SavedStateHandle",
         "icon": "",
@@ -1400,107 +1603,9 @@
             "code": "// Define navigation routes with arguments\nsealed class Screen(val route: String) {\n    object Home : Screen(\"home\")\n    object Detail : Screen(\"detail/{userId}\") {\n        fun createRoute(userId: String) = \"detail/$userId\"\n    }\n    object Settings : Screen(\"settings\")\n}\n\n// NavHost setup\n@Composable\nAppNavHost(\n    navController: NavHostController\n) {\n    NavHost(\n        navController = navController,\n        startDestination = Screen.Home.route\n    ) {\n        composable(Screen.Home.route) {\n            HomeScreen(\n                onUserClick = { userId ->\n                    navController.navigate(Screen.Detail.createRoute(userId))\n                }\n            )\n        }\n\n        composable(\n            route = Screen.Detail.route,\n            arguments = listOf(\n                navArgument(\"userId\") { type = NavType.StringType }\n            )\n        ) { backStackEntry ->\n            val userId = backStackEntry.arguments?.getString(\"userId\")!!\n            DetailScreen(userId = userId)\n        }\n    }\n}\n\n// Deep linking\ncomposable(\n    route = Screen.Detail.route,\n    deepLinks = listOf(\n        deepLink { uriPattern(\"myapp://user/{userId}\" },\n        deepLink { action = Intent.ACTION_VIEW }\n    )\n) { ... }"
           }
         ]
-      },
-      {
-        "title": "Android Architecture Patterns",
-        "icon": "",
-        "description": "Compares the most common Android architecture styles and explains how they affect separation of concerns, scalability, and testing.",
-        "content_sections": [
-          {
-            "heading": "MVC (Model-View-Controller)",
-            "points": [
-              "• Model: Data layer",
-              "• View: UI (Activity/Fragment)",
-              "• Controller: Logic (Activity handles both View and Controller - tight coupling)"
-            ]
-          },
-          {
-            "heading": "MVP (Model-View-Presenter)",
-            "points": [
-              "• Presenter separates business logic from View",
-              "• View is passive - doesn't directly interact with Model",
-              "• Better testability than MVC",
-              "• Challenge: Presenter can grow large"
-            ]
-          },
-          {
-            "heading": "MVVM (Model-View-ViewModel) - RECOMMENDED",
-            "points": [
-              "• ViewModel holds UI state and business logic",
-              "• View observes ViewModel (LiveData/StateFlow)",
-              "• ViewModel survives configuration changes",
-              "• Clean separation of concerns",
-              "• Google recommended architecture"
-            ]
-          },
-          {
-            "heading": "MVI (Model-View-Intent)",
-            "points": [
-              "• Unidirectional data flow",
-              "• Intent: User actions",
-              "• Model: Immutable state",
-              "• View: Renders state",
-              "• Excellent for complex UI state management"
-            ]
-          }
-        ],
-        "code_blocks": []
-      },
-      {
-        "title": "Android Jetpack Architecture Components",
-        "icon": "",
-        "description": "Summarizes the Jetpack components most frequently used to structure modern Android apps around lifecycle awareness and predictable state handling.",
-        "content_sections": [
-          {
-            "heading": "ViewModel",
-            "points": [
-              "• Stores and manages UI-related data",
-              "• Lifecycle-aware: survives configuration changes",
-              "• Should not hold references to Activities/Fragments/Views",
-              "• Use ViewModelFactory for dependency injection"
-            ]
-          },
-          {
-            "heading": "LiveData",
-            "points": [
-              "• Observable data holder",
-              "• Lifecycle-aware: only updates active observers",
-              "• No memory leaks - automatically cleans up",
-              "• Alternative: Kotlin Flow (more powerful)"
-            ]
-          },
-          {
-            "heading": "Room Database",
-            "points": [
-              "• SQLite abstraction layer",
-              "• Compile-time SQL query verification",
-              "• @Entity, @Dao, @Database annotations",
-              "• Supports Flow, LiveData, RxJava"
-            ]
-          },
-          {
-            "heading": "Navigation Component",
-            "points": [
-              "• Handles fragment transactions and back stack",
-              "• Type-safe argument passing with Safe Args",
-              "• Deep linking support",
-              "• Navigation graph visualization"
-            ]
-          },
-          {
-            "heading": "WorkManager",
-            "points": [
-              "• Deferrable, guaranteed background work",
-              "• Respects battery optimization",
-              "• Constraints: network, charging, idle",
-              "• Chaining and parallel work support"
-            ]
-          }
-        ],
-        "code_blocks": []
       }
     ],
-    "description": "Organizes the architectural patterns, state-management decisions, and navigation strategies that shape maintainable, scalable Android applications."
+    "description": "Focuses on app-level architecture decisions, state ownership, modular boundaries, and navigation structure rather than repeating lower-level platform fundamentals."
   },
   {
     "id": "dependency-injection",
@@ -1509,7 +1614,7 @@
       {
         "title": "Hilt Deep Dive",
         "icon": "",
-        "description": "Hilt is the standard DI solution for Android - built on Dagger with Android-specific optimizations. It provides compile-time dependency injection with minimal runtime overhead.",
+        "description": "Covers the Android-focused dependency injection stack with Hilt and Dagger concepts, including scopes, qualifiers, generated components, and production-ready module design.",
         "content_sections": [
           {
             "heading": "Scope Types",
@@ -1542,21 +1647,7 @@
                 "description": "@Binds for interface implementations (faster), @Provides for concrete classes"
               }
             ]
-          }
-        ],
-        "code_blocks": [
-          {
-            "language": "kotlin",
-            "title": "Example: Hilt Modules & Scopes",
-            "code": "// Network Module\n@Module\n@InstallIn(SingletonComponent::class)\nobject NetworkModule {\n\n    @Provides\n    @Singleton\n    fun provideOkHttpClient(\n        loggingInterceptor: LoggingInterceptor\n    ): OkHttpClient {\n        return OkHttpClient.Builder()\n            .addInterceptor(loggingInterceptor)\n            .connectTimeout(30, TimeUnit.SECONDS)\n            .build()\n    }\n\n    @Provides\n    @Singleton\n    fun provideRetrofit(okHttp: OkHttpClient): Retrofit {\n        return Retrofit.Builder()\n            .baseUrl(\"https://api.example.com/\")\n            .client(okHttp)\n            .addConverterFactory(GsonConverterFactory.create())\n            .build()\n    }\n}\n\n// Activity Scope - same instance within an Activity\n@Module\n@InstallIn(ActivityComponent::class)\nobject ActivityModule {\n    @ActivityScoped\n    @Provides\n    fun provideActivityNavigator(\n        activity: Activity\n    ): ActivityNavigator = ActivityNavigator(activity)\n}\n\n// ViewModel Factory with AssistedInject\n@HiltViewModel\nclass UserViewModel @Inject constructor(\n    private val getUserUseCase: GetUserUseCase,\n    private val savedStateHandle: SavedStateHandle\n) : ViewModel() {\n\n    private val userId: String = savedStateHandle[\"userId\"] ?: \"\"\n\n    init { loadUser() }\n}"
-          }
-        ]
-      },
-      {
-        "title": "Dagger & Hilt",
-        "icon": "",
-        "description": "Explains the production-grade DI stack most Android teams use, with emphasis on compile-time graphs, scoping, and generated integration.",
-        "content_sections": [
+          },
           {
             "heading": "Hilt (Recommended for Android)",
             "points": [
@@ -1588,7 +1679,13 @@
             ]
           }
         ],
-        "code_blocks": []
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "Example: Hilt Modules & Scopes",
+            "code": "// Network Module\n@Module\n@InstallIn(SingletonComponent::class)\nobject NetworkModule {\n\n    @Provides\n    @Singleton\n    fun provideOkHttpClient(\n        loggingInterceptor: LoggingInterceptor\n    ): OkHttpClient {\n        return OkHttpClient.Builder()\n            .addInterceptor(loggingInterceptor)\n            .connectTimeout(30, TimeUnit.SECONDS)\n            .build()\n    }\n\n    @Provides\n    @Singleton\n    fun provideRetrofit(okHttp: OkHttpClient): Retrofit {\n        return Retrofit.Builder()\n            .baseUrl(\"https://api.example.com/\")\n            .client(okHttp)\n            .addConverterFactory(GsonConverterFactory.create())\n            .build()\n    }\n}\n\n// Activity Scope - same instance within an Activity\n@Module\n@InstallIn(ActivityComponent::class)\nobject ActivityModule {\n    @ActivityScoped\n    @Provides\n    fun provideActivityNavigator(\n        activity: Activity\n    ): ActivityNavigator = ActivityNavigator(activity)\n}\n\n// ViewModel Factory with AssistedInject\n@HiltViewModel\nclass UserViewModel @Inject constructor(\n    private val getUserUseCase: GetUserUseCase,\n    private val savedStateHandle: SavedStateHandle\n) : ViewModel() {\n\n    private val userId: String = savedStateHandle[\"userId\"] ?: \"\"\n\n    init { loadUser() }\n}"
+          }
+        ]
       },
       {
         "title": "Koin",
@@ -1619,7 +1716,7 @@
         "code_blocks": []
       }
     ],
-    "description": "Explains dependency management approaches from Hilt and Dagger to simpler DI techniques, with emphasis on scope, testability, and modularity."
+    "description": "Organizes dependency management around one clear Android DI section, covering Hilt deeply while still preserving the comparison points with alternative approaches."
   },
   {
     "id": "data-management-persistence",
@@ -1758,55 +1855,7 @@
       {
         "title": "Retrofit & OkHttp",
         "icon": "",
-        "description": "Summarizes the mainstream Android HTTP stack and the responsibilities typically split between transport, serialization, and interceptors.",
-        "content_sections": [],
-        "code_blocks": [
-          {
-            "language": "kotlin",
-            "title": "Example: Complete Network Setup",
-            "code": "// API Interface with full configuration\ninterface UserApi {\n\n    @GET(\"users/{id}\")\n    suspend fun getUser(\n        @Path(\"id\") userId: String,\n        @Query(\"include\") include: String = \"posts,photos\"\n    ): Response<UserDto>\n\n    @POST(\"users\")\n    suspend fun createUser(\n        @Body user: CreateUserRequest\n    ): Response<UserDto>\n\n    @Multipart\n    @POST(\"upload\")\n    suspend fun uploadImage(\n        @Part image: MultipartBody.Part\n    ): Response<UploadResponse>\n}\n\n// OkHttp Interceptors for auth, logging, retry\nclass AuthInterceptor : Interceptor {\n    override fun intercept(chain: Interceptor.Chain): Response {\n        val original = chain.request()\n        val token = getAuthToken()\n\n        val newRequest = original.newBuilder()\n            .header(\"Authorization\", \"Bearer $token\")\n            .header(\"Accept\", \"application/json\")\n            .build()\n\n        return chain.proceed(newRequest)\n    }\n}\n\n// Retry Interceptor with exponential backoff\nclass RetryInterceptor(val maxRetries: Int = 3) : Interceptor {\n    override fun intercept(chain: Interceptor.Chain): Response {\n        val request = chain.request()\n        var response: Response? = null\n        var exception: IOException? = null\n        var retryCount = 0\n\n        while (retryCount < maxRetries) {\n            try {\n                response?.close()\n                response = chain.proceed(request)\n                if (response.isSuccessful) return response\n            } catch (e: IOException) {\n                exception = e\n                retryCount++\n                Thread.sleep(1000L * retryCount) // Exponential backoff\n            }\n        }\n\n        throw exception ?: IOException(\"Unknown error\")\n    }\n}"
-          }
-        ]
-      },
-      {
-        "title": "GraphQL with Apollo",
-        "icon": "",
-        "description": "Introduces GraphQL on Android with Apollo and highlights schema-driven networking, query composition, and caching concerns.",
-        "content_sections": [
-          {
-            "heading": "Key Points",
-            "points": [
-              "Apollo caches responses automatically - configure cache policies",
-              "Fragments reduce duplication across queries",
-              "Subscriptions for real-time data (WebSocket)"
-            ]
-          }
-        ],
-        "code_blocks": [
-          {
-            "language": "kotlin",
-            "title": "Example: Apollo Client Setup",
-            "code": "// Apollo Client with caching\nval apolloClient = ApolloClient.Builder()\n    .httpLink(HttpLink(\"https://api.example.com/graphql\"))\n    .cache(NormalizedCacheFactory(LruNormalizedCacheFactory(10_000_000)))\n    .addInterceptor(AuthorizationInterceptor())\n    .build()\n\n// Query with fragments\nclass GetUserQuery(val userId: String) : Query<GetUserQuery.Data, GetUserQuery.Variables> {\n    override fun queryDocument() = DOCUMENT\n    override fun variables() = Variables(userId)\n\n    data class Data(val user: User)\n    data class Variables(val userId: String)\n}\n\n// Usage with Flow\nsuspend fun getUser(id: String): User {\n    return apolloClient.query(GetUserQuery(id))\n        .execute()\n        .data\n        .user\n}"
-          }
-        ]
-      },
-      {
-        "title": "Certificate Pinning",
-        "icon": "",
-        "description": "Explains transport hardening by restricting trust to expected certificates or public keys for sensitive network paths.",
-        "content_sections": [],
-        "code_blocks": [
-          {
-            "language": "kotlin",
-            "title": "Example: Certificate Pinning",
-            "code": "val certificatePinner = CertificatePinner.Builder()\n    .add(\"api.example.com\", \"sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\")\n    .add(\"api.example.com\", \"sha256/BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=\")\n    .build()\n\nval client = OkHttpClient.Builder()\n    .certificatePinner(certificatePinner)\n    .build()"
-          }
-        ]
-      },
-      {
-        "title": "Retrofit",
-        "icon": "",
-        "description": "Covers Retrofit fundamentals from interface modeling to converters, adapters, and clean integration with suspend functions.",
+        "description": "Combines the core Android HTTP client stack with Retrofit interface design, coroutine support, interceptors, serialization, and production networking patterns.",
         "content_sections": [
           {
             "heading": "Setup",
@@ -1835,13 +1884,27 @@
             ]
           }
         ],
-        "code_blocks": []
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "Example: Complete Network Setup",
+            "code": "// API Interface with full configuration\ninterface UserApi {\n\n    @GET(\"users/{id}\")\n    suspend fun getUser(\n        @Path(\"id\") userId: String,\n        @Query(\"include\") include: String = \"posts,photos\"\n    ): Response<UserDto>\n\n    @POST(\"users\")\n    suspend fun createUser(\n        @Body user: CreateUserRequest\n    ): Response<UserDto>\n\n    @Multipart\n    @POST(\"upload\")\n    suspend fun uploadImage(\n        @Part image: MultipartBody.Part\n    ): Response<UploadResponse>\n}\n\n// OkHttp Interceptors for auth, logging, retry\nclass AuthInterceptor : Interceptor {\n    override fun intercept(chain: Interceptor.Chain): Response {\n        val original = chain.request()\n        val token = getAuthToken()\n\n        val newRequest = original.newBuilder()\n            .header(\"Authorization\", \"Bearer $token\")\n            .header(\"Accept\", \"application/json\")\n            .build()\n\n        return chain.proceed(newRequest)\n    }\n}\n\n// Retry Interceptor with exponential backoff\nclass RetryInterceptor(val maxRetries: Int = 3) : Interceptor {\n    override fun intercept(chain: Interceptor.Chain): Response {\n        val request = chain.request()\n        var response: Response? = null\n        var exception: IOException? = null\n        var retryCount = 0\n\n        while (retryCount < maxRetries) {\n            try {\n                response?.close()\n                response = chain.proceed(request)\n                if (response.isSuccessful) return response\n            } catch (e: IOException) {\n                exception = e\n                retryCount++\n                Thread.sleep(1000L * retryCount) // Exponential backoff\n            }\n        }\n\n        throw exception ?: IOException(\"Unknown error\")\n    }\n}"
+          }
+        ]
       },
       {
-        "title": "GraphQL (Apollo Client)",
+        "title": "GraphQL with Apollo",
         "icon": "",
-        "description": "Reviews Apollo-based GraphQL integration from the perspective of Android interview architecture and API tradeoffs.",
+        "description": "Covers Apollo-based GraphQL integration on Android, including schema-driven requests, caching, query design, and how it differs from REST-based networking.",
         "content_sections": [
+          {
+            "heading": "Key Points",
+            "points": [
+              "Apollo caches responses automatically - configure cache policies",
+              "Fragments reduce duplication across queries",
+              "Subscriptions for real-time data (WebSocket)"
+            ]
+          },
           {
             "heading": "Highlights",
             "points": [
@@ -1849,7 +1912,26 @@
             ]
           }
         ],
-        "code_blocks": []
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "Example: Apollo Client Setup",
+            "code": "// Apollo Client with caching\nval apolloClient = ApolloClient.Builder()\n    .httpLink(HttpLink(\"https://api.example.com/graphql\"))\n    .cache(NormalizedCacheFactory(LruNormalizedCacheFactory(10_000_000)))\n    .addInterceptor(AuthorizationInterceptor())\n    .build()\n\n// Query with fragments\nclass GetUserQuery(val userId: String) : Query<GetUserQuery.Data, GetUserQuery.Variables> {\n    override fun queryDocument() = DOCUMENT\n    override fun variables() = Variables(userId)\n\n    data class Data(val user: User)\n    data class Variables(val userId: String)\n}\n\n// Usage with Flow\nsuspend fun getUser(id: String): User {\n    return apolloClient.query(GetUserQuery(id))\n        .execute()\n        .data\n        .user\n}"
+          }
+        ]
+      },
+      {
+        "title": "Certificate Pinning",
+        "icon": "",
+        "description": "Explains transport hardening by restricting trust to expected certificates or public keys for sensitive network paths.",
+        "content_sections": [],
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "Example: Certificate Pinning",
+            "code": "val certificatePinner = CertificatePinner.Builder()\n    .add(\"api.example.com\", \"sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\")\n    .add(\"api.example.com\", \"sha256/BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=\")\n    .build()\n\nval client = OkHttpClient.Builder()\n    .certificatePinner(certificatePinner)\n    .build()"
+          }
+        ]
       },
       {
         "title": "WebSockets",
@@ -1894,7 +1976,7 @@
         ]
       }
     ],
-    "description": "Reviews the networking stack used in production Android apps, including HTTP clients, GraphQL, security hardening, and resilient API response handling."
+    "description": "Consolidates the Android networking stack into clearer REST and GraphQL topics, plus the resilience and security concerns expected in senior interviews."
   },
   {
     "id": "concurrency-threading-background-work",
@@ -2002,8 +2084,15 @@
       {
         "title": "Compose UI Testing",
         "icon": "",
-        "description": "Focuses on testing declarative UI behavior with semantics-based assertions and controlled state-driven interactions.",
-        "content_sections": [],
+        "description": "Focuses on testing declarative Compose UIs with semantics, recomposition-aware assertions, state-driven checks, and practical Android UI verification patterns.",
+        "content_sections": [
+          {
+            "heading": "Highlights",
+            "points": [
+              "• createComposeRule(): test setup • onNodeWithText(), onNodeWithTag() • performClick(), performTextInput() • assertIsDisplayed(), assertTextEquals() • Semantics for accessibility and testing"
+            ]
+          }
+        ],
         "code_blocks": [
           {
             "language": "kotlin",
@@ -2076,20 +2165,6 @@
         "code_blocks": []
       },
       {
-        "title": "Compose Testing",
-        "icon": "",
-        "description": "Summarizes Compose-specific testing techniques for semantics, recomposition, and UI state verification.",
-        "content_sections": [
-          {
-            "heading": "Highlights",
-            "points": [
-              "• createComposeRule(): test setup • onNodeWithText(), onNodeWithTag() • performClick(), performTextInput() • assertIsDisplayed(), assertTextEquals() • Semantics for accessibility and testing"
-            ]
-          }
-        ],
-        "code_blocks": []
-      },
-      {
         "title": "Test Architecture",
         "icon": "",
         "description": "Explains how to structure tests, fakes, fixtures, and environment boundaries so Android code stays testable as complexity grows.",
@@ -2104,7 +2179,7 @@
         "code_blocks": []
       }
     ],
-    "description": "Summarizes the testing layers expected from senior Android engineers, from fast unit tests to UI automation and overall test architecture."
+    "description": "Keeps the testing section focused on distinct testing layers so Compose-specific testing is covered once, clearly, and in the right place."
   },
   {
     "id": "performance-observability",
@@ -2113,8 +2188,15 @@
       {
         "title": "App Startup Optimization",
         "icon": "",
-        "description": "Focuses on reducing launch cost, measuring startup phases, and eliminating unnecessary work on the critical path.",
-        "content_sections": [],
+        "description": "Covers startup performance from measurement to optimization, including critical-path reduction, deferred initialization, and launch-time diagnostics.",
+        "content_sections": [
+          {
+            "heading": "Highlights",
+            "points": [
+              "• App Startup library for initialization • Lazy initialization with by lazy • ContentProvider initialization overhead • Baseline Profiles for faster startup • Strict Mode for detecting main thread violations"
+            ]
+          }
+        ],
         "code_blocks": [
           {
             "language": "kotlin",
@@ -2126,7 +2208,7 @@
       {
         "title": "Observability",
         "icon": "",
-        "description": "Explains how logs, analytics, crash reporting, and performance signals help teams understand app health in production.",
+        "description": "Brings together crash reporting, analytics, logging, and performance monitoring so Android teams can understand product health and diagnose real-world issues quickly.",
         "content_sections": [
           {
             "heading": "Key Areas",
@@ -2147,6 +2229,12 @@
                 "title": "Remote Config",
                 "description": "Feature flags, A/B testing, dynamic values without app update"
               }
+            ]
+          },
+          {
+            "heading": "Highlights",
+            "points": [
+              "• Firebase Crashlytics • Firebase Analytics • Custom event tracking • Performance monitoring • Network request logging • User session recording (where privacy permits)"
             ]
           }
         ],
@@ -2242,20 +2330,6 @@
         "code_blocks": []
       },
       {
-        "title": "App Startup",
-        "icon": "",
-        "description": "Introduces startup measurement and the common categories of work that should be moved off the launch path.",
-        "content_sections": [
-          {
-            "heading": "Highlights",
-            "points": [
-              "• App Startup library for initialization • Lazy initialization with by lazy • ContentProvider initialization overhead • Baseline Profiles for faster startup • Strict Mode for detecting main thread violations"
-            ]
-          }
-        ],
-        "code_blocks": []
-      },
-      {
         "title": "Battery Optimization",
         "icon": "",
         "description": "Explains how background behavior, networking, wakeups, and scheduling choices affect battery usage and system limits.",
@@ -2282,23 +2356,9 @@
           }
         ],
         "code_blocks": []
-      },
-      {
-        "title": "Monitoring & Observability",
-        "icon": "",
-        "description": "Explains monitoring & observability in the context of performance & observability, with focus on highlights and the practical decisions behind patterns such as • Firebase Crashlytics • Firebase Analytics • Custom event tracking • Performance monitoring • Network request logging • User session recording (where privacy permits).",
-        "content_sections": [
-          {
-            "heading": "Highlights",
-            "points": [
-              "• Firebase Crashlytics • Firebase Analytics • Custom event tracking • Performance monitoring • Network request logging • User session recording (where privacy permits)"
-            ]
-          }
-        ],
-        "code_blocks": []
       }
     ],
-    "description": "Highlights how to diagnose, optimize, and monitor Android apps across startup, rendering, memory, battery use, and production telemetry."
+    "description": "Combines performance tuning and production observability into non-overlapping topics that reflect how senior engineers reason about quality in real apps."
   },
   {
     "id": "security-privacy-app-integrity",
@@ -2482,20 +2542,7 @@
       {
         "title": "Gradle & Build System",
         "icon": "",
-        "description": "Summarizes gradle & build system as part of the broader build, release & ci/cd study area for senior Android interview preparation.",
-        "content_sections": [],
-        "code_blocks": [
-          {
-            "language": "kotlin",
-            "title": "Example: Version Catalogs (libs.versions.toml)",
-            "code": "# gradle/libs.versions.toml\n[versions]\nkotlin = \"1.9.22\"\ncompose = \"1.5.8\"\nhilt = \"2.50\"\nroom = \"2.6.1\"\n\n[libraries]\nkotlin-stdlib = { group = \"org.jetbrains.kotlin\", name = \"kotlin-stdlib\" }\ncompose-ui = { group = \"androidx.compose.ui\", name = \"ui\" }\nhilt-android = { group = \"com.google.dagger\", name = \"hilt-android\" }\nroom-runtime = { group = \"androidx.room\", name = \"room-runtime\" }\n\n[plugins]\nkotlin-android = { id = \"org.jetbrains.kotlin.android\", version.ref = \"kotlin\" }\nhilt = { id = \"com.google.dagger.hilt.android\", version.ref = \"hilt\" }\n\n# app/build.gradle.kts\nplugins {\n    alias(libs.plugins.kotlin.android)\n    alias(libs.plugins.hilt)\n}\n\ndependencies {\n    implementation(libs.compose.ui)\n    implementation(libs.hilt.android)\n}"
-          }
-        ]
-      },
-      {
-        "title": "Gradle Build System",
-        "icon": "",
-        "description": "Reviews the Android build toolchain, dependency modeling, plugin structure, and configuration patterns used in real projects.",
+        "description": "Combines Android build-system fundamentals with modern Gradle practices such as version catalogs, dependency modeling, plugin setup, and build optimization.",
         "content_sections": [
           {
             "heading": "Build Configuration",
@@ -2529,7 +2576,13 @@
             ]
           }
         ],
-        "code_blocks": []
+        "code_blocks": [
+          {
+            "language": "kotlin",
+            "title": "Example: Version Catalogs (libs.versions.toml)",
+            "code": "# gradle/libs.versions.toml\n[versions]\nkotlin = \"1.9.22\"\ncompose = \"1.5.8\"\nhilt = \"2.50\"\nroom = \"2.6.1\"\n\n[libraries]\nkotlin-stdlib = { group = \"org.jetbrains.kotlin\", name = \"kotlin-stdlib\" }\ncompose-ui = { group = \"androidx.compose.ui\", name = \"ui\" }\nhilt-android = { group = \"com.google.dagger\", name = \"hilt-android\" }\nroom-runtime = { group = \"androidx.room\", name = \"room-runtime\" }\n\n[plugins]\nkotlin-android = { id = \"org.jetbrains.kotlin.android\", version.ref = \"kotlin\" }\nhilt = { id = \"com.google.dagger.hilt.android\", version.ref = \"hilt\" }\n\n# app/build.gradle.kts\nplugins {\n    alias(libs.plugins.kotlin.android)\n    alias(libs.plugins.hilt)\n}\n\ndependencies {\n    implementation(libs.compose.ui)\n    implementation(libs.hilt.android)\n}"
+          }
+        ]
       },
       {
         "title": "Continuous Integration",
@@ -2593,7 +2646,7 @@
         "code_blocks": []
       }
     ],
-    "description": "Covers build tooling, release pipelines, signing, and automation practices that help teams ship Android apps safely and repeatedly."
+    "description": "Covers the Android delivery lifecycle cleanly, from local build logic and Gradle structure to CI pipelines, release automation, and signing."
   },
   {
     "id": "advanced-modern-android-topics",
@@ -3085,6 +3138,7 @@
     const container = document.getElementById("content");
     const tocContainer = document.getElementById("toc");
     const searchInput = document.getElementById("search-input");
+    const searchSuggestions = document.getElementById("search-suggestions");
     const priorityFilters = document.getElementById("priority-filters");
     const progressText = document.getElementById("progress-text");
     const progressFill = document.getElementById("progress-fill");
@@ -3096,6 +3150,7 @@
     const placeholderToken = "{{" + "CONTENT_JSON" + "}}";
     const progressStorageKey = "android-interview-guide-progress";
     let lastDataSignature = "";
+    let currentData = [];
     let activePriority = "all";
     let searchTerm = "";
     let completedTopics = new Set();
@@ -3131,6 +3186,14 @@
       }
 
       return lines.join("\n");
+    }
+
+    function normalizeSearchText(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9+#./-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
     }
 
     function loadCompletedTopics() {
@@ -3205,10 +3268,73 @@
         ...(topic.code_blocks || []).flatMap((block) => [block.title, block.code]),
       ]
         .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+        .join(" ");
 
-      return haystack.includes(searchTerm);
+      return normalizeSearchText(haystack).includes(searchTerm);
+    }
+
+    function buildSuggestions(data) {
+      const suggestions = new Set();
+
+      data.forEach((section, sectionIndex) => {
+        suggestions.add(`${sectionIndex + 1}. ${section.title || ""}`.trim());
+        suggestions.add(section.title || "");
+
+        (section.topics || []).forEach((topic, topicIndex) => {
+          suggestions.add(`${sectionIndex + 1}.${topicIndex + 1} ${topic.title || ""}`.trim());
+          suggestions.add(topic.title || "");
+
+          (topic.content_sections || []).forEach((contentSection) => {
+            if (contentSection.heading) {
+              suggestions.add(contentSection.heading);
+            }
+
+            (contentSection.subtopics || []).forEach((subtopic) => {
+              if (subtopic.title) {
+                suggestions.add(subtopic.title);
+              }
+            });
+          });
+
+          (topic.code_blocks || []).forEach((block) => {
+            if (block.title) {
+              suggestions.add(block.title);
+            }
+          });
+        });
+      });
+
+      const filtered = Array.from(suggestions)
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b))
+        .slice(0, 200);
+
+      searchSuggestions.innerHTML = filtered
+        .map((item) => `<option value="${escapeHtml(item)}"></option>`)
+        .join("");
+    }
+
+    function setToggleButtonState(button, target) {
+      if (!button || !target) return;
+      const expanded = !target.classList.contains("hidden");
+      button.setAttribute("aria-expanded", expanded ? "true" : "false");
+
+      if (target.classList.contains("code-content")) {
+        button.textContent = expanded ? "Hide Code" : "Show Code";
+      } else if (target.classList.contains("topic-body")) {
+        button.textContent = expanded ? "Hide Topic" : "Show Topic";
+      } else if (target.classList.contains("section-body")) {
+        button.textContent = expanded ? "Collapse" : "Expand";
+      }
+    }
+
+    function syncToggleButtons() {
+      document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
+        const targetId = button.getAttribute("data-target");
+        const target = targetId ? document.getElementById(targetId) : null;
+        setToggleButtonState(button, target);
+      });
     }
 
     function updateProgress(data) {
@@ -3246,7 +3372,7 @@
       priorityFilters.querySelectorAll("[data-priority]").forEach((button) => {
         button.addEventListener("click", () => {
           activePriority = button.getAttribute("data-priority") || "all";
-          renderContent(JSON.parse(lastDataSignature));
+          renderContent(currentData);
         });
       });
     }
@@ -3260,6 +3386,7 @@
         return;
       }
 
+      buildSuggestions(data);
       renderPriorityFilters();
       updateProgress(data);
 
@@ -3416,41 +3543,7 @@
         container.innerHTML = '<div class="empty-state">No topics matched your current search or priority filter.</div>';
       }
 
-      container.querySelectorAll("[data-topic-key]").forEach((checkbox) => {
-        checkbox.addEventListener("change", (event) => {
-          const key = event.target.getAttribute("data-topic-key");
-          if (!key) return;
-
-          if (event.target.checked) {
-            completedTopics.add(key);
-          } else {
-            completedTopics.delete(key);
-          }
-
-          saveCompletedTopics();
-          renderContent(data);
-        });
-      });
-
-      container.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-        button.addEventListener("click", () => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (!target) return;
-
-          const isHidden = target.classList.toggle("hidden");
-          const expanded = !isHidden;
-          button.setAttribute("aria-expanded", expanded ? "true" : "false");
-
-          if (target.classList.contains("code-content")) {
-            button.textContent = expanded ? "Hide Code" : "Show Code";
-          } else if (target.classList.contains("topic-body")) {
-            button.textContent = expanded ? "Hide Topic" : "Show Topic";
-          } else {
-            button.textContent = expanded ? "Collapse" : "Expand";
-          }
-        });
-      });
+      syncToggleButtons();
     }
 
     function renderMessage(message) {
@@ -3461,8 +3554,10 @@
       const nextSignature = JSON.stringify(data);
       if (nextSignature !== lastDataSignature) {
         lastDataSignature = nextSignature;
+        currentData = data;
         renderContent(data);
       } else {
+        currentData = data;
         renderContent(data);
       }
     }
@@ -3492,58 +3587,62 @@
     async function startPage() {
       loadCompletedTopics();
 
+      container.addEventListener("click", (event) => {
+        const button = event.target.closest(".toggle-button[data-target]");
+        if (!button) return;
+
+        const targetId = button.getAttribute("data-target");
+        const target = targetId ? document.getElementById(targetId) : null;
+        if (!target) return;
+
+        event.preventDefault();
+        target.classList.toggle("hidden");
+        setToggleButtonState(button, target);
+      });
+
+      container.addEventListener("change", (event) => {
+        const checkbox = event.target.closest("[data-topic-key]");
+        if (!checkbox) return;
+
+        const key = checkbox.getAttribute("data-topic-key");
+        if (!key) return;
+
+        if (checkbox.checked) {
+          completedTopics.add(key);
+        } else {
+          completedTopics.delete(key);
+        }
+
+        saveCompletedTopics();
+        if (currentData.length > 0) {
+          renderContent(currentData);
+        }
+      });
+
       expandSectionsButton.addEventListener("click", () => {
         document.querySelectorAll(".section-body").forEach((element) => element.classList.remove("hidden"));
-        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (target && target.classList.contains("section-body")) {
-            button.textContent = "Collapse";
-            button.setAttribute("aria-expanded", "true");
-          }
-        });
+        syncToggleButtons();
       });
 
       collapseTopicsButton.addEventListener("click", () => {
         document.querySelectorAll(".topic-body").forEach((element) => element.classList.add("hidden"));
-        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (target && target.classList.contains("topic-body")) {
-            button.textContent = "Show Topic";
-            button.setAttribute("aria-expanded", "false");
-          }
-        });
+        syncToggleButtons();
       });
 
       expandTopicsButton.addEventListener("click", () => {
         document.querySelectorAll(".topic-body").forEach((element) => element.classList.remove("hidden"));
-        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (target && target.classList.contains("topic-body")) {
-            button.textContent = "Hide Topic";
-            button.setAttribute("aria-expanded", "true");
-          }
-        });
+        syncToggleButtons();
       });
 
       collapseCodeButton.addEventListener("click", () => {
         document.querySelectorAll(".code-content").forEach((element) => element.classList.add("hidden"));
-        document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
-          const targetId = button.getAttribute("data-target");
-          const target = targetId ? document.getElementById(targetId) : null;
-          if (target && target.classList.contains("code-content")) {
-            button.textContent = "Show Code";
-            button.setAttribute("aria-expanded", "false");
-          }
-        });
+        syncToggleButtons();
       });
 
       searchInput.addEventListener("input", (event) => {
-        searchTerm = String(event.target.value || "").trim().toLowerCase();
-        if (lastDataSignature) {
-          renderContent(JSON.parse(lastDataSignature));
+        searchTerm = normalizeSearchText(event.target.value || "");
+        if (currentData.length > 0) {
+          renderContent(currentData);
         }
       });
 
