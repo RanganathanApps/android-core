@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senior Android Engineer Roadmap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      
+      /* Premium dark palette */
+      --bg-deep: #050508;
+      --bg-primary: #0D0D12;
+      --bg-elevated: #141419;
+      --bg-card: #18181F;
+      
+      --text-primary: #FAFAFA;
+      --text-secondary: #A1A1AA;
+      --text-muted: #52525B;
+      
+      --border-subtle: #27272A;
+      --border-default: #3F3F46;
+      
+      /* Phase colors */
+      --p1: #A78BFA;
+      --p2: #34D399;
+      --p3: #60A5FA;
+      --p4: #FB923C;
+      --p5: #FACC15;
+      --p6: #4ADE80;
+      --p7: #F472B6;
+      --p8: #C084FC;
+      --p9: #22D3EE;
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 4rem;
+      padding: 3rem 2rem;
+      background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-primary) 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-default), transparent);
+    }
+
+    .header-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--p1);
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .header-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-meta svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.6;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 48px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--p1), var(--p2), var(--p3), var(--p4), var(--p5), var(--p6), var(--p7), var(--p8), var(--p9));
+      border-radius: 2px;
+    }
+
+    /* Phase */
+    .phase {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+
+    .phase-marker {
+      position: absolute;
+      left: -48px;
+      top: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .phase-p1 .phase-marker { background: var(--p1); color: #000; }
+    .phase-p2 .phase-marker { background: var(--p2); color: #000; }
+    .phase-p3 .phase-marker { background: var(--p3); color: #000; }
+    .phase-p4 .phase-marker { background: var(--p4); color: #000; }
+    .phase-p5 .phase-marker { background: var(--p5); color: #000; }
+    .phase-p6 .phase-marker { background: var(--p6); color: #000; }
+    .phase-p7 .phase-marker { background: var(--p7); color: #000; }
+    .phase-p8 .phase-marker { background: var(--p8); color: #000; }
+    .phase-p9 .phase-marker { background: var(--p9); color: #000; }
+
+    .phase-header {
+      margin-bottom: 1rem;
+    }
+
+    .phase-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .phase-p1 .phase-title { color: var(--p1); }
+    .phase-p2 .phase-title { color: var(--p2); }
+    .phase-p3 .phase-title { color: var(--p3); }
+    .phase-p4 .phase-title { color: var(--p4); }
+    .phase-p5 .phase-title { color: var(--p5); }
+    .phase-p6 .phase-title { color: var(--p6); }
+    .phase-p7 .phase-title { color: var(--p7); }
+    .phase-p8 .phase-title { color: var(--p8); }
+    .phase-p9 .phase-title { color: var(--p9); }
+
+    .phase-duration {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .phase-duration .new-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      margin-left: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .phase-p3 .new-badge, .phase-p4 .new-badge, .phase-p5 .new-badge, .phase-p8 .new-badge {
+      background: rgba(74, 222, 128, 0.15);
+      color: var(--p6);
+    }
+
+    .phase-p6 .new-badge {
+      background: rgba(250, 204, 21, 0.15);
+      color: var(--p5);
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 1.25rem;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      padding-left: 4px;
+    }
+
+    /* Topic list */
+    .topic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .topic-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .topic-item:hover {
+      background: var(--bg-elevated);
+      border-color: var(--border-default);
+      transform: translateX(4px);
+    }
+
+    .topic-icon {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .phase-p1 .topic-icon { background: var(--p1); }
+    .phase-p2 .topic-icon { background: var(--p2); }
+    .phase-p3 .topic-icon { background: var(--p3); }
+    .phase-p4 .topic-icon { background: var(--p4); }
+    .phase-p5 .topic-icon { background: var(--p5); }
+    .phase-p6 .topic-icon { background: var(--p6); }
+    .phase-p7 .topic-icon { background: var(--p7); }
+    .phase-p8 .topic-icon { background: var(--p8); }
+    .phase-p9 .topic-icon { background: var(--p9); }
+
+    .topic-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .topic-label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .topic-items {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 1rem 0;
+    }
+
+    /* Summary */
+    .summary {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .summary h3 {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1rem;
+    }
+
+    .summary-item {
+      text-align: center;
+      padding: 1rem 0.5rem;
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .summary-num {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: block;
+    }
+
+    .summary-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .header-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .timeline {
+        padding-left: 32px;
+      }
+      
+      .timeline::before {
+        left: 10px;
+      }
+      
+      .phase-marker {
+        left: -32px;
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+      }
+      
+      .summary-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Animations */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .phase {
+      opacity: 0;
+      animation: slideIn 0.5s ease forwards;
+    }
+
+    .phase:nth-child(1) { animation-delay: 0.1s; }
+    .phase:nth-child(2) { animation-delay: 0.15s; }
+    .phase:nth-child(3) { animation-delay: 0.2s; }
+    .phase:nth-child(4) { animation-delay: 0.25s; }
+    .phase:nth-child(5) { animation-delay: 0.3s; }
+    .phase:nth-child(6) { animation-delay: 0.35s; }
+    .phase:nth-child(7) { animation-delay: 0.4s; }
+    .phase:nth-child(8) { animation-delay: 0.45s; }
+    .phase:nth-child(9) { animation-delay: 0.5s; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-deep);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-default);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-label">Career Roadmap</div>
+      <h1>Senior Android Engineer</h1>
+      <div class="header-meta">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Ranganathan · 10+ yrs
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+          Target: Product-based MNCs
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          ~6–7 months
+        </span>
+      </div>
+    </header>
+
+    <!-- Timeline -->
+    <div class="timeline">
+
+      <!-- PHASE 1 -->
+      <div class="phase phase-p1">
+        <div class="phase-marker">P1</div>
+        <div class="phase-header">
+          <div class="phase-title">Modern Android Stack Refresh</div>
+          <div class="phase-duration">Weeks 1–4</div>
+        </div>
+        
+        <div class="section">
+          <div class="section-label">Jetpack Compose (deep)</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Compose Internals</div>
+                <div class="topic-items">Recomposition, remember, derivedStateOf, key(), Slot API</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Compose UI</div>
+                <div class="topic-items">Custom layouts, Canvas API, LazyList optimizations, side effects</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Animations</div>
+                <div class="topic-items">AnimatedVisibility, AnimatedContent, shared element transitions, Animatable</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Compose Performance</div>
+                <div class="topic-items">Stability annotations, skippable composables, Layout Inspector, Baseline Profiles</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+          <div class="section-label">Jetpack Components</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">State & Lifecycle</div>
+                <div class="topic-items">ViewModel, StateFlow, SharedFlow, collectAsStateWithLifecycle</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Navigation</div>
+                <div class="topic-items">Compose Nav, type-safe navigation, deep links, back stack handling</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Data Layer</div>
+                <div class="topic-items">Room (with KSP), DataStore (Proto + Preferences), Paging 3</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Background Work</div>
+                <div class="topic-items">WorkManager, Foreground Services, AlarmManager, JobScheduler</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Dependency Injection</div>
+                <div class="topic-items">Hilt (full), Dagger2 internals, scopes, component hierarchy</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Networking</div>
+                <div class="topic-items">Retrofit, OkHttp interceptors, caching, GraphQL + Apollo, cert pinning</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+          <div class="section-label">Kotlin Mastery</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Coroutines (advanced)</div>
+                <div class="topic-items">Dispatcher internals, structured concurrency, SupervisorScope, exception handling</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Flow (advanced)</div>
+                <div class="topic-items">Cold vs hot, StateFlow, SharedFlow, flatMapLatest, zip, combine, buffer</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Kotlin Features</div>
+                <div class="topic-items">Sealed classes, inline/reified, DSL builders, delegates, context receivers</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Build System</div>
+                <div class="topic-items">Gradle KTS, version catalogs (TOML), custom plugins, build variants, R8/ProGuard</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="phase phase-p2">
+        <div class="phase-marker">P2</div>
+        <div class="phase-header">
+          <div class="phase-title">Architecture & System Design</div>
+          <div class="phase-duration">Weeks 5–9</div>
+        </div>
+        
+        <div class="section">
+          <div class="section-label">Architecture patterns</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Clean Architecture</div>
+                <div class="topic-items">Domain / Data / Presentation layers, dependency rule, use cases</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">MVI Pattern</div>
+                <div class="topic-items">Intent → State → Effect, unidirectional data flow, UiState modeling</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">MVVM vs MVI</div>
+                <div class="topic-items">Trade-offs, when to use which, migration strategy</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Modularization</div>
+                <div class="topic-items">Feature / library / app modules, dynamic delivery, avoiding circular deps</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+          <div class="section-label">Mobile system design scenarios</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Image Loading Library</div>
+                <div class="topic-items">Cache layers, memory/disk, placeholder, transformation pipeline</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Offline-First App</div>
+                <div class="topic-items">Single source of truth, sync strategy, conflict resolution, NetworkBoundResource</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Real-Time Chat</div>
+                <div class="topic-items">WebSocket, message queue, delivery receipts, local DB sync</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Video Feed (Reels)</div>
+                <div class="topic-items">ExoPlayer, prefetch, cache eviction, adaptive streaming</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Payment / Fintech App</div>
+                <div class="topic-items">Secure storage, transaction states, retry logic, audit trail</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Location Tracking</div>
+                <div class="topic-items">FusedLocationProvider, geofencing, battery tradeoffs, background handling</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+          <div class="section-label">Performance engineering</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Profiling Tools</div>
+                <div class="topic-items">Perfetto, Systrace, Android Profiler, Memory Profiler, LeakCanary</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">App Startup</div>
+                <div class="topic-items">Cold / warm / hot start, App Startup library, lazy init, Baseline Profiles</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">ANR & Jank</div>
+                <div class="topic-items">Main thread violations, Choreographer, frame pacing, StrictMode</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Memory & Battery</div>
+                <div class="topic-items">Heap analysis, object pools, Doze mode, Standby buckets, wakelocks</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+          <div class="section-label">Legacy & refactoring</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Technical Debt Strategy</div>
+                <div class="topic-items">SOLID principles, incremental refactoring, strangler fig pattern</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">XML → Compose Migration</div>
+                <div class="topic-items">Interop APIs (AndroidView, ComposeView), migration strategy for large codebases</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="phase phase-p3">
+        <div class="phase-marker">P3</div>
+        <div class="phase-header">
+          <div class="phase-title">Testing — Full Stack</div>
+          <div class="phase-duration">Weeks 10–13 <span class="new-badge">New</span></div>
+        </div>
+        
+        <div class="topic-list">
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Unit Testing</div>
+              <div class="topic-items">JUnit 4/5, MockK, Turbine (Flow), testing ViewModels & UseCases in isolation</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">UI Testing</div>
+              <div class="topic-items">Compose UI test rules, semantics, Espresso for View-based screens</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Integration Testing</div>
+              <div class="topic-items">Room DAO tests, MockWebServer for API layer, end-to-end flows</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Screenshot Testing</div>
+              <div class="topic-items">Paparazzi, Shot — pixel-perfect regression testing for UI</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">TDD Mindset</div>
+              <div class="topic-items">Red-green-refactor, writing tests first, contract-driven development</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Test Coverage</div>
+              <div class="topic-items">Coverage thresholds, Kover, enforcing coverage in CI on every PR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 4 -->
+      <div class="phase phase-p4">
+        <div class="phase-marker">P4</div>
+        <div class="phase-header">
+          <div class="phase-title">Security</div>
+          <div class="phase-duration">Weeks 14–16 <span class="new-badge">New</span></div>
+        </div>
+        
+        <div class="topic-list">
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Android Keystore</div>
+              <div class="topic-items">Key generation, AES/RSA encryption, hardware-backed keys, key attestation</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Secure Storage</div>
+              <div class="topic-items">EncryptedSharedPreferences, EncryptedFile, avoiding storing secrets in code</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Network Security</div>
+              <div class="topic-items">SSL / certificate pinning, Network Security Config, HTTPS enforcement</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Biometric Auth</div>
+              <div class="topic-items">BiometricPrompt API, Class 2 vs Class 3 biometrics, crypto-backed auth</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Code Protection</div>
+              <div class="topic-items">R8 / ProGuard rules, obfuscation, tamper detection, root detection</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Play Integrity API</div>
+              <div class="topic-items">Replacing SafetyNet, device integrity checks, token verification flow</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Permissions</div>
+              <div class="topic-items">Runtime permissions, permission groups, scoped storage, privacy dashboard</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">API Key Management</div>
+              <div class="topic-items">Remote config vs local, env vars in CI, never in source code</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 5 -->
+      <div class="phase phase-p5">
+        <div class="phase-marker">P5</div>
+        <div class="phase-header">
+          <div class="phase-title">CI/CD, DevOps & Observability</div>
+          <div class="phase-duration">Weeks 17–18 <span class="new-badge">New</span></div>
+        </div>
+        
+        <div class="topic-list">
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">CI/CD Pipelines</div>
+              <div class="topic-items">GitHub Actions, Bitrise, or Fastlane — automated build, test, sign, deploy</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Release Management</div>
+              <div class="topic-items">App bundle vs APK, signing configs, build flavors, staged rollouts</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Crash & Performance</div>
+              <div class="topic-items">Firebase Crashlytics, Firebase Performance, Sentry / Datadog integration</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Feature Flags</div>
+              <div class="topic-items">Firebase Remote Config, LaunchDarkly — safe deploys, A/B testing</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Analytics</div>
+              <div class="topic-items">Firebase Analytics, custom events, funnels, crash-free users metric</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Code Quality Gates</div>
+              <div class="topic-items">Detekt, ktlint, test coverage threshold — enforced on every PR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 6 -->
+      <div class="phase phase-p6">
+        <div class="phase-marker">P6</div>
+        <div class="phase-header">
+          <div class="phase-title">DSA & Problem Solving</div>
+          <div class="phase-duration">Weeks 1–26 <span class="new-badge">Parallel</span></div>
+        </div>
+        
+        <div class="section">
+          <div class="section-label">Core data structures</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Arrays & Strings</div>
+                <div class="topic-items">Two pointers, sliding window, prefix sums, anagram detection</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">HashMaps & Sets</div>
+                <div class="topic-items">Frequency maps, grouping, two-sum pattern, LRU cache</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Linked Lists</div>
+                <div class="topic-items">Fast/slow pointer, reversal, cycle detection, merge sorted lists</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Stacks & Queues</div>
+                <div class="topic-items">Monotonic stack, BFS with queue, deque, min-stack</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Trees</div>
+                <div class="topic-items">BFS, DFS (in/pre/post), BST operations, lowest common ancestor</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Graphs</div>
+                <div class="topic-items">BFS, DFS, Dijkstra, Union-Find, topological sort, cycle detection</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Heap / Priority Queue</div>
+                <div class="topic-items">Top-K problems, merge K sorted lists, median of stream</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Trie</div>
+                <div class="topic-items">Autocomplete, word search, prefix matching</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+          <div class="section-label">Algorithms & techniques</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Dynamic Programming</div>
+                <div class="topic-items">Memoization, tabulation, knapsack, LCS, coin change, house robber</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Recursion & Backtracking</div>
+                <div class="topic-items">Permutations, combinations, N-Queens, Sudoku solver</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Sorting & Searching</div>
+                <div class="topic-items">Merge sort, quick sort, binary search variants, search rotated array</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Bit Manipulation</div>
+                <div class="topic-items">XOR tricks, single number, counting bits, power of two — Google / Microsoft favorite</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+          <div class="section-label">Practice strategy</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Daily Target</div>
+                <div class="topic-items">2 problems/day minimum. Easy first month, Medium from month 2, select Hard from month 4</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Total Target</div>
+                <div class="topic-items">150–200 problems on LeetCode. Focus: Google, Amazon, Microsoft company tags</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Weekly Review</div>
+                <div class="topic-items">Re-solve 3–5 previously solved problems. Pattern recognition over memorization</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 7 -->
+      <div class="phase phase-p7">
+        <div class="phase-marker">P7</div>
+        <div class="phase-header">
+          <div class="phase-title">AI Integration & On-Device ML</div>
+          <div class="phase-duration">Weeks 19–22</div>
+        </div>
+        
+        <div class="topic-list">
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">ML Kit</div>
+              <div class="topic-items">Text recognition, face detection, translation, barcode scanning — Google's ready-made APIs</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">TensorFlow Lite</div>
+              <div class="topic-items">Custom model deployment, quantization, NNAPI delegate, GPU delegate</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">MediaPipe</div>
+              <div class="topic-items">Real-time pose, hand, face landmark detection on-device</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Gemini Nano</div>
+              <div class="topic-items">On-device LLM (Android 14+), AICore API, private inference</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">LLM API Integration</div>
+              <div class="topic-items">Gemini / OpenAI API calls from Android, streaming responses, prompt engineering</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">AI-Assisted Coding</div>
+              <div class="topic-items">Gemini in Android Studio, GitHub Copilot — use to write boilerplate 60% faster</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Edge vs Cloud AI</div>
+              <div class="topic-items">Latency, privacy, model size tradeoffs — be ready to discuss in system design</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Build 1 AI App</div>
+              <div class="topic-items">Ship one real AI-powered Android app — biggest portfolio differentiator</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 8 -->
+      <div class="phase phase-p8">
+        <div class="phase-marker">P8</div>
+        <div class="phase-header">
+          <div class="phase-title">Kotlin Multiplatform (KMP)</div>
+          <div class="phase-duration">Weeks 23–24 <span class="new-badge">New</span></div>
+        </div>
+        
+        <div class="topic-list">
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">KMP Fundamentals</div>
+              <div class="topic-items">expect/actual pattern, shared module structure, common vs platform code</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+            <div class="topic-content">
+              <div class="topic-label">Shared Business Logic</div>
+              <div class="topic-items">Repositories, use cases, ViewModels sharing between Android & iOS</div>
+            </div>
+          </div>
+          <div class="topic-item">
+            <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Ktor (HTTP client)</div>
+                <div class="topic-items">Multiplatform HTTP, serialization, auth interceptors in shared code</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">SQLDelight</div>
+                <div class="topic-items">Multiplatform database, type-safe SQL, reactive queries</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Compose Multiplatform</div>
+                <div class="topic-items">Awareness level — UI sharing roadmap, current maturity & limitations</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 9 -->
+      <div class="phase phase-p9">
+        <div class="phase-marker">P9</div>
+        <div class="phase-header">
+          <div class="phase-title">Interview Prep & Portfolio</div>
+          <div class="phase-duration">Weeks 25–28</div>
+        </div>
+        
+        <div class="section">
+          <div class="section-label">Technical interview prep</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Mock Coding Rounds</div>
+                <div class="topic-items">Pramp, Interviewing.io, peer mocks — timed, spoken-aloud solving</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Android Deep Dives</div>
+                <div class="topic-items">Lifecycle edge cases, IPC (AIDL, Binder), rendering pipeline, app bundle internals</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">System Design Practice</div>
+                <div class="topic-items">Whiteboard 5–6 mobile system designs, time-box to 45 mins each</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Code Review Skills</div>
+                <div class="topic-items">Practice giving structured reviews — performance, security, architecture, readability</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+          <div class="section-label">Behavioral & leadership</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">STAR Stories (prepare 10)</div>
+                <div class="topic-items">Mentoring, conflict resolution, technical decisions, failures, driving change</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Ownership Signals</div>
+                <div class="topic-items">Show you own problems end-to-end, not just your assigned ticket</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Trade-off Thinking</div>
+                <div class="topic-items">Never say "this is the best way" — always articulate why over alternatives</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">Scale Mindset</div>
+                <div class="topic-items">Answers should reflect systems with millions of users, not 10k</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+          <div class="section-label">Portfolio (must ship before applying)</div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">App 1 — Architecture Showcase</div>
+                <div class="topic-items">Clean Arch + MVI + Hilt + Compose + full test suite + offline-first</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">App 2 — AI-Powered App</div>
+                <div class="topic-items">On-device ML or LLM integration. Real feature, not a demo</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">App 3 — Modularized</div>
+                <div class="topic-items">Multi-feature, multi-module, with CI/CD pipeline on GitHub</div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-icon"></div>
+              <div class="topic-content">
+                <div class="topic-label">LinkedIn & Resume</div>
+                <div class="topic-items">Keywords: Compose, Hilt, Coroutines, MVI, Clean Arch, KMP, CI/CD. Add metrics</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Summary -->
+    <div class="summary">
+      <h3>At a Glance</h3>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="summary-num">9</span>
+          <span class="summary-label">Phases</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-num">~28</span>
+          <span class="summary-label">Weeks</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-num">150–200</span>
+          <span class="summary-label">LeetCode</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-num">3</span>
+          <span class="summary-label">Apps</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-num">2/day</span>
+          <span class="summary-label">DSA</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-num">10</span>
+          <span class="summary-label">STAR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
