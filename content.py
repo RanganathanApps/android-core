@@ -3,6 +3,8 @@
 from ast import literal_eval
 from pathlib import Path
 
+from content_deep_enhancements import apply_deep_enhancements
+
 CONTENT = [
     {
         "id": "kotlin-coroutines-flow",
@@ -3639,3 +3641,5 @@ for _section in _merged_content:
     _seen_ids.add(_section_id)
     _seen_titles.add(_section_title)
     CONTENT.append(_section)
+
+CONTENT = apply_deep_enhancements(CONTENT)

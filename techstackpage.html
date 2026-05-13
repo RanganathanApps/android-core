@@ -1666,7 +1666,6 @@
           topicEl.innerHTML = `
             <div class="topic-title">
               <span class="topic-number">${topicNumber}</span>
-              <span class="icon">${escapeHtml(topic.icon || "")}</span>
               <span>${escapeHtml(topic.title || "Untitled Topic")}</span>
               <div class="topic-actions">
                 <button type="button" class="toggle-button arrow-toggle" data-target="${topicBodyId}" aria-expanded="${topicExpanded ? "true" : "false"}" title="Toggle topic"></button>
