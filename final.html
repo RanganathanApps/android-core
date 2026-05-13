@@ -1078,45 +1078,45 @@
           {
             "heading": "Activities",
             "points": [
-              "• Single screen with user interface",
-              "• Lifecycle: onCreate() → onStart() → onResume() → onPause() → onStop() → onDestroy()",
-              "• Configuration changes (rotation) destroy and recreate activity",
-              "• Use ViewModel to survive configuration changes"
+              "Single screen with user interface",
+              "Lifecycle: onCreate() → onStart() → onResume() → onPause() → onStop() → onDestroy()",
+              "Configuration changes (rotation) destroy and recreate activity",
+              "Use ViewModel to survive configuration changes"
             ]
           },
           {
             "heading": "Fragments",
             "points": [
-              "• Reusable UI components within Activities",
-              "• Lifecycle tied to hosting Activity but with additional callbacks",
-              "• FragmentManager handles fragment transactions",
-              "• Navigation Component for modern fragment navigation"
+              "Reusable UI components within Activities",
+              "Lifecycle tied to hosting Activity but with additional callbacks",
+              "FragmentManager handles fragment transactions",
+              "Navigation Component for modern fragment navigation"
             ]
           },
           {
             "heading": "Services",
             "points": [
-              "• Background operations without UI",
-              "• Started Service: runs until stopped",
-              "• Bound Service: client-server interface",
-              "• Foreground Service: visible to user (notification required)",
-              "• WorkManager preferred for deferrable background work"
+              "Background operations without UI",
+              "Started Service: runs until stopped",
+              "Bound Service: client-server interface",
+              "Foreground Service: visible to user (notification required)",
+              "WorkManager preferred for deferrable background work"
             ]
           },
           {
             "heading": "Broadcast Receivers",
             "points": [
-              "• Listen for system-wide broadcast announcements",
-              "• Can be registered in manifest or dynamically",
-              "• Android 8.0+ restricts implicit broadcasts"
+              "Listen for system-wide broadcast announcements",
+              "Can be registered in manifest or dynamically",
+              "Android 8.0+ restricts implicit broadcasts"
             ]
           },
           {
             "heading": "Content Providers",
             "points": [
-              "• Manage shared app data",
-              "• Standard interface for data access across processes",
-              "• Uses URI scheme for data access"
+              "Manage shared app data",
+              "Standard interface for data access across processes",
+              "Uses URI scheme for data access"
             ]
           }
         ],
@@ -1130,38 +1130,38 @@
           {
             "heading": "MVC (Model-View-Controller)",
             "points": [
-              "• Model: Data layer",
-              "• View: UI (Activity/Fragment)",
-              "• Controller: Logic (Activity handles both View and Controller - tight coupling)"
+              "Model: Data layer",
+              "View: UI (Activity/Fragment)",
+              "Controller: Logic (Activity handles both View and Controller - tight coupling)"
             ]
           },
           {
             "heading": "MVP (Model-View-Presenter)",
             "points": [
-              "• Presenter separates business logic from View",
-              "• View is passive - doesn't directly interact with Model",
-              "• Better testability than MVC",
-              "• Challenge: Presenter can grow large"
+              "Presenter separates business logic from View",
+              "View is passive - doesn't directly interact with Model",
+              "Better testability than MVC",
+              "Challenge: Presenter can grow large"
             ]
           },
           {
             "heading": "MVVM (Model-View-ViewModel) - RECOMMENDED",
             "points": [
-              "• ViewModel holds UI state and business logic",
-              "• View observes ViewModel (LiveData/StateFlow)",
-              "• ViewModel survives configuration changes",
-              "• Clean separation of concerns",
-              "• Google recommended architecture"
+              "ViewModel holds UI state and business logic",
+              "View observes ViewModel (LiveData/StateFlow)",
+              "ViewModel survives configuration changes",
+              "Clean separation of concerns",
+              "Google recommended architecture"
             ]
           },
           {
             "heading": "MVI (Model-View-Intent)",
             "points": [
-              "• Unidirectional data flow",
-              "• Intent: User actions",
-              "• Model: Immutable state",
-              "• View: Renders state",
-              "• Excellent for complex UI state management"
+              "Unidirectional data flow",
+              "Intent: User actions",
+              "Model: Immutable state",
+              "View: Renders state",
+              "Excellent for complex UI state management"
             ]
           }
         ],
@@ -1175,37 +1175,37 @@
           {
             "heading": "ViewModel",
             "points": [
-              "• Stores and manages UI-related data",
-              "• Lifecycle-aware: survives configuration changes",
-              "• Should not hold references to Activities/Fragments/Views",
-              "• Use ViewModelFactory for dependency injection"
+              "Stores and manages UI-related data",
+              "Lifecycle-aware: survives configuration changes",
+              "Should not hold references to Activities/Fragments/Views",
+              "Use ViewModelFactory for dependency injection"
             ]
           },
           {
             "heading": "LiveData",
             "points": [
-              "• Observable data holder",
-              "• Lifecycle-aware: only updates active observers",
-              "• No memory leaks - automatically cleans up",
-              "• Alternative: Kotlin Flow (more powerful)"
+              "Observable data holder",
+              "Lifecycle-aware: only updates active observers",
+              "No memory leaks - automatically cleans up",
+              "Alternative: Kotlin Flow (more powerful)"
             ]
           },
           {
             "heading": "Room Database",
             "points": [
-              "• SQLite abstraction layer",
-              "• Compile-time SQL query verification",
-              "• @Entity, @Dao, @Database annotations",
-              "• Supports Flow, LiveData, RxJava"
+              "SQLite abstraction layer",
+              "Compile-time SQL query verification",
+              "@Entity, @Dao, @Database annotations",
+              "Supports Flow, LiveData, RxJava"
             ]
           },
           {
             "heading": "Navigation Component",
             "points": [
-              "• Handles fragment transactions and back stack",
-              "• Type-safe argument passing with Safe Args",
-              "• Deep linking support",
-              "• Navigation graph visualization"
+              "Handles fragment transactions and back stack",
+              "Type-safe argument passing with Safe Args",
+              "Deep linking support",
+              "Navigation graph visualization"
             ]
           },
           {
@@ -1232,10 +1232,10 @@
           {
             "heading": "WorkManager",
             "points": [
-              "• Deferrable, guaranteed background work",
-              "• Respects battery optimization",
-              "• Constraints: network, charging, idle",
-              "• Chaining and parallel work support"
+              "Deferrable, guaranteed background work",
+              "Respects battery optimization",
+              "Constraints: network, charging, idle",
+              "Chaining and parallel work support"
             ]
           },
           {

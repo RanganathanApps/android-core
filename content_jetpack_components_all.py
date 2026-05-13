@@ -7,64 +7,64 @@
                              'responsibilities, lifecycle behavior, and platform constraints '
                              'associated with each one.',
               'content_sections': [{'heading': 'Activities',
-                                    'points': ['• Single screen with user interface',
-                                               '• Lifecycle: onCreate() → onStart() → onResume() → '
+                                    'points': ['Single screen with user interface',
+                                               'Lifecycle: onCreate() → onStart() → onResume() → '
                                                'onPause() → onStop() → onDestroy()',
-                                               '• Configuration changes (rotation) destroy and '
+                                               'Configuration changes (rotation) destroy and '
                                                'recreate activity',
-                                               '• Use ViewModel to survive configuration changes']},
+                                               'Use ViewModel to survive configuration changes']},
                                    {'heading': 'Fragments',
-                                    'points': ['• Reusable UI components within Activities',
-                                               '• Lifecycle tied to hosting Activity but with '
+                                    'points': ['Reusable UI components within Activities',
+                                               'Lifecycle tied to hosting Activity but with '
                                                'additional callbacks',
-                                               '• FragmentManager handles fragment transactions',
-                                               '• Navigation Component for modern fragment '
+                                               'FragmentManager handles fragment transactions',
+                                               'Navigation Component for modern fragment '
                                                'navigation']},
                                    {'heading': 'Services',
-                                    'points': ['• Background operations without UI',
-                                               '• Started Service: runs until stopped',
-                                               '• Bound Service: client-server interface',
-                                               '• Foreground Service: visible to user '
+                                    'points': ['Background operations without UI',
+                                               'Started Service: runs until stopped',
+                                               'Bound Service: client-server interface',
+                                               'Foreground Service: visible to user '
                                                '(notification required)',
-                                               '• WorkManager preferred for deferrable background '
+                                               'WorkManager preferred for deferrable background '
                                                'work']},
                                    {'heading': 'Broadcast Receivers',
-                                    'points': ['• Listen for system-wide broadcast announcements',
-                                               '• Can be registered in manifest or dynamically',
-                                               '• Android 8.0+ restricts implicit broadcasts']},
+                                    'points': ['Listen for system-wide broadcast announcements',
+                                               'Can be registered in manifest or dynamically',
+                                               'Android 8.0+ restricts implicit broadcasts']},
                                    {'heading': 'Content Providers',
-                                    'points': ['• Manage shared app data',
-                                               '• Standard interface for data access across '
+                                    'points': ['Manage shared app data',
+                                               'Standard interface for data access across '
                                                'processes',
-                                               '• Uses URI scheme for data access']}],
+                                               'Uses URI scheme for data access']}],
               'code_blocks': []},
              {'title': 'Android Architecture Patterns',
               'icon': '',
               'description': 'Compares the most common Android architecture styles and explains '
                              'how they affect separation of concerns, scalability, and testing.',
               'content_sections': [{'heading': 'MVC (Model-View-Controller)',
-                                    'points': ['• Model: Data layer',
-                                               '• View: UI (Activity/Fragment)',
-                                               '• Controller: Logic (Activity handles both View '
+                                    'points': ['Model: Data layer',
+                                               'View: UI (Activity/Fragment)',
+                                               'Controller: Logic (Activity handles both View '
                                                'and Controller - tight coupling)']},
                                    {'heading': 'MVP (Model-View-Presenter)',
-                                    'points': ['• Presenter separates business logic from View',
-                                               "• View is passive - doesn't directly interact with "
+                                    'points': ['Presenter separates business logic from View',
+                                               "View is passive - doesn't directly interact with "
                                                'Model',
-                                               '• Better testability than MVC',
-                                               '• Challenge: Presenter can grow large']},
+                                               'Better testability than MVC',
+                                               'Challenge: Presenter can grow large']},
                                    {'heading': 'MVVM (Model-View-ViewModel) - RECOMMENDED',
-                                    'points': ['• ViewModel holds UI state and business logic',
-                                               '• View observes ViewModel (LiveData/StateFlow)',
-                                               '• ViewModel survives configuration changes',
-                                               '• Clean separation of concerns',
-                                               '• Google recommended architecture']},
+                                    'points': ['ViewModel holds UI state and business logic',
+                                               'View observes ViewModel (LiveData/StateFlow)',
+                                               'ViewModel survives configuration changes',
+                                               'Clean separation of concerns',
+                                               'Google recommended architecture']},
                                    {'heading': 'MVI (Model-View-Intent)',
-                                    'points': ['• Unidirectional data flow',
-                                               '• Intent: User actions',
-                                               '• Model: Immutable state',
-                                               '• View: Renders state',
-                                               '• Excellent for complex UI state management']}],
+                                    'points': ['Unidirectional data flow',
+                                               'Intent: User actions',
+                                               'Model: Immutable state',
+                                               'View: Renders state',
+                                               'Excellent for complex UI state management']}],
               'code_blocks': []},
              {'title': 'Android Jetpack Architecture Components',
               'icon': '',
@@ -72,26 +72,26 @@
                              'modern Android apps around lifecycle awareness and predictable state '
                              'handling.Architecture focuses on robust, testable logic and state-driven UI flow. In 2026, the shift is toward high-consistency UDF (Unidirectional Data Flow) and KMP-ready logic.',
               'content_sections': [{'heading': 'ViewModel',
-                                    'points': ['• Stores and manages UI-related data',
-                                               '• Lifecycle-aware: survives configuration changes',
-                                               '• Should not hold references to '
+                                    'points': ['Stores and manages UI-related data',
+                                               'Lifecycle-aware: survives configuration changes',
+                                               'Should not hold references to '
                                                'Activities/Fragments/Views',
-                                               '• Use ViewModelFactory for dependency injection']},
+                                               'Use ViewModelFactory for dependency injection']},
                                    {'heading': 'LiveData',
-                                    'points': ['• Observable data holder',
-                                               '• Lifecycle-aware: only updates active observers',
-                                               '• No memory leaks - automatically cleans up',
-                                               '• Alternative: Kotlin Flow (more powerful)']},
+                                    'points': ['Observable data holder',
+                                               'Lifecycle-aware: only updates active observers',
+                                               'No memory leaks - automatically cleans up',
+                                               'Alternative: Kotlin Flow (more powerful)']},
                                    {'heading': 'Room Database',
-                                    'points': ['• SQLite abstraction layer',
-                                               '• Compile-time SQL query verification',
-                                               '• @Entity, @Dao, @Database annotations',
-                                               '• Supports Flow, LiveData, RxJava']},
+                                    'points': ['SQLite abstraction layer',
+                                               'Compile-time SQL query verification',
+                                               '@Entity, @Dao, @Database annotations',
+                                               'Supports Flow, LiveData, RxJava']},
                                    {'heading': 'Navigation Component',
-                                    'points': ['• Handles fragment transactions and back stack',
-                                               '• Type-safe argument passing with Safe Args',
-                                               '• Deep linking support',
-                                               '• Navigation graph visualization']},
+                                    'points': ['Handles fragment transactions and back stack',
+                                               'Type-safe argument passing with Safe Args',
+                                               'Deep linking support',
+                                               'Navigation graph visualization']},
                                                {
                         'heading': 'ViewModel & StateFlow Strategies',
                         'points': [
@@ -114,10 +114,10 @@
                         ]
                     },
                                    {'heading': 'WorkManager',
-                                    'points': ['• Deferrable, guaranteed background work',
-                                               '• Respects battery optimization',
-                                               '• Constraints: network, charging, idle',
-                                               '• Chaining and parallel work support']},
+                                    'points': ['Deferrable, guaranteed background work',
+                                               'Respects battery optimization',
+                                               'Constraints: network, charging, idle',
+                                               'Chaining and parallel work support']},
                                                {
                         'heading': 'Core Data & Logic',
                         'points': [
