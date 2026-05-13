@@ -32,6 +32,10 @@
       box-sizing: border-box;
     }
 
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
@@ -515,14 +519,19 @@
     }
 
     .topic-title {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
       align-items: center;
       gap: 10px;
       font-weight: 700;
       margin-bottom: 12px;
       font-size: 1.15rem;
-      flex-wrap: wrap;
       min-width: 0;
+    }
+
+    .topic-heading-text {
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
 
     .topic-content {
@@ -690,6 +699,7 @@
       margin: 0;
       padding: 16px;
       overflow-x: auto;
+      max-width: 100%;
       color: var(--code-text);
       white-space: pre;
       tab-size: 2;
@@ -824,7 +834,9 @@
       }
 
       .section-header {
-        align-items: flex-start;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: start;
         gap: 10px;
       }
 
@@ -858,6 +870,7 @@
       }
 
       .topic-title {
+        grid-template-columns: auto minmax(0, 1fr);
         gap: 8px;
         font-size: 1rem;
       }
@@ -875,7 +888,10 @@
       }
 
       .topic-actions {
+        grid-column: 1 / -1;
+        margin-left: 0;
         gap: 8px;
+        justify-content: space-between;
       }
 
       .topic-check {
@@ -909,7 +925,8 @@
       }
 
       .code-block-header {
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
         align-items: center;
         padding: 10px 12px;
       }
@@ -923,6 +940,8 @@
         padding: 12px;
         font-size: 0.8rem;
         line-height: 1.5;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
       }
     }
 
@@ -982,9 +1001,18 @@
         font-size: 0.95rem;
       }
 
+      .topic-number {
+        min-width: 38px;
+        padding: 5px 7px;
+      }
+
       .topic-actions {
         width: 100%;
         justify-content: space-between;
+      }
+
+      .topic-check {
+        min-height: 34px;
       }
 
       .key-point {
@@ -7784,7 +7812,7 @@
           topicEl.innerHTML = `
             <div class="topic-title">
               <span class="topic-number">${topicNumber}</span>
-              <span>${escapeHtml(topic.title || "Untitled Topic")}</span>
+              <span class="topic-heading-text">${escapeHtml(topic.title || "Untitled Topic")}</span>
               <div class="topic-actions">
                 <button type="button" class="toggle-button arrow-toggle" data-target="${topicBodyId}" aria-expanded="${topicExpanded ? "true" : "false"}" title="Toggle topic"></button>
                 <label class="topic-check">
