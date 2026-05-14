@@ -1,0 +1,391 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: #ffffff;
+  color: #e5f3ef;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+code,
+pre {
+  font-family:
+    "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.landing-header {
+  position: relative;
+  background: #10211f;
+}
+
+.landing-header::before {
+  display: none;
+}
+
+.landing-header::after {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 0;
+  height: 36%;
+  pointer-events: none;
+  content: "";
+  background: transparent;
+}
+
+.landing-header > * {
+  position: relative;
+  z-index: 1;
+}
+
+.landing-display {
+  font-family:
+    var(--font-modern), "Aptos", "Segoe UI Variable", "Inter", "Helvetica Neue",
+    sans-serif;
+  letter-spacing: 0;
+}
+
+.hero-gradient-text {
+  color: #f8fafc;
+  background: none;
+}
+
+.landing-brand {
+  color: #f8fafc;
+}
+
+.landing-accent {
+  color: #99f6e4;
+}
+
+.landing-body {
+  color: #c5d6d1;
+}
+
+.landing-muted {
+  color: #a7bbb6;
+}
+
+.landing-mark,
+.landing-primary-action,
+.landing-secondary-action {
+  color: #0f1f1c;
+}
+
+.landing-panel {
+  text-shadow: 0 1px 22px rgba(2, 6, 23, 0.18);
+}
+
+.theme-light {
+  background: #ffffff;
+  color: #09090b;
+}
+
+.theme-light [class~="text-white"] {
+  color: #2563eb;
+}
+
+.theme-light [class~="text-slate-100"] {
+  color: #334155;
+}
+
+.theme-light [class~="text-slate-200"] {
+  color: #475569;
+}
+
+.theme-light [class~="text-teal-100"],
+.theme-light [class~="text-teal-200"] {
+  color: #0f766e;
+}
+
+.theme-light [class~="text-emerald-100"] {
+  color: #059669;
+}
+
+.theme-light [class~="text-amber-100"] {
+  color: #b45309;
+}
+
+.theme-light [class~="text-sky-100"] {
+  color: #2563eb;
+}
+
+.theme-light [class~="text-slate-300"],
+.theme-light [class~="text-slate-400"],
+.theme-light [class~="text-slate-500"] {
+  color: #64748b;
+}
+
+.theme-light [class~="bg-white/[0.03]"],
+.theme-light [class~="bg-white/[0.035]"],
+.theme-light [class~="bg-white/[0.04]"],
+.theme-light [class~="bg-white/[0.045]"],
+.theme-light [class~="bg-white/[0.05]"],
+.theme-light [class~="bg-black/20"],
+.theme-light [class~="bg-slate-950"],
+.theme-light [class~="bg-slate-950/35"],
+.theme-light [class~="bg-slate-950/45"],
+.theme-light [class~="bg-slate-950/70"] {
+  background-color: #f8fafc;
+}
+
+.theme-light [class~="border-white/10"],
+.theme-light [class~="border-teal-200/20"],
+.theme-light [class~="border-teal-200/30"],
+.theme-light [class~="border-emerald-200/30"],
+.theme-light [class~="border-amber-200/30"],
+.theme-light [class~="border-sky-200/30"],
+.theme-light [class~="ring-white/10"] {
+  border-color: #e2e8f0;
+}
+
+.theme-light [class~="bg-teal-300"],
+.theme-light [class~="bg-teal-200/10"],
+.theme-light [class~="bg-emerald-200/10"],
+.theme-light [class~="bg-amber-200/10"],
+.theme-light [class~="bg-sky-200/10"] {
+  background-color: #eef2ff;
+}
+
+.theme-light [class~="bg-teal-300"],
+.theme-light [class~="bg-teal-200/10"],
+.theme-light [class~="bg-emerald-200/10"],
+.theme-light [class~="bg-amber-200/10"],
+.theme-light [class~="bg-sky-200/10"],
+.theme-light [class~="bg-teal-300"][class~="text-slate-950"],
+.theme-light [class~="text-slate-950"] {
+  color: #1d4ed8;
+}
+
+.theme-light input,
+.theme-light select {
+  color: #09090b;
+}
+
+.theme-light input::placeholder {
+  color: #71717a;
+}
+
+.theme-light pre,
+.theme-light code {
+  color: #334155;
+}
+
+.theme-light .shadow-2xl {
+  box-shadow: 0 24px 60px rgba(24, 24, 27, 0.08);
+}
+
+.theme-light aside,
+.theme-light main > div > section,
+.theme-light article,
+.theme-light section[id^="section-"],
+.theme-light article section {
+  color: #334155;
+}
+
+.theme-light aside,
+.theme-light section[id^="section-"],
+.theme-light article section,
+.theme-light pre {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.theme-light aside a,
+.theme-light article [type="button"],
+.theme-light main > div > section button,
+.theme-light main > div > section select,
+.theme-light main > div > section input {
+  border-color: #dbeafe;
+}
+
+.theme-light section[id^="section-"] > button:hover,
+.theme-light article [type="button"]:hover,
+.theme-light aside a:hover,
+.theme-light main > div > section button:hover {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.theme-light main > div > section input,
+.theme-light main > div > section select {
+  background-color: #ffffff;
+  color: #334155;
+}
+
+.theme-light main > div > section input:focus,
+.theme-light main > div > section select:focus {
+  border-color: #7c3aed;
+}
+
+.theme-light input[type="checkbox"] {
+  accent-color: #7c3aed;
+}
+
+.theme-light article > div:first-child {
+  color: #334155;
+}
+
+.theme-light article span[class~="rounded-lg"][class~="border-teal-200/20"] {
+  background-color: #ecfeff;
+  border-color: #bae6fd;
+  color: #0f766e;
+}
+
+.theme-light article span[class~="h-2"][class~="bg-teal-300"] {
+  background-color: #7c3aed;
+}
+
+.theme-light button[class~="border-teal-300"][class~="bg-teal-300"] {
+  background-color: #dbeafe;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.theme-light [class~="border-teal-200/30"][class~="bg-teal-200/10"] {
+  background-color: #ecfeff;
+  border-color: #99f6e4;
+  color: #0f766e;
+}
+
+.theme-light [class~="border-amber-200/30"][class~="bg-amber-200/10"] {
+  background-color: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
+}
+
+.theme-light [class~="border-sky-200/30"][class~="bg-sky-200/10"] {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #2563eb;
+}
+
+.theme-light pre {
+  background-color: #f1f5f9;
+}
+
+.theme-light code {
+  color: #475569;
+}
+
+.theme-light .landing-header {
+  background: #ffffff;
+}
+
+.theme-light .hero-gradient-text {
+  color: transparent;
+  background: linear-gradient(120deg, #1d4ed8 0%, #7c3aed 48%, #0f766e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.theme-light .landing-brand {
+  color: #2563eb;
+}
+
+.theme-light .landing-accent {
+  color: #7c3aed;
+}
+
+.theme-light .landing-body {
+  color: #334155;
+}
+
+.theme-light .landing-muted {
+  color: #0f766e;
+}
+
+.theme-light .landing-mark,
+.theme-light .landing-primary-action,
+.theme-light .landing-secondary-action {
+  color: #1d4ed8;
+}
+
+.theme-light .landing-mark {
+  background-color: #eef2ff;
+}
+
+.theme-light .landing-primary-action {
+  background-color: #dbeafe;
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.14);
+}
+
+.theme-light .landing-secondary-action {
+  background-color: #f5f3ff;
+  border-color: #ddd6fe;
+  color: #7c3aed;
+}
+
+.theme-light .landing-panel,
+.theme-light .landing-focus {
+  background: transparent;
+  box-shadow: none;
+}
+
+.theme-light .landing-header [class~="bg-black/20"] {
+  background-color: #f3f4f6;
+}
+
+.theme-light .landing-header [class~="bg-teal-300"],
+.theme-light .landing-header [class~="bg-teal-200/10"],
+.theme-light .landing-header [class~="bg-emerald-200/10"],
+.theme-light .landing-header [class~="bg-amber-200/10"] {
+  background-color: #d7e7e2;
+}
+
+.theme-light .landing-header [class~="text-slate-950"],
+.theme-light .landing-header [class~="text-teal-100"],
+.theme-light .landing-header [class~="text-teal-200"],
+.theme-light .landing-header [class~="text-emerald-100"],
+.theme-light .landing-header [class~="text-amber-100"] {
+  color: #2563eb;
+}
+
+.theme-light .landing-header [class~="text-slate-300"],
+.theme-light .landing-header [class~="text-slate-400"] {
+  color: #6366f1;
+}
+
+.theme-light .landing-header p[class~="text-slate-300"],
+.theme-light .landing-header div[class~="text-slate-400"],
+.theme-light .landing-header span[class~="text-slate-400"] {
+  color: #64748b;
+}
+
+.theme-light .landing-header [class~="border-white/10"],
+.theme-light .landing-header [class~="border-white/20"],
+.theme-light .landing-header [class~="border-teal-200/20"],
+.theme-light .landing-header [class~="border-teal-200/30"],
+.theme-light .landing-header [class~="border-emerald-200/30"],
+.theme-light .landing-header [class~="border-amber-200/30"] {
+  border-color: #e5e7eb;
+}
+
+.theme-dark .landing-header [class~="text-slate-300"],
+.theme-dark .landing-header [class~="text-slate-400"] {
+  color: #c5d6d1;
+}
