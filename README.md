@@ -1,4 +1,34 @@
-# Senior Android Engineer Roadmap (28 Weeks)
+# Senior Android Engineer Roadmap
+
+Modern Next.js study workspace for a senior Android engineering roadmap.
+
+## Modern Web App
+
+This repo now includes a Next.js App Router implementation using TypeScript and Tailwind CSS.
+
+### Requirements
+
+- Node.js 20.9 or newer
+- npm
+
+### Run Locally
+
+```powershell
+npm install
+npm run dev
+```
+
+Then open:
+
+```text
+http://localhost:3000
+```
+
+The current content is loaded from `data/content.json`. Later, this can move behind a PostgreSQL-backed data layer without rewriting the UI components.
+
+---
+
+# Legacy Roadmap Notes
 
 A comprehensive professional development guide tailored for senior-level engineers targeting high-scale product companies. This roadmap balances deep technical mastery, architectural excellence, and leadership skills.
 

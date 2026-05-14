@@ -396,6 +396,7 @@
       padding: 24px;
       margin-bottom: 20px;
       box-shadow: var(--shadow);
+      cursor: pointer;
     }
 
     .section-header {
@@ -404,6 +405,13 @@
       gap: 14px;
       margin-bottom: 4px;
       flex-wrap: wrap;
+    }
+
+    .section:focus-visible,
+    .section-header:focus-visible {
+      outline: 3px solid rgba(45, 212, 191, 0.45);
+      outline-offset: 6px;
+      border-radius: 14px;
     }
 
     .section-header-actions {
@@ -527,6 +535,13 @@
       margin-bottom: 12px;
       font-size: 1.15rem;
       min-width: 0;
+      cursor: pointer;
+    }
+
+    .topic-title:focus-visible {
+      outline: 3px solid rgba(45, 212, 191, 0.45);
+      outline-offset: 6px;
+      border-radius: 14px;
     }
 
     .topic-heading-text {
@@ -1477,11 +1492,31 @@
       }
     }
 
+    function setSectionToggleState(element, target) {
+      if (!element || !target) return;
+      const expanded = !target.classList.contains("hidden");
+      element.setAttribute("aria-expanded", expanded ? "true" : "false");
+    }
+
+    function toggleTarget(targetId) {
+      const target = targetId ? document.getElementById(targetId) : null;
+      if (!target) return;
+
+      target.classList.toggle("hidden");
+      syncToggleButtons();
+    }
+
     function syncToggleButtons() {
       document.querySelectorAll(".toggle-button[data-target]").forEach((button) => {
         const targetId = button.getAttribute("data-target");
         const target = targetId ? document.getElementById(targetId) : null;
         setToggleButtonState(button, target);
+      });
+
+      document.querySelectorAll(".section[data-target], .section-header[data-target], .topic-title[data-target]").forEach((element) => {
+        const targetId = element.getAttribute("data-target");
+        const target = targetId ? document.getElementById(targetId) : null;
+        setSectionToggleState(element, target);
       });
     }
 
@@ -1606,14 +1641,18 @@
         sectionEl.id = `section-${index + 1}`;
         const topicCount = visibleTopics.length;
         const sectionBodyId = `section-body-${index + 1}`;
+        sectionEl.setAttribute("data-target", sectionBodyId);
+        sectionEl.setAttribute("role", "button");
+        sectionEl.setAttribute("tabindex", "0");
+        sectionEl.setAttribute("aria-expanded", "true");
+        sectionEl.setAttribute("title", "Toggle section");
 
         sectionEl.innerHTML = `
-          <div class="section-header">
+          <div class="section-header" data-target="${sectionBodyId}" aria-expanded="true" title="Toggle section">
             <span class="section-number">${index + 1}</span>
             <h2>${escapeHtml(section.title || "Untitled Section")}</h2>
             <div class="section-header-actions">
               <span class="section-priority priority-${sectionPriority}">${getPriorityLabel(sectionPriority)}</span>
-              <button type="button" class="toggle-button arrow-toggle" data-target="${sectionBodyId}" aria-expanded="true" title="Toggle section"></button>
             </div>
           </div>
           <p class="section-summary">
@@ -1692,14 +1731,13 @@
             .join("");
 
           topicEl.innerHTML = `
-            <div class="topic-title">
+            <div class="topic-title" data-target="${topicBodyId}" role="button" tabindex="0" aria-expanded="${topicExpanded ? "true" : "false"}" title="Toggle topic">
               <span class="topic-number">${topicNumber}</span>
               <span class="topic-heading-text">${escapeHtml(topic.title || "Untitled Topic")}</span>
               <div class="topic-actions">
                 <button type="button" class="toggle-button arrow-toggle" data-target="${topicBodyId}" aria-expanded="${topicExpanded ? "true" : "false"}" title="Toggle topic"></button>
                 <label class="topic-check">
                   <input type="checkbox" data-topic-key="${escapeHtml(topicKey)}" ${isComplete ? "checked" : ""}>
-                  <span>Done</span>
                 </label>
               </div>
             </div>
@@ -1774,15 +1812,47 @@
 
       container.addEventListener("click", (event) => {
         const button = event.target.closest(".toggle-button[data-target]");
-        if (!button) return;
+        if (button) {
+          event.preventDefault();
+          toggleTarget(button.getAttribute("data-target"));
+          return;
+        }
 
-        const targetId = button.getAttribute("data-target");
-        const target = targetId ? document.getElementById(targetId) : null;
-        if (!target) return;
+        if (event.target.closest("input, label, a, button, select, textarea")) {
+          return;
+        }
+
+        const topicTitle = event.target.closest(".topic-title[data-target]");
+        if (topicTitle) {
+          event.preventDefault();
+          toggleTarget(topicTitle.getAttribute("data-target"));
+          return;
+        }
+
+        if (event.target.closest(".section-body")) {
+          return;
+        }
+
+        const section = event.target.closest(".section[data-target]");
+        if (!section) return;
 
         event.preventDefault();
-        target.classList.toggle("hidden");
-        setToggleButtonState(button, target);
+        toggleTarget(section.getAttribute("data-target"));
+      });
+
+      container.addEventListener("keydown", (event) => {
+        const topicTitle = event.target.closest(".topic-title[data-target]");
+        if (topicTitle && (event.key === "Enter" || event.key === " ")) {
+          event.preventDefault();
+          toggleTarget(topicTitle.getAttribute("data-target"));
+          return;
+        }
+
+        const section = event.target.closest(".section[data-target]");
+        if (!section || (event.key !== "Enter" && event.key !== " ")) return;
+
+        event.preventDefault();
+        toggleTarget(section.getAttribute("data-target"));
       });
 
       container.addEventListener("change", (event) => {
