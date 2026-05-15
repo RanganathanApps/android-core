@@ -45,6 +45,268 @@ function getCodeLanguage(language?: string) {
   return language || "text";
 }
 
+const kotlinKeywords = new Set([
+  "as",
+  "break",
+  "by",
+  "catch",
+  "class",
+  "companion",
+  "continue",
+  "data",
+  "do",
+  "else",
+  "false",
+  "finally",
+  "for",
+  "fun",
+  "if",
+  "in",
+  "interface",
+  "is",
+  "null",
+  "object",
+  "override",
+  "package",
+  "private",
+  "protected",
+  "public",
+  "return",
+  "sealed",
+  "suspend",
+  "this",
+  "throw",
+  "true",
+  "try",
+  "typealias",
+  "val",
+  "var",
+  "when",
+  "while",
+]);
+
+function isKotlinLanguage(language?: string) {
+  return getCodeLanguage(language).toLowerCase() === "kotlin";
+}
+
+function highlightKotlinSegment(segment: string, lineIndex: number, segmentKey: string) {
+  const tokenPattern = /(@[A-Za-z_][\w.]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\d+(?:\.\d+)?\b|\b[A-Za-z_]\w*\b)/g;
+  const nodes = [];
+  let cursor = 0;
+  let tokenIndex = 0;
+
+  for (const match of segment.matchAll(tokenPattern)) {
+    const token = match[0];
+    const start = match.index || 0;
+
+    if (start > cursor) {
+      nodes.push(segment.slice(cursor, start));
+    }
+
+    let className = "";
+    if (token.startsWith("@")) {
+      className = "kotlin-token-annotation";
+    } else if (token.startsWith("\"") || token.startsWith("'")) {
+      className = "kotlin-token-string";
+    } else if (/^\d/.test(token)) {
+      className = "kotlin-token-number";
+    } else if (kotlinKeywords.has(token)) {
+      className = "kotlin-token-keyword";
+    } else if (/^[A-Z]/.test(token)) {
+      className = "kotlin-token-type";
+    }
+
+    nodes.push(
+      className ? (
+        <span key={`${lineIndex}-${segmentKey}-${tokenIndex}`} className={className}>
+          {token}
+        </span>
+      ) : (
+        token
+      ),
+    );
+
+    cursor = start + token.length;
+    tokenIndex += 1;
+  }
+
+  if (cursor < segment.length) {
+    nodes.push(segment.slice(cursor));
+  }
+
+  return nodes;
+}
+
+function renderKotlinCode(code: string) {
+  const lines = code.split("\n");
+
+  return lines.map((line, lineIndex) => {
+    const commentStart = line.indexOf("//");
+    const codeSegment = commentStart >= 0 ? line.slice(0, commentStart) : line;
+    const commentSegment = commentStart >= 0 ? line.slice(commentStart) : "";
+
+    return (
+      <span key={`line-${lineIndex}`} className="kotlin-code-line">
+        {highlightKotlinSegment(codeSegment, lineIndex, "code")}
+        {commentSegment ? <span className="kotlin-token-comment">{commentSegment}</span> : null}
+        {lineIndex < lines.length - 1 ? "\n" : null}
+      </span>
+    );
+  });
+}
+
+type VideoResource = {
+  title: string;
+  url: string;
+  summary: string;
+  topicFit?: string;
+  timestamps: string[];
+  codeLinks: string[];
+  videoId?: string;
+};
+
+function getYouTubeVideoId(url: string) {
+  return url.match(/[?&]v=([^&]+)/)?.[1] || url.match(/youtu\.be\/([^?]+)/)?.[1];
+}
+
+function parseListField(description: string, label: string) {
+  const match = description.match(new RegExp(`${label}:\\s*([\\s\\S]+?)(?=\\s(?:URL|Timestamps|Code links|Topic fit):|$)`));
+  if (!match?.[1]) return [];
+
+  return match[1]
+    .split(";")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function parseVideoResource(title: string, description: string): VideoResource | null {
+  const url = description.match(/https:\/\/www\.youtube\.com\/watch\?v=[A-Za-z0-9_-]+/)?.[0];
+  if (!url) return null;
+
+  const topicFit = description.match(/Topic fit:\s*([\s\S]+?)\.\s/)?.[1]?.trim();
+  const timestamps = parseListField(description, "Timestamps");
+  const codeLinks = parseListField(description, "Code links");
+  const summary = description
+    .replace(/Topic fit:\s*[\s\S]+?\.\s/, "")
+    .replace(/URL:\s*https:\/\/www\.youtube\.com\/watch\?v=[A-Za-z0-9_-]+\.?/, "")
+    .replace(/Timestamps:\s*[\s\S]+?(?=\sCode links:|$)/, "")
+    .replace(/Code links:\s*[\s\S]+$/, "")
+    .trim();
+
+  return {
+    title,
+    url,
+    summary,
+    topicFit,
+    timestamps,
+    codeLinks,
+    videoId: getYouTubeVideoId(url),
+  };
+}
+
+function isVideoContentSection(contentSection: { heading?: string; subtopics?: Array<{ title?: string; description?: string }> }) {
+  const heading = contentSection.heading || "";
+  return (
+    /video|watchlist|extracted/i.test(heading) &&
+    (contentSection.subtopics || []).some((subtopic) => subtopic.description?.includes("youtube.com/watch"))
+  );
+}
+
+function VideoResourceSection({
+  heading,
+  resources,
+}: {
+  heading?: string;
+  resources: VideoResource[];
+}) {
+  return (
+    <section className="video-resource-section grid gap-4">
+      {heading ? (
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h4 className="landing-display text-sm font-black text-white">{heading}</h4>
+            <p className="mt-1 text-xs font-medium text-slate-400">{resources.length} curated video resource{resources.length === 1 ? "" : "s"}</p>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="grid gap-3 xl:grid-cols-2">
+        {resources.map((resource) => (
+          <article key={resource.url} className="video-resource-card grid overflow-hidden rounded-lg border border-white/10 bg-black/20 sm:grid-cols-[168px_minmax(0,1fr)]">
+            <a href={resource.url} target="_blank" rel="noreferrer" className="video-thumb relative block min-h-32 bg-slate-950">
+              {resource.videoId ? (
+                <img
+                  src={`https://i.ytimg.com/vi/${resource.videoId}/hqdefault.jpg`}
+                  alt=""
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              ) : null}
+              <span className="absolute inset-0 grid place-items-center bg-black/15">
+                <span className="video-play-button grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-black/55 text-white">
+                  <span className="ml-0.5 h-0 w-0 border-y-[7px] border-l-[11px] border-y-transparent border-l-current" />
+                </span>
+              </span>
+            </a>
+
+            <div className="grid gap-3 p-3">
+              <div className="grid gap-1">
+                {resource.topicFit ? <div className="text-[11px] font-black uppercase tracking-[0.12em] text-teal-200">{resource.topicFit}</div> : null}
+                <a href={resource.url} target="_blank" rel="noreferrer" className="landing-display text-sm font-black leading-5 text-slate-100 hover:text-teal-100">
+                  {resource.title}
+                </a>
+                {resource.summary ? <p className="line-clamp-3 text-xs leading-5 text-slate-400">{resource.summary}</p> : null}
+              </div>
+
+              {resource.timestamps.length ? (
+                <div className="flex flex-wrap gap-1.5">
+                  {resource.timestamps.slice(0, 4).map((timestamp) => (
+                    <span key={timestamp} className="video-chip rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] font-semibold text-slate-300">
+                      {timestamp}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+
+              <div className="flex flex-wrap items-center gap-2">
+                <a href={resource.url} target="_blank" rel="noreferrer" className="video-primary-link rounded-lg bg-teal-300 px-3 py-2 text-xs font-black text-slate-950">
+                  Watch video
+                </a>
+                {resource.codeLinks.slice(0, 2).map((link) => (
+                  <a key={link} href={link} target="_blank" rel="noreferrer" className="video-secondary-link rounded-lg border border-white/10 px-3 py-2 text-xs font-bold text-slate-300">
+                    Code
+                  </a>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ChevronIcon({ expanded }: { expanded: boolean }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 20 20"
+      fill="none"
+      className={cx("h-4 w-4 transition-transform duration-200", expanded && "rotate-90")}
+    >
+      <path d="M7.5 4.75L12.5 10L7.5 15.25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" className="h-4 w-4">
+      <path d="M4.75 10.5L8.25 14L15.25 6.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
   const [isHydrated, setIsHydrated] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -179,6 +441,10 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
     setExpandedSections(new Set(initialContent.map((_, index) => getSectionId(index))));
   }
 
+  function collapseAllSections() {
+    setExpandedSections(new Set());
+  }
+
   function collapseAllTopics() {
     setExpandedTopics(new Set());
   }
@@ -195,167 +461,162 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
 
   return (
     <main className={cx("min-h-screen", themes[theme])}>
-      <div className="grid w-full gap-6">
-        <header className="landing-header flex min-h-screen flex-col overflow-hidden">
-          <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3">
-              <div className="landing-mark flex h-11 w-11 items-center justify-center rounded-full bg-teal-300 text-sm font-semibold">
-                AS
+      <div className="grid w-full">
+        <section className="landing-header grid min-h-screen content-center border-b border-white/10 px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto grid w-full max-w-7xl gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-center">
+            <div className="grid gap-6">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="rounded-full border border-teal-200/20 bg-teal-200/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-teal-100">
+                  Senior Android Roadmap
+                </span>
+                <span className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] text-slate-300">
+                  Interview-ready practice
+                </span>
               </div>
-              <div>
-                <div className="landing-display landing-brand text-base font-semibold">Android Study Roadmap</div>
-                <div className="landing-muted text-xs font-medium uppercase">Senior interview preparation</div>
+              <div className="grid gap-5">
+                <h1 className="landing-display max-w-3xl text-3xl font-black leading-[1.08] text-white sm:text-5xl lg:text-6xl">
+                  Build senior Android confidence, one topic at a time
+                </h1>
+                <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+                  A focused study workspace for architecture decisions, Kotlin and Compose depth, testing strategy, performance trade-offs, and production readiness.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="#roadmap-workspace"
+                  className="rounded-full bg-teal-300 px-6 py-3 text-sm font-black text-slate-950 shadow-[0_18px_40px_rgba(45,212,191,0.18)] transition hover:-translate-y-0.5 hover:bg-teal-200"
+                >
+                  Open roadmap
+                </a>
+                <button
+                  type="button"
+                  onClick={expandAllTopics}
+                  className="rounded-full border border-white/10 bg-white/[0.05] px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-teal-200/70"
+                >
+                  Expand topics
+                </button>
               </div>
             </div>
-            <div className="landing-muted flex flex-wrap justify-end gap-2 text-xs font-medium">
+
+            <div className="grid gap-5 border-l border-white/20 pl-5 sm:pl-6">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-sm font-bold uppercase tracking-[0.12em] text-slate-400">Your progress</span>
+                <span className="landing-display text-lg font-black text-teal-200">
+                  {completedTopics.size} / {totalTopics}
+                </span>
+              </div>
+              <div className="h-3 overflow-hidden rounded-full bg-slate-950 ring-1 ring-white/10">
+                <div className="h-full bg-teal-300 transition-all" style={{ width: `${progressPercent}%` }} />
+              </div>
+              <div className="landing-display text-6xl font-black leading-none text-white">{progressPercent}%</div>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="border-y border-white/10 py-3">
+                  <div className="font-black text-white">{totalSections}</div>
+                  <div className="mt-1 text-slate-400">Sections</div>
+                </div>
+                <div className="border-y border-white/10 py-3">
+                  <div className="font-black text-white">{totalTopics}</div>
+                  <div className="mt-1 text-slate-400">Topics</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <header className="roadmap-actionbar sticky top-0 z-30 border-b border-white/10 bg-[#10211f]/95 px-4 py-3 backdrop-blur sm:px-5">
+          <div className="grid gap-3 xl:grid-cols-[minmax(240px,340px)_minmax(260px,1fr)_auto] xl:items-center">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-300 text-sm font-black text-slate-950">
+                AS
+              </div>
+              <div className="min-w-0">
+                <h1 className="landing-display truncate text-base font-black text-white">Android Study Roadmap</h1>
+                <p className="truncate text-xs font-medium text-slate-400">
+                  {completedTopics.size} / {totalTopics} topics complete
+                </p>
+              </div>
+            </div>
+
+            <div className="grid gap-2 lg:grid-cols-[minmax(220px,1fr)_auto] lg:items-center">
+              <input
+                value={searchInput}
+                onChange={(event) => setSearchInput(event.target.value)}
+                placeholder="Search topics, code, concepts..."
+                className="h-10 rounded-lg border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-teal-300"
+              />
+
+              <div className="flex flex-wrap gap-2">
+                {filters.map((filter) => (
+                  <button
+                    key={filter.id}
+                    type="button"
+                    onClick={() => setActiveFilter(filter.id)}
+                    className={cx(
+                      "h-10 rounded-lg border px-3 text-sm font-semibold transition",
+                      activeFilter === filter.id
+                        ? "border-teal-300 bg-teal-300 text-slate-950"
+                        : "border-white/10 bg-white/[0.04] text-slate-200 hover:border-teal-200/70",
+                    )}
+                  >
+                    {filter.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 xl:justify-end">
+              <div className="min-w-32 rounded-lg border border-white/10 bg-black/20 px-3 py-2">
+                <div className="mb-1 flex items-center justify-between gap-3 text-xs font-bold text-slate-300">
+                  <span>Progress</span>
+                  <span className="text-teal-200">{progressPercent}%</span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-slate-900">
+                  <div className="h-full bg-teal-300 transition-all" style={{ width: `${progressPercent}%` }} />
+                </div>
+              </div>
+              <select
+                value={theme}
+                onChange={(event) => setTheme(event.target.value as Theme)}
+                className="h-10 rounded-lg border border-white/10 bg-slate-950 px-3 text-sm text-white outline-none focus:border-teal-300"
+              >
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+            </div>
+          </div>
+        </header>
+
+        <section id="roadmap-workspace" className="grid min-h-[calc(100vh-73px)] gap-0 lg:h-[calc(100vh-73px)] lg:min-h-0 lg:grid-cols-[320px_minmax(0,1fr)]">
+          <aside className="grid max-h-[46vh] min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] border-b border-white/10 bg-white/[0.035] p-4 lg:max-h-none lg:border-b-0 lg:border-r lg:border-r-white/10">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <h2 className="landing-display text-base font-black text-white">Study Roadmap</h2>
+                <p className="mt-1 text-xs font-medium text-slate-400">{visibleSections.length} visible sections</p>
+              </div>
               <span
                 className={cx(
-                  "rounded-full border px-3 py-2",
+                  "rounded-full border px-3 py-1.5 text-xs font-bold",
                   isHydrated
                     ? "border-emerald-200/30 bg-emerald-200/10 text-emerald-100"
                     : "border-amber-200/30 bg-amber-200/10 text-amber-100",
                 )}
               >
-                {isHydrated ? "Interactive" : "Loading interactivity"}
-              </span>
-              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-2">{totalSections} sections</span>
-              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-2">{totalTopics} topics</span>
-              <span className="rounded-full border border-teal-200/30 bg-teal-200/10 px-3 py-2 text-teal-100">
-                {progressPercent}% complete
+                {isHydrated ? "Live" : "Loading"}
               </span>
             </div>
-          </div>
 
-          <div className="mx-auto grid w-full max-w-7xl flex-1 items-center gap-10 px-4 pb-10 pt-8 sm:px-6 lg:grid-cols-[minmax(0,1fr)_430px] lg:px-8">
-            <div className="grid max-w-4xl gap-7">
-              <div className="flex flex-wrap items-center gap-3">
-                <div className="landing-accent w-fit rounded-full border border-teal-200/20 bg-teal-200/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em]">
-                  Senior Android Guide
-                </div>
-                <span className="landing-muted rounded-full border border-white/10 bg-black/20 px-4 py-2 text-xs font-medium uppercase tracking-[0.12em]">
-                  Structured practice plan
-                </span>
+            <div className="my-4 grid grid-cols-2 gap-2 text-xs">
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <div className="font-bold text-slate-100">{totalSections}</div>
+                <div className="mt-1 text-slate-500">Sections</div>
               </div>
-              <div className="grid gap-5">
-                <h1 className="landing-display hero-gradient-text max-w-3xl text-3xl font-semibold leading-[1.08] text-white sm:text-5xl lg:text-6xl">
-                  Prepare for senior Android interviews with a clear roadmap
-                </h1>
-                <p className="landing-body max-w-2xl text-base font-light leading-7">
-                  Move through the topics that matter most: architecture, Kotlin, Compose, testing, performance, and production readiness.
-                </p>
-              </div>
-              <div className="landing-focus max-w-2xl border-l border-white/20 py-1 pl-5">
-                <p className="landing-accent text-[11px] font-semibold uppercase tracking-[0.18em]">How to use it</p>
-                <p className="landing-body mt-2 text-sm font-light leading-6">
-                  Search for a concept, open the details, study the examples, and mark topics complete as you progress.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href="#section-1"
-                  className="landing-primary-action rounded-full bg-teal-300 px-6 py-3 text-sm font-semibold shadow-[0_18px_40px_rgba(45,212,191,0.18)] transition hover:-translate-y-0.5 hover:bg-teal-200"
-                >
-                  Start roadmap
-                </a>
-                <button
-                  type="button"
-                  onClick={expandAllTopics}
-                  className="landing-secondary-action rounded-full border border-white/10 bg-white/[0.05] px-6 py-3 text-sm font-medium transition hover:-translate-y-0.5 hover:border-teal-200/70"
-                >
-                  Expand topics
-                </button>
-              </div>
-              <div className="landing-muted grid max-w-3xl gap-3 border-t border-white/10 pt-5 text-xs font-medium uppercase tracking-[0.14em] sm:grid-cols-3">
-                <span>Architecture</span>
-                <span>Compose</span>
-                <span>Production</span>
+              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+                <div className="font-bold text-slate-100">{totalTopics}</div>
+                <div className="mt-1 text-slate-500">Topics</div>
               </div>
             </div>
 
-            <section className="landing-panel grid gap-5 border-l border-white/20 pl-5 sm:pl-6">
-              <div className="flex items-center justify-between gap-3">
-                <span className="landing-muted text-sm font-medium uppercase tracking-[0.12em]">Your progress</span>
-                <span className="landing-accent landing-display text-lg font-semibold">
-                  {completedTopics.size} / {totalTopics}
-                </span>
-              </div>
-              <div className="h-3 overflow-hidden rounded-full bg-slate-900 ring-1 ring-white/10">
-                <div className="h-full bg-teal-300 transition-all" style={{ width: `${progressPercent}%` }} />
-              </div>
-              <div className="landing-brand landing-display text-5xl font-semibold leading-none sm:text-6xl">{progressPercent}%</div>
-              <p className="landing-body max-w-sm text-sm font-light leading-6">
-                Track what you have completed and keep the next section easy to find.
-              </p>
-              <div className="grid gap-3 border-y border-white/10 py-4">
-                <div className="flex items-center justify-between gap-3 text-sm">
-                  <span className="landing-body font-light">Visible now</span>
-                  <span className="landing-brand font-semibold">{visibleSections.length}</span>
-                </div>
-                <div className="flex items-center justify-between gap-3 text-sm">
-                  <span className="landing-body font-light">Sections</span>
-                  <span className="landing-brand font-semibold">{totalSections}</span>
-                </div>
-                <div className="flex items-center justify-between gap-3 text-sm">
-                  <span className="landing-body font-light">Topics</span>
-                  <span className="landing-brand font-semibold">{totalTopics}</span>
-                </div>
-                <div className="flex items-center justify-between gap-3 text-sm">
-                  <span className="landing-body font-light">Mode</span>
-                  <span className="landing-brand font-semibold capitalize">{theme}</span>
-                </div>
-              </div>
-              <div className="landing-muted grid gap-2 text-xs font-medium uppercase tracking-[0.14em]">
-                <span>Clean architecture</span>
-                <span>Jetpack Compose</span>
-                <span>Testing and performance</span>
-              </div>
-            </section>
-          </div>
-        </header>
-
-        <section className="mx-4 grid max-w-7xl gap-3 rounded-lg border border-white/10 bg-black/20 p-4 sm:mx-6 lg:mx-auto lg:w-full lg:grid-cols-[minmax(240px,1fr)_auto_auto] lg:items-center">
-          <input
-            value={searchInput}
-            onChange={(event) => setSearchInput(event.target.value)}
-            placeholder="Search topics, code, concepts..."
-            className="h-11 rounded-lg border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-teal-300"
-          />
-
-          <div className="flex flex-wrap gap-2">
-            {filters.map((filter) => (
-              <button
-                key={filter.id}
-                type="button"
-                onClick={() => setActiveFilter(filter.id)}
-                className={cx(
-                  "h-10 rounded-lg border px-3 text-sm font-semibold transition",
-                  activeFilter === filter.id
-                    ? "border-teal-300 bg-teal-300 text-slate-950"
-                    : "border-white/10 bg-white/[0.04] text-slate-200 hover:border-teal-200/70",
-                )}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
-
-          <select
-            value={theme}
-            onChange={(event) => setTheme(event.target.value as Theme)}
-            className="h-10 rounded-lg border border-white/10 bg-slate-950 px-3 text-sm text-white outline-none focus:border-teal-300"
-          >
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </section>
-
-        <section className="mx-auto grid w-full max-w-7xl gap-4 px-4 pb-6 sm:px-6 lg:grid-cols-[300px_minmax(0,1fr)] lg:items-start lg:px-8">
-          <aside className="grid gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4 lg:sticky lg:top-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-bold text-white">Study Roadmap</h2>
-              <span className="text-xs font-semibold text-slate-400">{visibleSections.length} sections</span>
-            </div>
-            <div className="grid max-h-[70vh] gap-2 overflow-auto pr-1">
+            <div className="grid gap-2 overflow-auto pr-1">
               {visibleSections.map((item) => {
                 if (!item) return null;
                 const { section, sectionIndex, priority } = item;
@@ -370,7 +631,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
                       <span className="font-bold text-teal-200">{sectionIndex + 1}</span>
                       <span className="text-xs text-slate-400">{estimateSectionDuration(section, priority)}</span>
                     </div>
-                    <div className="font-semibold text-slate-100">{section.title || "Untitled Section"}</div>
+                    <div className="landing-display font-black text-slate-100">{section.title || "Untitled Section"}</div>
                     <div className="mt-2 text-xs text-slate-500">{getPriorityLabel(priority)}</div>
                   </a>
                 );
@@ -378,88 +639,104 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
             </div>
           </aside>
 
-          <div className="grid gap-4">
-            <div className="flex flex-wrap gap-2">
-              <button className="rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 text-sm font-semibold text-slate-200 hover:border-teal-200/70" onClick={expandAllSections} type="button">
-                Expand Sections
-              </button>
-              <button className="rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 text-sm font-semibold text-slate-200 hover:border-teal-200/70" onClick={expandAllTopics} type="button">
-                Expand Topics
-              </button>
-              <button className="rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 text-sm font-semibold text-slate-200 hover:border-teal-200/70" onClick={collapseAllTopics} type="button">
-                Collapse Topics
-              </button>
+          <div className="grid min-h-0 lg:grid-rows-[auto_minmax(0,1fr)]">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-black/20 px-4 py-3">
+              <div>
+                <div className="landing-display text-sm font-black text-white">Roadmap workspace</div>
+                <div className="text-xs text-slate-400">Search, expand, and mark topics without leaving the screen.</div>
+              </div>
+              <div className="roadmap-action-group flex flex-wrap gap-1 rounded-lg border border-white/10 bg-slate-950/50 p-1">
+                <button className="rounded-md px-3 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/[0.07] hover:text-teal-100" onClick={expandAllSections} type="button">
+                  Open Sections
+                </button>
+                <button className="rounded-md px-3 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/[0.07] hover:text-teal-100" onClick={collapseAllSections} type="button">
+                  Close Sections
+                </button>
+                <span className="roadmap-action-divider mx-1 hidden w-px bg-white/10 sm:block" />
+                <button className="rounded-md px-3 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/[0.07] hover:text-teal-100" onClick={expandAllTopics} type="button">
+                  Open Topics
+                </button>
+                <button className="rounded-md px-3 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/[0.07] hover:text-teal-100" onClick={collapseAllTopics} type="button">
+                  Close Topics
+                </button>
+              </div>
             </div>
 
-            {visibleSections.length === 0 ? (
-              <div className="rounded-lg border border-white/10 bg-white/[0.04] p-8 text-center text-slate-300">
-                No topics matched your current search or filter.
+            <div className="overflow-visible p-4 sm:p-5 lg:overflow-auto">
+              <div className="grid gap-4">
+                {visibleSections.length === 0 ? (
+                  <div className="rounded-lg border border-white/10 bg-white/[0.04] p-8 text-center text-slate-300">
+                    No topics matched your current search or filter.
+                  </div>
+                ) : (
+                  visibleSections.map((item) => {
+                    if (!item) return null;
+                    const { section, sectionIndex, priority, visibleTopics } = item;
+                    const sectionId = getSectionId(sectionIndex);
+                    const sectionExpanded = expandedSections.has(sectionId);
+
+                    return (
+                      <section
+                        key={sectionId}
+                        id={`section-${sectionIndex + 1}`}
+                        onClick={(event) => {
+                          if (event.target !== event.currentTarget) return;
+                          toggleSection(sectionId);
+                        }}
+                        className="cursor-pointer rounded-lg border border-white/10 bg-white/[0.045] shadow-2xl shadow-black/20"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => toggleSection(sectionId)}
+                          className="group grid w-full gap-3 rounded-lg p-4 text-left transition hover:bg-white/[0.04] sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-start"
+                          aria-expanded={sectionExpanded}
+                        >
+                          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-lg bg-teal-300 px-2 text-sm font-black text-slate-950">
+                            {sectionIndex + 1}
+                          </span>
+                          <span className="grid gap-1">
+                            <span className="landing-display text-xl font-black text-white">{section.title || "Untitled Section"}</span>
+                            <span className="text-sm leading-6 text-slate-300">
+                              {section.description ? `${section.description} ` : ""}
+                              {visibleTopics.length} topic{visibleTopics.length === 1 ? "" : "s"} in this section.
+                            </span>
+                          </span>
+                          <span className="flex items-center gap-2">
+                            <span className={cx("rounded-lg border px-2 py-1 text-xs font-bold", priorityClass(priority))}>
+                              {getPriorityLabel(priority)}
+                            </span>
+                            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/20 text-slate-300 transition group-hover:border-teal-200/50 group-hover:text-teal-100">
+                              <ChevronIcon expanded={sectionExpanded} />
+                            </span>
+                          </span>
+                        </button>
+
+                        {sectionExpanded ? (
+                          <div className="grid gap-0 px-4 pb-4">
+                            {visibleTopics.map(({ topic, topicIndex }) => (
+                              <TopicCard
+                                key={getTopicKey(section, topic, sectionIndex, topicIndex)}
+                                topic={topic}
+                                topicIndex={topicIndex}
+                                section={section}
+                                sectionIndex={sectionIndex}
+                                completedTopics={completedTopics}
+                                expandedTopics={expandedTopics}
+                                expandedCodeBlocks={expandedCodeBlocks}
+                                toggleSetValue={toggleSetValue}
+                                toggleTopicCompletion={toggleTopicCompletion}
+                                setExpandedTopics={setExpandedTopics}
+                                setExpandedCodeBlocks={setExpandedCodeBlocks}
+                              />
+                            ))}
+                          </div>
+                        ) : null}
+                      </section>
+                    );
+                  })
+                )}
               </div>
-            ) : (
-              visibleSections.map((item) => {
-                if (!item) return null;
-                const { section, sectionIndex, priority, visibleTopics } = item;
-                const sectionId = getSectionId(sectionIndex);
-                const sectionExpanded = expandedSections.has(sectionId);
-
-                return (
-                  <section
-                    key={sectionId}
-                    id={`section-${sectionIndex + 1}`}
-                    onClick={(event) => {
-                      if (event.target !== event.currentTarget) return;
-                      toggleSection(sectionId);
-                    }}
-                    className="cursor-pointer rounded-lg border border-white/10 bg-white/[0.045] shadow-2xl shadow-black/20"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => toggleSection(sectionId)}
-                      className="grid w-full gap-3 rounded-lg p-4 text-left transition hover:bg-white/[0.04] sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-start"
-                      aria-expanded={sectionExpanded}
-                    >
-                      <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-lg bg-teal-300 px-2 text-sm font-black text-slate-950">
-                        {sectionIndex + 1}
-                      </span>
-                      <span className="grid gap-1">
-                        <span className="text-xl font-black text-white">{section.title || "Untitled Section"}</span>
-                        <span className="text-sm leading-6 text-slate-300">
-                          {section.description ? `${section.description} ` : ""}
-                          {visibleTopics.length} topic{visibleTopics.length === 1 ? "" : "s"} in this section.
-                        </span>
-                      </span>
-                      <span className="flex items-center gap-2">
-                        <span className={cx("rounded-lg border px-2 py-1 text-xs font-bold", priorityClass(priority))}>
-                          {getPriorityLabel(priority)}
-                        </span>
-                        <span className="text-lg text-slate-300">{sectionExpanded ? "v" : ">"}</span>
-                      </span>
-                    </button>
-
-                    {sectionExpanded ? (
-                      <div className="grid gap-0 px-4 pb-4">
-                        {visibleTopics.map(({ topic, topicIndex }) => (
-                          <TopicCard
-                            key={getTopicKey(section, topic, sectionIndex, topicIndex)}
-                            topic={topic}
-                            topicIndex={topicIndex}
-                            section={section}
-                            sectionIndex={sectionIndex}
-                            completedTopics={completedTopics}
-                            expandedTopics={expandedTopics}
-                            expandedCodeBlocks={expandedCodeBlocks}
-                            toggleSetValue={toggleSetValue}
-                            toggleTopicCompletion={toggleTopicCompletion}
-                            setExpandedTopics={setExpandedTopics}
-                            setExpandedCodeBlocks={setExpandedCodeBlocks}
-                          />
-                        ))}
-                      </div>
-                    ) : null}
-                  </section>
-                );
-              })
-            )}
+            </div>
           </div>
         </section>
       </div>
@@ -504,78 +781,103 @@ function TopicCard({
           type="button"
           aria-expanded={topicExpanded}
           onClick={() => toggleSetValue(setExpandedTopics, topicKey)}
-          className="grid min-h-12 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg p-2 text-left outline-none transition hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-teal-300/70"
+          className="group grid min-h-12 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg p-2 text-left outline-none transition hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-teal-300/70"
         >
           <span className="rounded-lg border border-teal-200/20 bg-teal-200/10 px-2 py-1 text-xs font-black text-teal-200">
             {topicNumber}
           </span>
-          <span className="min-w-0 text-base font-bold text-slate-100">{topic.title || "Untitled Topic"}</span>
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-lg text-slate-200">
-            {topicExpanded ? "v" : ">"}
+          <span className="landing-display min-w-0 text-base font-black text-slate-100">{topic.title || "Untitled Topic"}</span>
+          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/20 text-slate-300 transition group-hover:border-teal-200/50 group-hover:text-teal-100">
+            <ChevronIcon expanded={topicExpanded} />
           </span>
         </button>
 
-        <label className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 hover:border-teal-200/70">
+        <label
+          className={cx(
+            "relative flex h-10 w-10 items-center justify-center rounded-full border transition hover:border-teal-200/70",
+            isComplete ? "border-teal-300 bg-teal-300 text-slate-950" : "border-white/10 bg-black/20 text-transparent",
+          )}
+          title={isComplete ? "Mark topic incomplete" : "Mark topic complete"}
+        >
           <input
             type="checkbox"
             checked={isComplete}
             onChange={() => toggleTopicCompletion(topicKey)}
-            className="h-4 w-4 accent-teal-300"
+            className="peer sr-only"
             aria-label={`Mark ${topic.title || "topic"} complete`}
           />
+          <span className="absolute inset-0 rounded-full peer-focus-visible:ring-2 peer-focus-visible:ring-teal-300/70 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-slate-950" />
+          <CheckIcon />
         </label>
       </div>
 
       {topicExpanded ? (
-        <div className="grid gap-4 px-2 pb-2 pt-3">
+        <div className="grid gap-5 px-2 pb-2 pt-3">
           {topic.description ? <p className="m-0 text-sm leading-6 text-slate-300">{topic.description}</p> : null}
 
-          {(topic.content_sections || []).map((contentSection, index) => (
-            <section key={`${topicKey}-content-${index}`} className="grid gap-3 rounded-lg border border-white/10 bg-slate-950/35 p-4">
-              {contentSection.heading ? <h4 className="text-sm font-black text-white">{contentSection.heading}</h4> : null}
-              {contentSection.points?.length ? (
-                <div className="grid gap-2">
-                  {contentSection.points.map((point, pointIndex) => (
-                    <div key={`${topicKey}-point-${pointIndex}`} className="grid grid-cols-[10px_minmax(0,1fr)] gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-sm leading-6 text-slate-300">
-                      <span className="mt-2 h-2 w-2 rounded-full bg-teal-300" />
-                      <span>{point}</span>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-              {contentSection.subtopics?.length ? (
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {contentSection.subtopics.map((subtopic, subtopicIndex) => (
-                    <div key={`${topicKey}-subtopic-${subtopicIndex}`} className="rounded-lg border border-white/10 bg-black/20 p-3">
-                      <div className="text-sm font-bold text-slate-100">{subtopic.title}</div>
-                      {subtopic.description ? <div className="mt-1 text-sm leading-6 text-slate-400">{subtopic.description}</div> : null}
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </section>
-          ))}
+          {(topic.content_sections || []).map((contentSection, index) => {
+            if (isVideoContentSection(contentSection)) {
+              const resources = (contentSection.subtopics || [])
+                .map((subtopic) => parseVideoResource(subtopic.title || "Video", subtopic.description || ""))
+                .filter((resource): resource is VideoResource => Boolean(resource));
+
+              return <VideoResourceSection key={`${topicKey}-content-${index}`} heading={contentSection.heading} resources={resources} />;
+            }
+
+            return (
+              <section key={`${topicKey}-content-${index}`} className="grid gap-3">
+                {contentSection.heading ? <h4 className="landing-display text-sm font-black text-white">{contentSection.heading}</h4> : null}
+                {contentSection.points?.length ? (
+                  <div className="grid gap-2">
+                    {contentSection.points.map((point, pointIndex) => (
+                      <div key={`${topicKey}-point-${pointIndex}`} className="grid grid-cols-[10px_minmax(0,1fr)] gap-3 text-sm leading-6 text-slate-300">
+                        <span className="mt-2 h-2 w-2 rounded-full bg-teal-300" />
+                        <span>{point}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+                {contentSection.subtopics?.length ? (
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {contentSection.subtopics.map((subtopic, subtopicIndex) => (
+                      <div key={`${topicKey}-subtopic-${subtopicIndex}`} className="rounded-lg border border-white/10 bg-black/20 p-3">
+                        <div className="text-sm font-bold text-slate-100">{subtopic.title}</div>
+                        {subtopic.description ? <div className="mt-1 text-sm leading-6 text-slate-400">{subtopic.description}</div> : null}
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </section>
+            );
+          })}
 
           {(topic.code_blocks || []).map((block, codeIndex) => {
             const codeKey = `${topicKey}:code:${codeIndex}`;
             const expanded = expandedCodeBlocks.has(codeKey);
 
             return (
-              <section key={codeKey} className="overflow-hidden rounded-lg border border-white/10 bg-slate-950">
+              <section key={codeKey} className="code-example overflow-hidden rounded-lg border border-white/10 bg-slate-950">
                 <button
                   type="button"
                   onClick={() => toggleSetValue(setExpandedCodeBlocks, codeKey)}
-                  className="flex w-full items-center justify-between gap-3 border-b border-white/10 px-4 py-3 text-left hover:bg-white/[0.04]"
+                  className="code-example-header group flex w-full items-center justify-between gap-3 border-b border-white/10 px-4 py-3 text-left hover:bg-white/[0.04]"
                   aria-expanded={expanded}
                 >
-                  <span className="min-w-0 font-semibold text-slate-100">{block.title || "Code Example"}</span>
-                  <span className="shrink-0 rounded-lg bg-teal-200/10 px-2 py-1 text-xs font-bold text-teal-200">
-                    {getCodeLanguage(block.language)}
+                  <span className="landing-display min-w-0 font-black text-slate-100">{block.title || "Code Example"}</span>
+                  <span className="flex shrink-0 items-center gap-2">
+                    <span className="code-language-pill rounded-lg bg-teal-200/10 px-2 py-1 text-xs font-bold text-teal-200">
+                      {getCodeLanguage(block.language)}
+                    </span>
+                    <span className="code-chevron flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-black/20 text-slate-300 transition group-hover:border-teal-200/50 group-hover:text-teal-100">
+                      <ChevronIcon expanded={expanded} />
+                    </span>
                   </span>
                 </button>
                 {expanded ? (
-                  <pre className="overflow-auto p-4 text-sm leading-6 text-slate-200">
-                    <code>{block.code || ""}</code>
+                  <pre className="code-example-body overflow-auto p-4 text-sm leading-6 text-slate-200">
+                    <code className={isKotlinLanguage(block.language) ? "kotlin-code" : undefined}>
+                      {isKotlinLanguage(block.language) ? renderKotlinCode(block.code || "") : block.code || ""}
+                    </code>
                   </pre>
                 ) : null}
               </section>
