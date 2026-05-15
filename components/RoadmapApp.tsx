@@ -320,6 +320,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
   const [expandedCodeBlocks, setExpandedCodeBlocks] = useState<Set<string>>(() => new Set());
   const [theme, setTheme] = useState<Theme>("light");
   const [actionBarHidden, setActionBarHidden] = useState(false);
+  const [actionBarDocked, setActionBarDocked] = useState(false);
 
   useEffect(() => {
     setIsHydrated(true);
@@ -407,7 +408,12 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
         const scrollingDown = currentScrollY > lastScrollY + 8;
         const scrollingUp = currentScrollY < lastScrollY - 8;
 
-        if (currentScrollY < 160 || scrollingUp) {
+        const roadmapStart = document.getElementById("roadmap-workspace")?.offsetTop || window.innerHeight;
+        const isPastHero = currentScrollY > roadmapStart - 120;
+
+        setActionBarDocked(isPastHero);
+
+        if (!isPastHero || currentScrollY < 160 || scrollingUp) {
           setActionBarHidden(false);
         } else if (scrollingDown && currentScrollY > 280) {
           setActionBarHidden(true);
@@ -555,8 +561,8 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
 
         <header
           className={cx(
-            "roadmap-actionbar sticky top-0 z-30 border-b border-white/10 bg-[#10211f]/95 px-3 py-2 backdrop-blur transition-transform duration-300 sm:px-5 sm:py-3",
-            actionBarHidden && "-translate-y-full",
+            "roadmap-actionbar fixed left-0 right-0 top-0 z-30 border-b border-white/10 bg-[#10211f]/95 px-3 py-2 backdrop-blur transition-transform duration-300 sm:px-5 sm:py-3",
+            (!actionBarDocked || actionBarHidden) && "-translate-y-full",
           )}
         >
           <div className="grid gap-2 sm:gap-3 xl:grid-cols-[minmax(240px,340px)_minmax(260px,1fr)_auto] xl:items-center">
@@ -620,25 +626,20 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
           </div>
         </header>
 
-        <section id="roadmap-workspace" className="grid min-h-[calc(100vh-118px)] gap-0 lg:h-[calc(100vh-73px)] lg:min-h-0 lg:grid-cols-[320px_minmax(0,1fr)]">
+        <section id="roadmap-workspace" className="grid gap-0 pt-24 lg:h-screen lg:min-h-0 lg:grid-cols-[320px_minmax(0,1fr)] lg:pt-20">
           <aside className="grid min-h-0 border-b border-white/10 bg-white/[0.035] p-4 lg:grid-rows-[auto_auto_minmax(0,1fr)] lg:border-b-0 lg:border-r lg:border-r-white/10">
             <div className="flex items-center justify-between gap-3">
               <h2 className="landing-display text-base font-black text-white">Study Roadmap</h2>
-              <span className="text-xs font-semibold text-slate-400">{totalTopics} topics</span>
             </div>
 
-            <div className="my-4 grid grid-cols-2 gap-2 text-xs">
+            <div className="my-4 grid gap-2 text-xs">
               <div className="rounded-lg border border-white/10 bg-black/20 p-3">
                 <div className="font-bold text-slate-100">{totalSections}</div>
                 <div className="mt-1 text-slate-500">Sections</div>
               </div>
-              <div className="rounded-lg border border-white/10 bg-black/20 p-3">
-                <div className="font-bold text-slate-100">{totalTopics}</div>
-                <div className="mt-1 text-slate-500">Topics</div>
-              </div>
             </div>
 
-            <div className="grid max-h-72 gap-2 overflow-auto pr-1 lg:max-h-none">
+            <div className="grid gap-2 pr-1 lg:overflow-auto">
               {visibleSections.map((item) => {
                 if (!item) return null;
                 const { section, sectionIndex, priority } = item;
