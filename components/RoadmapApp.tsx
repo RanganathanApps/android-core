@@ -621,22 +621,10 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
         </header>
 
         <section id="roadmap-workspace" className="grid min-h-[calc(100vh-118px)] gap-0 lg:h-[calc(100vh-73px)] lg:min-h-0 lg:grid-cols-[320px_minmax(0,1fr)]">
-          <aside className="grid max-h-[46vh] min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] border-b border-white/10 bg-white/[0.035] p-4 lg:max-h-none lg:border-b-0 lg:border-r lg:border-r-white/10">
+          <aside className="grid min-h-0 border-b border-white/10 bg-white/[0.035] p-4 lg:grid-rows-[auto_auto_minmax(0,1fr)] lg:border-b-0 lg:border-r lg:border-r-white/10">
             <div className="flex items-center justify-between gap-3">
-              <div>
-                <h2 className="landing-display text-base font-black text-white">Study Roadmap</h2>
-                <p className="mt-1 text-xs font-medium text-slate-400">{visibleSections.length} visible sections</p>
-              </div>
-              <span
-                className={cx(
-                  "rounded-full border px-3 py-1.5 text-xs font-bold",
-                  isHydrated
-                    ? "border-emerald-200/30 bg-emerald-200/10 text-emerald-100"
-                    : "border-amber-200/30 bg-amber-200/10 text-amber-100",
-                )}
-              >
-                {isHydrated ? "Live" : "Loading"}
-              </span>
+              <h2 className="landing-display text-base font-black text-white">Study Roadmap</h2>
+              <span className="text-xs font-semibold text-slate-400">{totalTopics} topics</span>
             </div>
 
             <div className="my-4 grid grid-cols-2 gap-2 text-xs">
@@ -650,7 +638,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
               </div>
             </div>
 
-            <div className="grid gap-2 overflow-auto pr-1">
+            <div className="grid max-h-72 gap-2 overflow-auto pr-1 lg:max-h-none">
               {visibleSections.map((item) => {
                 if (!item) return null;
                 const { section, sectionIndex, priority } = item;
