@@ -523,36 +523,48 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
           </div>
         </section>
 
-        <header className="roadmap-actionbar sticky top-0 z-30 border-b border-white/10 bg-[#10211f]/95 px-4 py-3 backdrop-blur sm:px-5">
-          <div className="grid gap-3 xl:grid-cols-[minmax(240px,340px)_minmax(260px,1fr)_auto] xl:items-center">
+        <header className="roadmap-actionbar sticky top-0 z-30 border-b border-white/10 bg-[#10211f]/95 px-3 py-2 backdrop-blur sm:px-5 sm:py-3">
+          <div className="grid gap-2 sm:gap-3 xl:grid-cols-[minmax(240px,340px)_minmax(260px,1fr)_auto] xl:items-center">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-300 text-sm font-black text-slate-950">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-teal-300 text-xs font-black text-slate-950 sm:h-10 sm:w-10 sm:text-sm">
                 AS
               </div>
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <h1 className="landing-display truncate text-base font-black text-white">Android Study Roadmap</h1>
                 <p className="truncate text-xs font-medium text-slate-400">
                   {completedTopics.size} / {totalTopics} topics complete
                 </p>
               </div>
+              <div className="flex shrink-0 items-center gap-2 xl:hidden">
+                <span className="rounded-lg border border-white/10 bg-black/20 px-2 py-1 text-xs font-black text-teal-200">{progressPercent}%</span>
+                <select
+                  value={theme}
+                  onChange={(event) => setTheme(event.target.value as Theme)}
+                  className="h-8 rounded-lg border border-white/10 bg-slate-950 px-2 text-xs text-white outline-none focus:border-teal-300"
+                  aria-label="Theme"
+                >
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
             </div>
 
-            <div className="grid gap-2 lg:grid-cols-[minmax(220px,1fr)_auto] lg:items-center">
+            <div className="grid min-w-0 gap-2 lg:grid-cols-[minmax(220px,1fr)_auto] lg:items-center">
               <input
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
                 placeholder="Search topics, code, concepts..."
-                className="h-10 rounded-lg border border-white/10 bg-slate-950/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-teal-300"
+                className="h-9 rounded-lg border border-white/10 bg-slate-950/70 px-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-teal-300 sm:h-10 sm:px-4"
               />
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
                 {filters.map((filter) => (
                   <button
                     key={filter.id}
                     type="button"
                     onClick={() => setActiveFilter(filter.id)}
                     className={cx(
-                      "h-10 rounded-lg border px-3 text-sm font-semibold transition",
+                      "h-8 shrink-0 rounded-lg border px-3 text-xs font-semibold transition sm:h-10 sm:text-sm",
                       activeFilter === filter.id
                         ? "border-teal-300 bg-teal-300 text-slate-950"
                         : "border-white/10 bg-white/[0.04] text-slate-200 hover:border-teal-200/70",
@@ -564,7 +576,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 xl:justify-end">
+            <div className="hidden flex-wrap items-center gap-2 xl:flex xl:justify-end">
               <div className="min-w-32 rounded-lg border border-white/10 bg-black/20 px-3 py-2">
                 <div className="mb-1 flex items-center justify-between gap-3 text-xs font-bold text-slate-300">
                   <span>Progress</span>
@@ -586,7 +598,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
           </div>
         </header>
 
-        <section id="roadmap-workspace" className="grid min-h-[calc(100vh-73px)] gap-0 lg:h-[calc(100vh-73px)] lg:min-h-0 lg:grid-cols-[320px_minmax(0,1fr)]">
+        <section id="roadmap-workspace" className="grid min-h-[calc(100vh-118px)] gap-0 lg:h-[calc(100vh-73px)] lg:min-h-0 lg:grid-cols-[320px_minmax(0,1fr)]">
           <aside className="grid max-h-[46vh] min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] border-b border-white/10 bg-white/[0.035] p-4 lg:max-h-none lg:border-b-0 lg:border-r lg:border-r-white/10">
             <div className="flex items-center justify-between gap-3">
               <div>
