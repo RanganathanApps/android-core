@@ -319,6 +319,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
   const [expandedTopics, setExpandedTopics] = useState<Set<string>>(() => new Set());
   const [expandedCodeBlocks, setExpandedCodeBlocks] = useState<Set<string>>(() => new Set());
   const [theme, setTheme] = useState<Theme>("light");
+  const [actionBarHidden, setActionBarHidden] = useState(false);
 
   useEffect(() => {
     setIsHydrated(true);
@@ -393,6 +394,35 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
     setExpandedSections(nextSections);
     setExpandedTopics(nextTopics);
   }, [initialContent, searchTerm]);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    function handleScroll() {
+      if (ticking) return;
+
+      window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        const scrollingDown = currentScrollY > lastScrollY + 8;
+        const scrollingUp = currentScrollY < lastScrollY - 8;
+
+        if (currentScrollY < 160 || scrollingUp) {
+          setActionBarHidden(false);
+        } else if (scrollingDown && currentScrollY > 280) {
+          setActionBarHidden(true);
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
+      });
+
+      ticking = true;
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const visibleSections = useMemo(() => {
     return initialContent
@@ -523,7 +553,12 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
           </div>
         </section>
 
-        <header className="roadmap-actionbar sticky top-0 z-30 border-b border-white/10 bg-[#10211f]/95 px-3 py-2 backdrop-blur sm:px-5 sm:py-3">
+        <header
+          className={cx(
+            "roadmap-actionbar sticky top-0 z-30 border-b border-white/10 bg-[#10211f]/95 px-3 py-2 backdrop-blur transition-transform duration-300 sm:px-5 sm:py-3",
+            actionBarHidden && "-translate-y-full",
+          )}
+        >
           <div className="grid gap-2 sm:gap-3 xl:grid-cols-[minmax(240px,340px)_minmax(260px,1fr)_auto] xl:items-center">
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-teal-300 text-xs font-black text-slate-950 sm:h-10 sm:w-10 sm:text-sm">
@@ -549,7 +584,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
               </div>
             </div>
 
-            <div className="grid min-w-0 gap-2 lg:grid-cols-[minmax(220px,1fr)_auto] lg:items-center">
+            <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] gap-2 lg:items-center">
               <input
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
@@ -557,35 +592,22 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
                 className="h-9 rounded-lg border border-white/10 bg-slate-950/70 px-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-teal-300 sm:h-10 sm:px-4"
               />
 
-              <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
+              <select
+                value={activeFilter}
+                onChange={(event) => setActiveFilter(event.target.value as Filter)}
+                className="h-9 max-w-32 rounded-lg border border-white/10 bg-slate-950 px-2 text-xs font-semibold text-white outline-none focus:border-teal-300 sm:h-10 sm:max-w-none sm:px-3 sm:text-sm"
+                aria-label="Roadmap filter"
+              >
                 {filters.map((filter) => (
-                  <button
-                    key={filter.id}
-                    type="button"
-                    onClick={() => setActiveFilter(filter.id)}
-                    className={cx(
-                      "h-8 shrink-0 rounded-lg border px-3 text-xs font-semibold transition sm:h-10 sm:text-sm",
-                      activeFilter === filter.id
-                        ? "border-teal-300 bg-teal-300 text-slate-950"
-                        : "border-white/10 bg-white/[0.04] text-slate-200 hover:border-teal-200/70",
-                    )}
-                  >
+                  <option key={filter.id} value={filter.id}>
                     {filter.label}
-                  </button>
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
 
             <div className="hidden flex-wrap items-center gap-2 xl:flex xl:justify-end">
-              <div className="min-w-32 rounded-lg border border-white/10 bg-black/20 px-3 py-2">
-                <div className="mb-1 flex items-center justify-between gap-3 text-xs font-bold text-slate-300">
-                  <span>Progress</span>
-                  <span className="text-teal-200">{progressPercent}%</span>
-                </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-slate-900">
-                  <div className="h-full bg-teal-300 transition-all" style={{ width: `${progressPercent}%` }} />
-                </div>
-              </div>
+              <span className="rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm font-black text-teal-200">{progressPercent}%</span>
               <select
                 value={theme}
                 onChange={(event) => setTheme(event.target.value as Theme)}
