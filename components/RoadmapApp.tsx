@@ -520,17 +520,10 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="#roadmap-workspace"
-                  className="rounded-full bg-teal-300 px-6 py-3 text-sm font-black text-slate-950 shadow-[0_18px_40px_rgba(45,212,191,0.18)] transition hover:-translate-y-0.5 hover:bg-teal-200"
+                  className="inline-flex h-12 items-center justify-center rounded-full bg-teal-300 px-6 text-sm font-black text-slate-950 shadow-[0_18px_40px_rgba(45,212,191,0.18)] transition hover:-translate-y-0.5 hover:bg-teal-200"
                 >
                   Open roadmap
                 </a>
-                <button
-                  type="button"
-                  onClick={expandAllTopics}
-                  className="rounded-full border border-white/10 bg-white/[0.05] px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-teal-200/70"
-                >
-                  Expand topics
-                </button>
               </div>
             </div>
 
@@ -625,11 +618,11 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
               <button className="h-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.05] px-2.5 text-xs font-bold text-slate-200 transition hover:border-teal-200/70" onClick={collapseAllTopics} type="button">
                 Close Topics
               </button>
-              <span className="rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm font-black text-teal-200">{progressPercent}%</span>
+              <span className="hidden rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm font-black text-teal-200 xl:inline-flex">{progressPercent}%</span>
               <select
                 value={theme}
                 onChange={(event) => setTheme(event.target.value as Theme)}
-                className="h-10 rounded-lg border border-white/10 bg-slate-950 px-3 text-sm text-white outline-none focus:border-teal-300"
+                className="hidden h-10 rounded-lg border border-white/10 bg-slate-950 px-3 text-sm text-white outline-none focus:border-teal-300 xl:block"
               >
                 <option value="light">Light</option>
                 <option value="dark">Dark</option>
@@ -663,7 +656,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
                     className="rounded-lg border border-white/10 bg-slate-950/45 p-3 text-sm transition hover:border-teal-200/70"
                   >
                     <div className="mb-2 flex items-center justify-between gap-2">
-                      <span className="font-bold text-teal-200">{sectionIndex + 1}</span>
+                      <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-md bg-teal-200/10 px-1 text-[10px] font-black text-teal-200">{sectionIndex + 1}</span>
                       <span className="text-xs text-slate-400">{estimateSectionDuration(section, priority)}</span>
                     </div>
                     <div className="landing-display font-black text-slate-100">{section.title || "Untitled Section"}</div>
@@ -705,8 +698,8 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
                           aria-expanded={sectionExpanded}
                         >
                           <span className="grid gap-1">
-                            <span className="flex min-w-0 items-center gap-2">
-                              <span className="inline-flex h-6 min-w-6 shrink-0 items-center justify-center rounded-md bg-teal-300 px-1.5 text-[11px] font-black text-slate-950">
+                            <span className="flex min-w-0 items-center gap-3">
+                              <span className="inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-md bg-teal-300 px-1 text-[10px] font-black text-slate-950">
                                 {sectionIndex + 1}
                               </span>
                               <span className="landing-display min-w-0 text-lg font-black text-white sm:text-xl">{section.title || "Untitled Section"}</span>
@@ -717,10 +710,10 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
                             </span>
                           </span>
                           <span className="flex items-center gap-2">
-                            <span className={cx("rounded-lg border px-2 py-1 text-xs font-bold", priorityClass(priority))}>
+                            <span className={cx("rounded-md border px-1.5 py-0.5 text-[10px] font-bold", priorityClass(priority))}>
                               {getPriorityLabel(priority)}
                             </span>
-                            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/20 text-slate-300 transition group-hover:border-teal-200/50 group-hover:text-teal-100">
+                            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-black/20 text-slate-300 transition group-hover:border-teal-200/50 group-hover:text-teal-100">
                               <ChevronIcon expanded={sectionExpanded} />
                             </span>
                           </span>
@@ -784,7 +777,6 @@ function TopicCard({
   setExpandedTopics: Dispatch<SetStateAction<Set<string>>>;
   setExpandedCodeBlocks: Dispatch<SetStateAction<Set<string>>>;
 }) {
-  const topicNumber = `${sectionIndex + 1}.${topicIndex + 1}`;
   const topicKey = getTopicKey(section, topic, sectionIndex, topicIndex);
   const topicExpanded = expandedTopics.has(topicKey);
   const isComplete = completedTopics.has(topicKey);
@@ -796,11 +788,8 @@ function TopicCard({
           type="button"
           aria-expanded={topicExpanded}
           onClick={() => toggleSetValue(setExpandedTopics, topicKey)}
-          className="group grid min-h-12 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg p-2 text-left outline-none transition hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-teal-300/70"
+          className="group grid min-h-12 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-lg p-2 text-left outline-none transition hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-teal-300/70"
         >
-          <span className="rounded-lg border border-teal-200/20 bg-teal-200/10 px-2 py-1 text-xs font-black text-teal-200">
-            {topicNumber}
-          </span>
           <span className="landing-display min-w-0 text-base font-black text-slate-100">{topic.title || "Untitled Topic"}</span>
           <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/20 text-slate-300 transition group-hover:border-teal-200/50 group-hover:text-teal-100">
             <ChevronIcon expanded={topicExpanded} />
