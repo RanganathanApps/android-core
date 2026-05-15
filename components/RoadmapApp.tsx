@@ -498,7 +498,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
   return (
     <main className={cx("min-h-screen", themes[theme])}>
       <div className="grid w-full">
-        <section className="landing-header grid min-h-screen content-center border-b border-white/10 px-4 py-12 sm:px-6 lg:px-8">
+        <section className="landing-header grid min-h-screen content-center px-4 py-10 sm:px-6 lg:px-8">
           <div className="mx-auto grid w-full max-w-7xl gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-center">
             <div className="grid gap-6">
               <div className="flex flex-wrap items-center gap-3">
@@ -565,7 +565,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
             (!actionBarDocked || actionBarHidden) && "-translate-y-full",
           )}
         >
-          <div className="grid gap-2 sm:gap-3 xl:grid-cols-[minmax(240px,340px)_minmax(260px,1fr)_auto] xl:items-center">
+          <div className="grid gap-2 sm:gap-3 xl:grid-cols-[minmax(220px,280px)_minmax(260px,1fr)_auto] xl:items-center">
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-teal-300 text-xs font-black text-slate-950 sm:h-10 sm:w-10 sm:text-sm">
                 AS
@@ -612,7 +612,19 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
               </select>
             </div>
 
-            <div className="hidden flex-wrap items-center gap-2 xl:flex xl:justify-end">
+            <div className="flex min-w-0 items-center gap-1 overflow-x-auto pb-1 xl:justify-end xl:overflow-visible xl:pb-0">
+              <button className="h-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.05] px-2.5 text-xs font-bold text-slate-200 transition hover:border-teal-200/70" onClick={expandAllSections} type="button">
+                Open Sec
+              </button>
+              <button className="h-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.05] px-2.5 text-xs font-bold text-slate-200 transition hover:border-teal-200/70" onClick={collapseAllSections} type="button">
+                Close Sec
+              </button>
+              <button className="h-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.05] px-2.5 text-xs font-bold text-slate-200 transition hover:border-teal-200/70" onClick={expandAllTopics} type="button">
+                Open Topics
+              </button>
+              <button className="h-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.05] px-2.5 text-xs font-bold text-slate-200 transition hover:border-teal-200/70" onClick={collapseAllTopics} type="button">
+                Close Topics
+              </button>
               <span className="rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm font-black text-teal-200">{progressPercent}%</span>
               <select
                 value={theme}
@@ -626,7 +638,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
           </div>
         </header>
 
-        <section id="roadmap-workspace" className="grid gap-0 pt-24 lg:h-screen lg:min-h-0 lg:grid-cols-[320px_minmax(0,1fr)] lg:pt-20">
+        <section id="roadmap-workspace" className="grid gap-0 lg:h-screen lg:min-h-0 lg:grid-cols-[320px_minmax(0,1fr)]">
           <aside className="grid min-h-0 border-b border-white/10 bg-white/[0.035] p-4 lg:grid-rows-[auto_auto_minmax(0,1fr)] lg:border-b-0 lg:border-r lg:border-r-white/10">
             <div className="flex items-center justify-between gap-3">
               <h2 className="landing-display text-base font-black text-white">Study Roadmap</h2>
@@ -662,29 +674,7 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
             </div>
           </aside>
 
-          <div className="grid min-h-0 lg:grid-rows-[auto_minmax(0,1fr)]">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-black/20 px-4 py-3">
-              <div>
-                <div className="landing-display text-sm font-black text-white">Roadmap workspace</div>
-                <div className="text-xs text-slate-400">Search, expand, and mark topics without leaving the screen.</div>
-              </div>
-              <div className="roadmap-action-group flex flex-wrap gap-1 rounded-lg border border-white/10 bg-slate-950/50 p-1">
-                <button className="rounded-md px-3 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/[0.07] hover:text-teal-100" onClick={expandAllSections} type="button">
-                  Open Sections
-                </button>
-                <button className="rounded-md px-3 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/[0.07] hover:text-teal-100" onClick={collapseAllSections} type="button">
-                  Close Sections
-                </button>
-                <span className="roadmap-action-divider mx-1 hidden w-px bg-white/10 sm:block" />
-                <button className="rounded-md px-3 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/[0.07] hover:text-teal-100" onClick={expandAllTopics} type="button">
-                  Open Topics
-                </button>
-                <button className="rounded-md px-3 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/[0.07] hover:text-teal-100" onClick={collapseAllTopics} type="button">
-                  Close Topics
-                </button>
-              </div>
-            </div>
-
+          <div className="grid min-h-0">
             <div className="overflow-visible p-4 sm:p-5 lg:overflow-auto">
               <div className="grid gap-4">
                 {visibleSections.length === 0 ? (
@@ -711,14 +701,16 @@ export default function RoadmapApp({ initialContent }: RoadmapAppProps) {
                         <button
                           type="button"
                           onClick={() => toggleSection(sectionId)}
-                          className="group grid w-full gap-3 rounded-lg p-4 text-left transition hover:bg-white/[0.04] sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-start"
+                          className="group grid w-full gap-3 rounded-lg p-4 text-left transition hover:bg-white/[0.04] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start"
                           aria-expanded={sectionExpanded}
                         >
-                          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-lg bg-teal-300 px-2 text-sm font-black text-slate-950">
-                            {sectionIndex + 1}
-                          </span>
                           <span className="grid gap-1">
-                            <span className="landing-display text-xl font-black text-white">{section.title || "Untitled Section"}</span>
+                            <span className="flex min-w-0 items-center gap-2">
+                              <span className="inline-flex h-6 min-w-6 shrink-0 items-center justify-center rounded-md bg-teal-300 px-1.5 text-[11px] font-black text-slate-950">
+                                {sectionIndex + 1}
+                              </span>
+                              <span className="landing-display min-w-0 text-lg font-black text-white sm:text-xl">{section.title || "Untitled Section"}</span>
+                            </span>
                             <span className="text-sm leading-6 text-slate-300">
                               {section.description ? `${section.description} ` : ""}
                               {visibleTopics.length} topic{visibleTopics.length === 1 ? "" : "s"} in this section.
